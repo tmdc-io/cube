@@ -350,22 +350,29 @@ export class CompilerApi {
     const { includeDebugInfo, exportAnnotatedSql } = options;
     const { sqlGenerator, compilers } = await this.getSqlGenerator(query);
 
-    const getSqlFn = () => compilers.compiler.withQuery(sqlGenerator, () => ({
-      external: sqlGenerator.externalPreAggregationQuery(),
-      sql: sqlGenerator.buildSqlAndParams(exportAnnotatedSql),
-      lambdaQueries: sqlGenerator.buildLambdaQuery(),
-      timeDimensionAlias: sqlGenerator.timeDimensions[0]?.unescapedAliasName(),
-      timeDimensionField: sqlGenerator.timeDimensions[0]?.dimension,
-      order: sqlGenerator.order,
-      cacheKeyQueries: sqlGenerator.cacheKeyQueries(),
-      preAggregations: sqlGenerator.preAggregations.preAggregationsDescription(),
-      dataSource: sqlGenerator.dataSource,
-      aliasNameToMember: sqlGenerator.aliasNameToMember,
-      rollupMatchResults: includeDebugInfo ?
-        sqlGenerator.preAggregations.rollupMatchResultDescriptions() : undefined,
-      canUseTransformedQuery: sqlGenerator.preAggregations.canUseTransformedQuery(),
-      memberNames: sqlGenerator.collectAllMemberNames(),
-    }));
+    const getSqlFn = () => compilers.compiler.withQuery(sqlGenerator, () => {
+      // Guard against missing collectAllMemberNames for compatibility with custom drivers
+      const memberNames = typeof (sqlGenerator as any).collectAllMemberNames === 'function'
+        ? (sqlGenerator as any).collectAllMemberNames()
+        : [];
+
+      return {
+        external: sqlGenerator.externalPreAggregationQuery(),
+        sql: sqlGenerator.buildSqlAndParams(exportAnnotatedSql),
+        lambdaQueries: sqlGenerator.buildLambdaQuery(),
+        timeDimensionAlias: sqlGenerator.timeDimensions[0]?.unescapedAliasName(),
+        timeDimensionField: sqlGenerator.timeDimensions[0]?.dimension,
+        order: sqlGenerator.order,
+        cacheKeyQueries: sqlGenerator.cacheKeyQueries(),
+        preAggregations: sqlGenerator.preAggregations.preAggregationsDescription(),
+        dataSource: sqlGenerator.dataSource,
+        aliasNameToMember: sqlGenerator.aliasNameToMember,
+        rollupMatchResults: includeDebugInfo ?
+          sqlGenerator.preAggregations.rollupMatchResultDescriptions() : undefined,
+        canUseTransformedQuery: sqlGenerator.preAggregations.canUseTransformedQuery(),
+        memberNames,
+      };
+    });
 
     if (this.sqlCache) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
