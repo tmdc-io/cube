@@ -1,10 +1,49 @@
 # Custom Build Release Tracking
 # This file tracks the last custom Docker image builds
 
+# ============================================================================
+# HOW TO BUILD
+# ============================================================================
+# Run all commands from packages/cubejs-docker directory:
+#   cd packages/cubejs-docker
+#
+# ----------------------------------------------------------------------------
+# OPTION 1: Build each platform separately (RECOMMENDED)
+# ----------------------------------------------------------------------------
+# This approach avoids buildx cache issues and gives more control.
+#
+# Step 1: Build for arm64 (native on Mac Silicon - fast)
+#   docker build --platform linux/arm64 -t tmdcio/transpiler-base:0.228.1.1-arm64 -f dev.Dockerfile ../../
+#
+# Step 2: Build for amd64 (emulated on Mac Silicon - slower)
+#   docker build --platform linux/amd64 -t tmdcio/transpiler-base:0.228.1.1-amd64 -f dev.Dockerfile ../../
+#
+# Step 3: Push both platform-specific images
+#   docker push tmdcio/transpiler-base:0.228.1.1-arm64
+#   docker push tmdcio/transpiler-base:0.228.1.1-amd64
+#
+# Step 4: Create multi-arch manifest (combines both into single tag)
+#   docker buildx imagetools create -t tmdcio/transpiler-base:0.228.1.1 \
+#     tmdcio/transpiler-base:0.228.1.1-arm64 \
+#     tmdcio/transpiler-base:0.228.1.1-amd64
+#
+# ----------------------------------------------------------------------------
+# OPTION 2: Build with buildx (single command, but may have cache issues)
+# ----------------------------------------------------------------------------
+# Build and push multi-platform in one command:
+#   docker buildx build --platform linux/amd64,linux/arm64 -t tmdcio/transpiler-base:0.228.1.1 -f dev.Dockerfile --push ../../
+#
+# If buildx has cache issues, try with --no-cache:
+#   docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t tmdcio/transpiler-base:0.228.1.1 -f dev.Dockerfile --push ../../
+#
+# Build for local use only (single platform):
+#   docker buildx build --platform linux/amd64 -t tmdcio/transpiler-base:0.228.1.1 -f dev.Dockerfile --load ../../
+# ============================================================================
+
 latest_build:
   image: tmdcio/transpiler-base
-  tag: 0.228.1
-  full_image: tmdcio/transpiler-base:0.228.1
+  tag: 0.228.1.1
+  full_image: tmdcio/transpiler-base:0.228.1.1
   dockerfile: dev.Dockerfile
   platforms:
     - linux/amd64
@@ -13,7 +52,7 @@ latest_build:
   notes: Added cubejs-spark-driver support
 
 build_history:
-  - image: tmdcio/transpiler-base:0.228.1
+  - image: tmdcio/transpiler-base:0.228.1.1
     date: 2026-01-07
     changes:
       - Added cubejs-spark-driver to dev.Dockerfile
