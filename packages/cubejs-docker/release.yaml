@@ -1,0 +1,21 @@
+# Custom Build Release Tracking
+# This file tracks the last custom Docker image builds
+
+latest_build:
+  image: tmdcio/transpiler-base
+  tag: 0.228.1
+  full_image: tmdcio/transpiler-base:0.228.1
+  dockerfile: dev.Dockerfile
+  platforms:
+    - linux/amd64
+    - linux/arm64
+  date: 2026-01-07
+  notes: Added cubejs-spark-driver support
+
+build_history:
+  - image: tmdcio/transpiler-base:0.228.1
+    date: 2026-01-07
+    changes:
+      - Added cubejs-spark-driver to dev.Dockerfile
+      - Added collectAllMemberNames guard in CompilerApi.ts
+
