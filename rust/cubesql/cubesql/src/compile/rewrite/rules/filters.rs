@@ -4002,7 +4002,7 @@ impl FilterRules {
                 var_iter!(egraph[subst[filter_aliases_var]], FilterReplacerAliases)
                     .cloned()
                     .collect();
-            // [DataOS fork] Renamed __cubeJoinField → __joinField (see RENAME_JOIN_FIELD_GUIDE.md)
+            // [DataOS fork] Renamed __cubeJoinField → __joinField (see Transpiler.md section 2.3)
             for aliases in aliases_es {
                 if let Some((left_member_name, _)) = Self::filter_member_name(
                     egraph,
@@ -4052,7 +4052,7 @@ impl FilterRules {
                 var_iter!(egraph[subst[filter_aliases_var]], FilterReplacerAliases)
                     .cloned()
                     .collect();
-            // [DataOS fork] Renamed __cubeJoinField → __joinField (see RENAME_JOIN_FIELD_GUIDE.md)
+            // [DataOS fork] Renamed __cubeJoinField → __joinField (see Transpiler.md section 2.3)
             for aliases in aliases_es {
                 if let Some((left_member_name, _)) = Self::filter_member_name(
                     egraph,

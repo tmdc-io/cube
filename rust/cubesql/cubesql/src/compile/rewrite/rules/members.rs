@@ -3022,7 +3022,7 @@ fn is_join_on_cube_join_field(
     let Member::VirtualField { name, cube, .. } = join_member else {
         return None;
     };
-    // [DataOS fork] Renamed __cubeJoinField → __joinField (see RENAME_JOIN_FIELD_GUIDE.md)
+    // [DataOS fork] Renamed __cubeJoinField → __joinField (see Transpiler.md section 2.3)
     if name != "__joinField" {
         return None;
     }

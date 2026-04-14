@@ -575,7 +575,7 @@ describe('SQL API', () => {
       expect(res.rows).toEqual([{ max: null }]);
     });
 
-    // [DataOS fork] __cubeJoinField renamed to __joinField in SQL strings below (see RENAME_JOIN_FIELD_GUIDE.md)
+    // [DataOS fork] __cubeJoinField renamed to __joinField in SQL strings below (see Transpiler.md section 2.3)
     test('select __user and literal grouped', async () => {
       const query = `
         SELECT

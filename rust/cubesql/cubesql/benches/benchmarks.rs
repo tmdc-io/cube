@@ -1,5 +1,5 @@
 // [DataOS fork] All __cubeJoinField references in benchmark SQL strings have been renamed
-// to __joinField (see RENAME_JOIN_FIELD_GUIDE.md). Accept ours on merge conflicts.
+// to __joinField (see Transpiler.md section 2.3). Accept ours on merge conflicts.
 use criterion::{criterion_group, criterion_main, Criterion};
 use cubesql::compile::test::{
     get_test_tenant_ctx,
