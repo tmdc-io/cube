@@ -5316,7 +5316,7 @@ impl OldSplitRules {
             }
 
             if let Some(column_var) = column_var {
-                // [DataOS fork] Renamed __cubeJoinField → __joinField (see RENAME_JOIN_FIELD_GUIDE.md)
+                // [DataOS fork] Renamed __cubeJoinField → __joinField (see Transpiler.md section 2.3)
                 for alias_to_cube in var_iter!(
                     egraph[subst[alias_to_cube_var]],
                     GroupExprSplitReplacerAliasToCube
@@ -5423,7 +5423,7 @@ impl OldSplitRules {
         let meta = self.meta_context.clone();
         move |egraph, subst| {
             if let Some(column_var) = column_var {
-                // [DataOS fork] Renamed __cubeJoinField → __joinField (see RENAME_JOIN_FIELD_GUIDE.md)
+                // [DataOS fork] Renamed __cubeJoinField → __joinField (see Transpiler.md section 2.3)
                 for alias_to_cube in var_iter!(
                     egraph[subst[alias_to_cube_var]],
                     GroupAggregateSplitReplacerAliasToCube

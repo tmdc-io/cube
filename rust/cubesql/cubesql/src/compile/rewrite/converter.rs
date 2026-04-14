@@ -1394,7 +1394,7 @@ impl LanguageToLogicalPlanConverter {
                 if Self::have_ungrouped_cube_scan_inside(&left)
                     || Self::have_ungrouped_cube_scan_inside(&right)
                 {
-                    // [DataOS fork] Renamed __cubeJoinField → __joinField (see RENAME_JOIN_FIELD_GUIDE.md)
+                    // [DataOS fork] Renamed __cubeJoinField → __joinField (see Transpiler.md section 2.3)
                     if left_on.iter().any(|c| c.name == "__joinField")
                         || right_on.iter().any(|c| c.name == "__joinField")
                     {
