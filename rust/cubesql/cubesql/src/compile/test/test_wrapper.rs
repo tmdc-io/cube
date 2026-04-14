@@ -1,3 +1,5 @@
+// [DataOS fork] All __cubeJoinField references in test SQL strings have been renamed
+// to __joinField (see RENAME_JOIN_FIELD_GUIDE.md). Accept ours on merge conflicts.
 use cubeclient::models::{V1LoadRequestQuery, V1LoadRequestQueryTimeDimension};
 use datafusion::{physical_plan::displayable, scalar::ScalarValue};
 use pretty_assertions::assert_eq;
@@ -911,7 +913,7 @@ async fn test_case_wrapper_with_system_fields() {
     init_testing_logger();
 
     let query_plan = convert_select_to_query_plan(
-        "SELECT CASE WHEN customer_gender = 'female' THEN 'f' ELSE 'm' END, __user, __cubeJoinField, AVG(avgPrice) mp FROM KibanaSampleDataEcommerce a GROUP BY 1, 2, 3 LIMIT 1123"
+        "SELECT CASE WHEN customer_gender = 'female' THEN 'f' ELSE 'm' END, __user, __joinField, AVG(avgPrice) mp FROM KibanaSampleDataEcommerce a GROUP BY 1, 2, 3 LIMIT 1123"
             .to_string(),
         DatabaseProtocol::PostgreSQL,
     )
@@ -1078,7 +1080,7 @@ cube_scan_subq AS (
         1 AS literal,
         -- Columns without aliases should also work
         DATE_TRUNC('month', kibana_alias.order_date),
-        kibana_alias.__cubeJoinField,
+        kibana_alias.__joinField,
         2,
         CASE
             WHEN sum(kibana_alias."sumPrice") IS NOT NULL
@@ -1087,7 +1089,7 @@ cube_scan_subq AS (
             END sum_price
     FROM KibanaSampleDataEcommerce kibana_alias
     JOIN Logs logs_alias
-    ON kibana_alias.__cubeJoinField = logs_alias.__cubeJoinField
+    ON kibana_alias.__joinField = logs_alias.__joinField
     GROUP BY 1,2,3,4,5,6,7
 ),
 filter_subq AS (

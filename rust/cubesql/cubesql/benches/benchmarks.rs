@@ -1,3 +1,5 @@
+// [DataOS fork] All __cubeJoinField references in benchmark SQL strings have been renamed
+// to __joinField (see RENAME_JOIN_FIELD_GUIDE.md). Accept ours on merge conflicts.
 use criterion::{criterion_group, criterion_main, Criterion};
 use cubesql::compile::test::{
     get_test_tenant_ctx,
@@ -237,7 +239,7 @@ from
       \"_\".\"dim39\",
       \"_\".\"dim40\",
       \"_\".\"__user\",
-      \"_\".\"__cubeJoinField\"
+      \"_\".\"__joinField\"
     from
       \"public\".\"WideCube\" \"_\"
     where
@@ -328,7 +330,7 @@ from
           "_"."dim29",
           "_"."dim30",
           "_"."__user",
-          "_"."__cubeJoinField"
+          "_"."__joinField"
         from
           "public"."WideCube" "_"
         where

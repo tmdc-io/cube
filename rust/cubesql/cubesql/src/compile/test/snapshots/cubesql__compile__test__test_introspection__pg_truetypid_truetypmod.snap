@@ -21,17 +21,17 @@ expression: "execute_query(\"\n                SELECT\n                    a.att
 | 18000    | is_male            | bool      | 16    | -1     | NULL   |
 | 18000    | is_female          | bool      | 16    | -1     | NULL   |
 | 18000    | __user             | text      | 25    | -1     | NULL   |
-| 18000    | __cubeJoinField    | text      | 25    | -1     | NULL   |
+| 18000    | __joinField        | text      | 25    | -1     | NULL   |
 | 18020    | agentCount         | int8      | 20    | -1     | 64     |
 | 18020    | agentCountApprox   | int8      | 20    | -1     | 64     |
 | 18020    | id                 | numeric   | 1700  | -1     | NULL   |
 | 18020    | read               | bool      | 16    | -1     | NULL   |
 | 18020    | content            | text      | 25    | -1     | NULL   |
 | 18020    | __user             | text      | 25    | -1     | NULL   |
-| 18020    | __cubeJoinField    | text      | 25    | -1     | NULL   |
+| 18020    | __joinField        | text      | 25    | -1     | NULL   |
 | 18030    | someNumber         | numeric   | 1700  | -1     | NULL   |
 | 18030    | __user             | text      | 25    | -1     | NULL   |
-| 18030    | __cubeJoinField    | text      | 25    | -1     | NULL   |
+| 18030    | __joinField        | text      | 25    | -1     | NULL   |
 | 18036    | measure0           | numeric   | 1700  | -1     | NULL   |
 | 18036    | measure1           | numeric   | 1700  | -1     | NULL   |
 | 18036    | measure2           | numeric   | 1700  | -1     | NULL   |
@@ -238,7 +238,7 @@ expression: "execute_query(\"\n                SELECT\n                    a.att
 | 18036    | dim98              | numeric   | 1700  | -1     | NULL   |
 | 18036    | dim99              | numeric   | 1700  | -1     | NULL   |
 | 18036    | __user             | text      | 25    | -1     | NULL   |
-| 18036    | __cubeJoinField    | text      | 25    | -1     | NULL   |
+| 18036    | __joinField        | text      | 25    | -1     | NULL   |
 | 18246    | measure_num0       | numeric   | 1700  | -1     | NULL   |
 | 18246    | measure_str0       | numeric   | 1700  | -1     | NULL   |
 | 18246    | measure_date0      | numeric   | 1700  | -1     | NULL   |
@@ -305,5 +305,5 @@ expression: "execute_query(\"\n                SELECT\n                    a.att
 | 18246    | dim_str9           | text      | 25    | -1     | NULL   |
 | 18246    | dim_date9          | timestamp | 1114  | -1     | NULL   |
 | 18246    | __user             | text      | 25    | -1     | NULL   |
-| 18246    | __cubeJoinField    | text      | 25    | -1     | NULL   |
+| 18246    | __joinField        | text      | 25    | -1     | NULL   |
 +----------+--------------------+-----------+-------+--------+--------+

@@ -3039,7 +3039,8 @@ fn is_join_on_cube_join_field(
     let Member::VirtualField { name, cube, .. } = join_member else {
         return None;
     };
-    if name != "__cubeJoinField" {
+    // [DataOS fork] Renamed __cubeJoinField → __joinField (see RENAME_JOIN_FIELD_GUIDE.md)
+    if name != "__joinField" {
         return None;
     }
     Some(cube.clone())

@@ -350,8 +350,8 @@ export class CompilerApi {
     const { includeDebugInfo, exportAnnotatedSql } = options;
     const { sqlGenerator, compilers } = await this.getSqlGenerator(query);
 
+    // [DataOS fork] Wrapped collectAllMemberNames in a guard for compatibility with custom/older drivers
     const getSqlFn = () => compilers.compiler.withQuery(sqlGenerator, () => {
-      // Guard against missing collectAllMemberNames for compatibility with custom drivers
       const memberNames = typeof (sqlGenerator as any).collectAllMemberNames === 'function'
         ? (sqlGenerator as any).collectAllMemberNames()
         : [];

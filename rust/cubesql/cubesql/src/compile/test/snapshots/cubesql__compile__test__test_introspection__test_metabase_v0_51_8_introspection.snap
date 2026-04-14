@@ -21,14 +21,14 @@ expression: "execute_query(r#\"\nselect\n    \"c\".\"column_name\" as \"name\",\
 | is_male            | bool          | 13                | public       | KibanaSampleDataEcommerce | false | NULL          | false             | false                      |
 | is_female          | bool          | 14                | public       | KibanaSampleDataEcommerce | false | NULL          | false             | false                      |
 | __user             | text          | 15                | public       | KibanaSampleDataEcommerce | false | NULL          | false             | false                      |
-| __cubeJoinField    | text          | 16                | public       | KibanaSampleDataEcommerce | false | NULL          | false             | false                      |
+| __joinField        | text          | 16                | public       | KibanaSampleDataEcommerce | false | NULL          | false             | false                      |
 | agentCount         | int8          | 0                 | public       | Logs                      | false | NULL          | false             | false                      |
 | agentCountApprox   | int8          | 1                 | public       | Logs                      | false | NULL          | false             | false                      |
 | id                 | numeric       | 2                 | public       | Logs                      | false | NULL          | false             | false                      |
 | read               | bool          | 3                 | public       | Logs                      | false | NULL          | false             | false                      |
 | content            | text          | 4                 | public       | Logs                      | false | NULL          | false             | false                      |
 | __user             | text          | 5                 | public       | Logs                      | false | NULL          | false             | false                      |
-| __cubeJoinField    | text          | 6                 | public       | Logs                      | false | NULL          | false             | false                      |
+| __joinField        | text          | 6                 | public       | Logs                      | false | NULL          | false             | false                      |
 | measure_num0       | numeric       | 0                 | public       | MultiTypeCube             | false | NULL          | false             | false                      |
 | measure_str0       | numeric       | 1                 | public       | MultiTypeCube             | false | NULL          | false             | false                      |
 | measure_date0      | numeric       | 2                 | public       | MultiTypeCube             | false | NULL          | false             | false                      |
@@ -95,10 +95,10 @@ expression: "execute_query(r#\"\nselect\n    \"c\".\"column_name\" as \"name\",\
 | dim_str9           | text          | 63                | public       | MultiTypeCube             | false | NULL          | false             | false                      |
 | dim_date9          | timestamp     | 64                | public       | MultiTypeCube             | false | NULL          | false             | false                      |
 | __user             | text          | 65                | public       | MultiTypeCube             | false | NULL          | false             | false                      |
-| __cubeJoinField    | text          | 66                | public       | MultiTypeCube             | false | NULL          | false             | false                      |
+| __joinField        | text          | 66                | public       | MultiTypeCube             | false | NULL          | false             | false                      |
 | someNumber         | numeric       | 0                 | public       | NumberCube                | false | NULL          | false             | false                      |
 | __user             | text          | 1                 | public       | NumberCube                | false | NULL          | false             | false                      |
-| __cubeJoinField    | text          | 2                 | public       | NumberCube                | false | NULL          | false             | false                      |
+| __joinField        | text          | 2                 | public       | NumberCube                | false | NULL          | false             | false                      |
 | measure0           | numeric       | 0                 | public       | WideCube                  | false | NULL          | false             | false                      |
 | measure1           | numeric       | 1                 | public       | WideCube                  | false | NULL          | false             | false                      |
 | measure2           | numeric       | 2                 | public       | WideCube                  | false | NULL          | false             | false                      |
@@ -305,5 +305,5 @@ expression: "execute_query(r#\"\nselect\n    \"c\".\"column_name\" as \"name\",\
 | dim98              | numeric       | 203               | public       | WideCube                  | false | NULL          | false             | false                      |
 | dim99              | numeric       | 204               | public       | WideCube                  | false | NULL          | false             | false                      |
 | __user             | text          | 205               | public       | WideCube                  | false | NULL          | false             | false                      |
-| __cubeJoinField    | text          | 206               | public       | WideCube                  | false | NULL          | false             | false                      |
+| __joinField        | text          | 206               | public       | WideCube                  | false | NULL          | false             | false                      |
 +--------------------+---------------+-------------------+--------------+---------------------------+-------+---------------+-------------------+----------------------------+

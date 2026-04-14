@@ -1433,7 +1433,7 @@ class ApiGateway {
           {
             includeDebugInfo: getEnv('devMode') || context.signedWithPlaygroundAuthSecret,
             exportAnnotatedSql,
-          }
+          },
         ))
       );
 
@@ -1683,7 +1683,7 @@ class ApiGateway {
           this.coerceForSqlQuery(normalizedQuery, context),
           {
             includeDebugInfo: getEnv('devMode') || context.signedWithPlaygroundAuthSecret
-          }
+          },
         ))
       );
 
@@ -1718,7 +1718,7 @@ class ApiGateway {
           const loadRequestSQLStarted = new Date();
           const sqlQueryRaw = await (await this.getCompilerApi(context))
             .getSql(
-              this.coerceForSqlQuery(normalizedQuery, context)
+              this.coerceForSqlQuery(normalizedQuery, context),
             );
           const sqlQuery = this.sanitizeSqlQuery(sqlQueryRaw);
 

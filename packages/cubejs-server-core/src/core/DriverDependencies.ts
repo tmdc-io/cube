@@ -30,6 +30,8 @@ const DriverDependencies: Record<DatabaseType, string> = {
   materialize: '@cubejs-backend/materialize-driver',
   vertica: '@cubejs-backend/vertica-driver',
   pinot: '@cubejs-backend/pinot-driver',
+  // [DataOS fork] Added Spark driver
+  spark: '@cubejs-backend/spark-driver',
   // List for JDBC drivers
   'databricks-jdbc': '@cubejs-backend/databricks-jdbc-driver',
 };

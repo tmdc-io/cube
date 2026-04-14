@@ -639,19 +639,20 @@ impl LogicalPlanAnalysis {
                         }),
                     ));
 
+                    // [DataOS fork] Renamed __cubeJoinField → __joinField (see RENAME_JOIN_FIELD_GUIDE.md)
                     map.push((
-                        Some(format!("{}.{}", cube.name, "__cubeJoinField")),
+                        Some(format!("{}.{}", cube.name, "__joinField")),
                         Member::VirtualField {
-                            name: "__cubeJoinField".to_string(),
+                            name: "__joinField".to_string(),
                             cube: cube.name.clone(),
                             expr: Expr::Column(Column {
                                 relation: Some(alias.to_string()),
-                                name: "__cubeJoinField".to_string(),
+                                name: "__joinField".to_string(),
                             }),
                         },
                         Expr::Column(Column {
                             relation: Some(alias.to_string()),
-                            name: "__cubeJoinField".to_string(),
+                            name: "__joinField".to_string(),
                         }),
                     ));
                     Some(map)

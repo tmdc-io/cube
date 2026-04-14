@@ -1907,6 +1907,8 @@ GROUP BY
         );
     }
 
+    // [DataOS fork] All __cubeJoinField references in test SQL strings below have been renamed
+    // to __joinField (see RENAME_JOIN_FIELD_GUIDE.md). Accept ours on merge conflicts.
     #[tokio::test]
     async fn powerbi_sum_wrap() {
         init_testing_logger();
@@ -1971,7 +1973,7 @@ from
           "_"."dim17",
           "_"."dim18",
           "_"."__user",
-          "_"."__cubeJoinField"
+          "_"."__joinField"
         from
           "public"."WideCube" "_"
         where
@@ -2414,7 +2416,7 @@ from
           "_"."minPrice",
           "_"."sumPrice",
           "_"."__user",
-          "_"."__cubeJoinField"
+          "_"."__joinField"
         from
           "public"."KibanaSampleDataEcommerce" "_"
         where
@@ -4587,9 +4589,9 @@ WITH "qt_0" AS (
     END) > 500000.0) "ca_3"
   FROM "db"."public"."KibanaSampleDataEcommerce" "ta_2"
     JOIN "db"."public"."Logs" "ta_1"
-      ON "ta_2"."__cubeJoinField" = "ta_1"."__cubeJoinField"
+      ON "ta_2"."__joinField" = "ta_1"."__joinField"
     JOIN "db"."public"."NumberCube" "ta_3"
-      ON "ta_2"."__cubeJoinField" = "ta_3"."__cubeJoinField"
+      ON "ta_2"."__joinField" = "ta_3"."__joinField"
   GROUP BY "ca_1"
 )
 SELECT "ta_4"."ca_3" "ca_4"
@@ -4650,7 +4652,7 @@ WITH "qt_0" AS (
     END "ca_3"
   FROM "public"."KibanaSampleDataEcommerce" "ta_2"
     JOIN "tpch5k"."public"."Logs" "ta_1"
-      ON "ta_2"."__cubeJoinField" = "ta_1"."__cubeJoinField"
+      ON "ta_2"."__joinField" = "ta_1"."__joinField"
   GROUP BY
     "ca_1",
     "ca_2"
@@ -10040,16 +10042,16 @@ ORDER BY "source"."str0" ASC
                         select
                             "_"."agentCount" as "t1.agentCount",
                             "_"."agentCountApprox" as "t1.agentCountApprox",
-                            "_"."__cubeJoinField" as "t1.__cubeJoinField"
+                            "_"."__joinField" as "t1.__joinField"
                         from "public"."Logs" "_"
                     ) "$Outer"
                     left outer join (
                         select
                             "_"."taxful_total_price" as "t0.taxful_total_price",
                             "_"."count" as "t0.count",
-                            "_"."__cubeJoinField" as "t0.__cubeJoinField"
+                            "_"."__joinField" as "t0.__joinField"
                         from "public"."KibanaSampleDataEcommerce" "_"
-                    ) "$Inner" on ("$Outer"."t1.__cubeJoinField" = "$Inner"."t0.__cubeJoinField")
+                    ) "$Inner" on ("$Outer"."t1.__joinField" = "$Inner"."t0.__joinField")
                 ) "rows"
                 group by "t1.agentCountApprox"
             ) "_"
@@ -12197,7 +12199,7 @@ ORDER BY "source"."str0" ASC
             )) "ca_1"
             FROM KibanaSampleDataEcommerce "ta_1"
                 JOIN Logs "ta_2"
-                    ON "ta_1"."__cubeJoinField" = "ta_2"."__cubeJoinField"
+                    ON "ta_1"."__joinField" = "ta_2"."__joinField"
             WHERE LOWER("ta_2"."content") = 'test'
             GROUP BY "ca_1"
             ORDER BY "ca_1" ASC
@@ -12649,7 +12651,7 @@ ORDER BY "source"."str0" ASC
                     END "ca_2"
                 FROM KibanaSampleDataEcommerce "ta_2"
                 JOIN Logs "ta_1"
-                    ON "ta_2"."__cubeJoinField" = "ta_1"."__cubeJoinField"
+                    ON "ta_2"."__joinField" = "ta_1"."__joinField"
                 GROUP BY "ca_1"
             )
             SELECT count(DISTINCT "ta_3"."ca_1") "ca_3"
@@ -13241,7 +13243,7 @@ ORDER BY "source"."str0" ASC
         )
     }
 
-    // TODO: __cubeJoinField for WrappedSelect
+    // TODO: __joinField for WrappedSelect
     #[ignore]
     #[tokio::test]
     async fn test_sigma_row_count_cross_join() {
@@ -17414,8 +17416,8 @@ LIMIT {{ limit }}{% endif %}"#.to_string(),
                 q2.id,
                 q3.id
             FROM KibanaSampleDataEcommerce q1
-            LEFT JOIN Logs q2 ON q1.__cubeJoinField = q2.__cubeJoinField
-            LEFT JOIN Logs q3 ON q1.__cubeJoinField = q3.__cubeJoinField
+            LEFT JOIN Logs q2 ON q1.__joinField = q2.__joinField
+            LEFT JOIN Logs q3 ON q1.__joinField = q3.__joinField
             ORDER BY
                 q2.id,
                 q3.id
@@ -17744,7 +17746,7 @@ LIMIT {{ limit }}{% endif %}"#.to_string(),
                     t1.id AS id,
                     t2.read AS read
                 FROM KibanaSampleDataEcommerce t1
-                LEFT JOIN Logs t2 ON t1.__cubeJoinField = t2.__cubeJoinField
+                LEFT JOIN Logs t2 ON t1.__joinField = t2.__joinField
             ) t
             "#
             .to_string(),

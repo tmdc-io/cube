@@ -1572,10 +1572,12 @@ join paths from the pre-aggregation definition and uses them to generate the SQL
 _Join hints_ serve as an auxiliary mechanism to remove the ambiguity of joins _at the
 query time_. When possible, use [join paths](#join-paths) in the data model instead.
 
+{/* [DataOS fork] Renamed __cubeJoinField → __joinField */}
+
 ### SQL API
 
 In queries to the [SQL API][ref-sql-api], cubes can be [joined][ref-sql-api-joins] via
-the `CROSS JOIN` clause or via `__cubeJoinField`. In any case, Cube will analyze the
+the `CROSS JOIN` clause or via `__joinField`. In any case, Cube will analyze the
 query and follow provided join hints.
 
 Let's run the following query with the data model from the [diamond subgraphs

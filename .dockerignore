@@ -10,7 +10,12 @@
 !rust/cubestore/tsconfig.json
 !rust/cubestore/package.json
 !rust/cubestore/bin
-!rust/cubesql/package.json
+# [DataOS fork] Whitelisted Rust crates for native module compilation from source
+!rust/cubesql/
+!rust/cubenativeutils/
+!rust/cubeorchestrator/
+!rust/cubesqlplanner/
+!rust/cubeshared/
 
 # Ignoring builds for native from local machime to protect a problem with different architecture
 packages/cubejs-backend-native/index.node
