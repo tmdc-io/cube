@@ -126,9 +126,9 @@ Object {
     "sql": Object {
       "query_type": "pushdown",
       "sql": Array [
-        "SELECT \\"t\\".\\"avg_t_total_\\" \\"avg_t_total_\\" 
+        "SELECT \\"t\\".\\"avg_t_total_\\" \\"avg_t_total_\\"
 FROM (
-  SELECT AVG(\\"t\\".\\"total\\") \\"avg_t_total_\\" 
+  SELECT AVG(\\"t\\".\\"total\\") \\"avg_t_total_\\"
   FROM (
     SELECT
           \\"orders\\".status \\"status\\", sum(\\"orders\\".amount) \\"total\\"
@@ -233,8 +233,8 @@ Object {
 exports[`SQL API Cube SQL over HTTP sql4sql regular query with missing column 1`] = `
 Object {
   "body": Object {
-    "error": "Error: SQLCompilationError: Internal: Initial planning error: Error during planning: Invalid identifier '#foobar' for schema fields:[Orders.count, Orders.orderCount, Orders.approxOrderCount, Orders.netCollectionCompleted, Orders.arpu, Orders.refundRate, Orders.refundOrdersCount, Orders.overallOrders, Orders.totalAmount, Orders.avgAmount, Orders.minAmount, Orders.maxAmount, Orders.toRemove, Orders.numberTotal, Orders.amountRank, Orders.amountReducedByStatus, Orders.statusPercentageOfTotal, Orders.amountRankView, Orders.amountRankDateMax, Orders.amountRankDate, Orders.countAndTotalAmount, Orders.createdAtMax, Orders.createdAtMaxProxy, Orders.id, Orders.status, Orders.createdAt, Orders.updatedAt, Orders.__user, Orders.__cubeJoinField], metadata:{}",
-    "stack": "Error: SQLCompilationError: Internal: Initial planning error: Error during planning: Invalid identifier '#foobar' for schema fields:[Orders.count, Orders.orderCount, Orders.approxOrderCount, Orders.netCollectionCompleted, Orders.arpu, Orders.refundRate, Orders.refundOrdersCount, Orders.overallOrders, Orders.totalAmount, Orders.avgAmount, Orders.minAmount, Orders.maxAmount, Orders.toRemove, Orders.numberTotal, Orders.amountRank, Orders.amountReducedByStatus, Orders.statusPercentageOfTotal, Orders.amountRankView, Orders.amountRankDateMax, Orders.amountRankDate, Orders.countAndTotalAmount, Orders.createdAtMax, Orders.createdAtMaxProxy, Orders.id, Orders.status, Orders.createdAt, Orders.updatedAt, Orders.__user, Orders.__cubeJoinField], metadata:{}",
+    "error": "Error: SQLCompilationError: Internal: Initial planning error: Error during planning: Invalid identifier '#foobar' for schema fields:[Orders.count, Orders.orderCount, Orders.approxOrderCount, Orders.netCollectionCompleted, Orders.arpu, Orders.refundRate, Orders.refundOrdersCount, Orders.overallOrders, Orders.totalAmount, Orders.avgAmount, Orders.minAmount, Orders.maxAmount, Orders.toRemove, Orders.numberTotal, Orders.amountRank, Orders.amountReducedByStatus, Orders.statusPercentageOfTotal, Orders.amountRankView, Orders.amountRankDateMax, Orders.amountRankDate, Orders.countAndTotalAmount, Orders.createdAtMax, Orders.createdAtMaxProxy, Orders.id, Orders.status, Orders.createdAt, Orders.updatedAt, Orders.__user, Orders.__joinField], metadata:{}",
+    "stack": "Error: SQLCompilationError: Internal: Initial planning error: Error during planning: Invalid identifier '#foobar' for schema fields:[Orders.count, Orders.orderCount, Orders.approxOrderCount, Orders.netCollectionCompleted, Orders.arpu, Orders.refundRate, Orders.refundOrdersCount, Orders.overallOrders, Orders.totalAmount, Orders.avgAmount, Orders.minAmount, Orders.maxAmount, Orders.toRemove, Orders.numberTotal, Orders.amountRank, Orders.amountReducedByStatus, Orders.statusPercentageOfTotal, Orders.amountRankView, Orders.amountRankDateMax, Orders.amountRankDate, Orders.countAndTotalAmount, Orders.createdAtMax, Orders.createdAtMaxProxy, Orders.id, Orders.status, Orders.createdAt, Orders.updatedAt, Orders.__user, Orders.__joinField], metadata:{}",
   },
   "headers": Headers {
     Symbol(map): Object {
@@ -428,7 +428,7 @@ Object {
     "sql": Object {
       "query_type": "pushdown",
       "sql": Array [
-        "SELECT \\"Orders\\".\\"sum_orders_total\\" \\"total\\" 
+        "SELECT \\"Orders\\".\\"sum_orders_total\\" \\"total\\"
 FROM (
   SELECT
         sum(\\"orders\\".amount) \\"sum_orders_total\\"
@@ -483,7 +483,7 @@ Object {
     "sql": Object {
       "query_type": "pushdown",
       "sql": Array [
-        "SELECT \\"Orders\\".\\"sum_orders_total\\" \\"total\\" 
+        "SELECT \\"Orders\\".\\"sum_orders_total\\" \\"total\\"
 FROM (
   SELECT
         sum(\\"orders\\".amount) \\"sum_orders_total\\"
@@ -919,7 +919,7 @@ exports[`SQL API Postgres (Data) select __user and literal grouped: select __use
 Array [
   Object {
     "Int64(2)": "2",
-    "__cubeJoinField": null,
+    "__joinField": null,
     "datetrunc(Utf8(\\"day\\"),Orders.createdAt)": 2024-01-01T00:00:00.000Z,
     "id": 1,
     "my_created_at": 2024-01-01T00:00:00.000Z,
@@ -929,7 +929,7 @@ Array [
   },
   Object {
     "Int64(2)": "2",
-    "__cubeJoinField": null,
+    "__joinField": null,
     "datetrunc(Utf8(\\"day\\"),Orders.createdAt)": 2024-01-02T00:00:00.000Z,
     "id": 2,
     "my_created_at": 2024-01-01T00:00:00.000Z,
@@ -939,7 +939,7 @@ Array [
   },
   Object {
     "Int64(2)": "2",
-    "__cubeJoinField": null,
+    "__joinField": null,
     "datetrunc(Utf8(\\"day\\"),Orders.createdAt)": 2024-01-03T00:00:00.000Z,
     "id": 3,
     "my_created_at": 2024-01-01T00:00:00.000Z,
@@ -949,7 +949,7 @@ Array [
   },
   Object {
     "Int64(2)": "2",
-    "__cubeJoinField": null,
+    "__joinField": null,
     "datetrunc(Utf8(\\"day\\"),Orders.createdAt)": 2024-01-04T00:00:00.000Z,
     "id": 4,
     "my_created_at": 2024-01-01T00:00:00.000Z,
@@ -959,7 +959,7 @@ Array [
   },
   Object {
     "Int64(2)": "2",
-    "__cubeJoinField": null,
+    "__joinField": null,
     "datetrunc(Utf8(\\"day\\"),Orders.createdAt)": 2024-01-05T00:00:00.000Z,
     "id": 5,
     "my_created_at": 2024-01-01T00:00:00.000Z,

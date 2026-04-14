@@ -228,8 +228,9 @@ impl MetaContext {
         }
     }
 
+    // [DataOS fork] Renamed __cubeJoinField → __joinField (see RENAME_JOIN_FIELD_GUIDE.md)
     pub fn is_synthetic_field_name(field_name: &str) -> bool {
-        field_name == "__user" || field_name == "__cubeJoinField"
+        field_name == "__user" || field_name == "__joinField"
     }
 
     pub fn find_df_data_type(&self, member_name: &str) -> Option<DataType> {

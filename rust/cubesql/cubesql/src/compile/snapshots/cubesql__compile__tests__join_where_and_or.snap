@@ -21,17 +21,17 @@ expression: "execute_query(\"\n                SELECT\n                    att.a
 | is_male            | 14     | 18000 |
 | is_female          | 15     | 18000 |
 | __user             | 16     | 18000 |
-| __cubeJoinField    | 17     | 18000 |
+| __joinField        | 17     | 18000 |
 | agentCount         | 1      | 18020 |
 | agentCountApprox   | 2      | 18020 |
 | id                 | 3      | 18020 |
 | read               | 4      | 18020 |
 | content            | 5      | 18020 |
 | __user             | 6      | 18020 |
-| __cubeJoinField    | 7      | 18020 |
+| __joinField        | 7      | 18020 |
 | someNumber         | 1      | 18030 |
 | __user             | 2      | 18030 |
-| __cubeJoinField    | 3      | 18030 |
+| __joinField        | 3      | 18030 |
 | measure0           | 1      | 18036 |
 | measure1           | 2      | 18036 |
 | measure2           | 3      | 18036 |
@@ -238,7 +238,7 @@ expression: "execute_query(\"\n                SELECT\n                    att.a
 | dim98              | 204    | 18036 |
 | dim99              | 205    | 18036 |
 | __user             | 206    | 18036 |
-| __cubeJoinField    | 207    | 18036 |
+| __joinField        | 207    | 18036 |
 | measure_num0       | 1      | 18246 |
 | measure_str0       | 2      | 18246 |
 | measure_date0      | 3      | 18246 |
@@ -305,5 +305,5 @@ expression: "execute_query(\"\n                SELECT\n                    att.a
 | dim_str9           | 64     | 18246 |
 | dim_date9          | 65     | 18246 |
 | __user             | 66     | 18246 |
-| __cubeJoinField    | 67     | 18246 |
+| __joinField        | 67     | 18246 |
 +--------------------+--------+-------+

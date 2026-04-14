@@ -4,40 +4,39 @@
 # ============================================================================
 # HOW TO BUILD
 # ============================================================================
+# IMPORTANT: Always use --no-cache. The cubejs-backend-native postinstall hook
+# downloads a pre-built binary that Docker's layer cache will preserve across
+# rebuilds, causing the Rust native build step to use stale artifacts.
+#
 # Run all commands from packages/cubejs-docker directory:
 #   cd packages/cubejs-docker
 #
 # ----------------------------------------------------------------------------
 # OPTION 1: Build each platform separately (RECOMMENDED)
 # ----------------------------------------------------------------------------
-# This approach avoids buildx cache issues and gives more control.
 #
 # Step 1: Build for arm64 (native on Mac Silicon - fast)
-#   docker build --platform linux/arm64 -t tmdcio/transpiler-base:0.228.1.1-arm64 -f dev.Dockerfile ../../
+#   docker build --no-cache --platform linux/arm64 -t tmdcio/transpiler-base:TAG-arm64 -f dev.Dockerfile ../../
 #
 # Step 2: Build for amd64 (emulated on Mac Silicon - slower)
-#   docker build --platform linux/amd64 -t tmdcio/transpiler-base:0.228.1.1-amd64 -f dev.Dockerfile ../../
+#   docker build --no-cache --platform linux/amd64 -t tmdcio/transpiler-base:TAG-amd64 -f dev.Dockerfile ../../
 #
 # Step 3: Push both platform-specific images
-#   docker push tmdcio/transpiler-base:0.228.1.1-arm64
-#   docker push tmdcio/transpiler-base:0.228.1.1-amd64
+#   docker push tmdcio/transpiler-base:TAG-arm64
+#   docker push tmdcio/transpiler-base:TAG-amd64
 #
 # Step 4: Create multi-arch manifest (combines both into single tag)
-#   docker buildx imagetools create -t tmdcio/transpiler-base:0.228.1.1 \
-#     tmdcio/transpiler-base:0.228.1.1-arm64 \
-#     tmdcio/transpiler-base:0.228.1.1-amd64
+#   docker buildx imagetools create -t tmdcio/transpiler-base:TAG \
+#     tmdcio/transpiler-base:TAG-arm64 \
+#     tmdcio/transpiler-base:TAG-amd64
 #
 # ----------------------------------------------------------------------------
-# OPTION 2: Build with buildx (single command, but may have cache issues)
+# OPTION 2: Build with buildx (single command)
 # ----------------------------------------------------------------------------
-# Build and push multi-platform in one command:
-#   docker buildx build --platform linux/amd64,linux/arm64 -t tmdcio/transpiler-base:0.228.1.1 -f dev.Dockerfile --push ../../
-#
-# If buildx has cache issues, try with --no-cache:
-#   docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t tmdcio/transpiler-base:0.228.1.1 -f dev.Dockerfile --push ../../
+#   docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t tmdcio/transpiler-base:TAG -f dev.Dockerfile --push ../../
 #
 # Build for local use only (single platform):
-#   docker buildx build --platform linux/amd64 -t tmdcio/transpiler-base:0.228.1.1 -f dev.Dockerfile --load ../../
+#   docker buildx build --no-cache --platform linux/amd64 -t tmdcio/transpiler-base:TAG -f dev.Dockerfile --load ../../
 # ============================================================================
 
 latest_build:

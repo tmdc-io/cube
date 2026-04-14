@@ -5316,6 +5316,7 @@ impl OldSplitRules {
             }
 
             if let Some(column_var) = column_var {
+                // [DataOS fork] Renamed __cubeJoinField → __joinField (see RENAME_JOIN_FIELD_GUIDE.md)
                 for alias_to_cube in var_iter!(
                     egraph[subst[alias_to_cube_var]],
                     GroupExprSplitReplacerAliasToCube
@@ -5327,7 +5328,7 @@ impl OldSplitRules {
                             if cube.lookup_dimension(&column.name).is_some()
                                 || cube.lookup_segment(&column.name).is_some()
                                 || column.name == "__user"
-                                || column.name == "__cubeJoinField"
+                                || column.name == "__joinField"
                             {
                                 return true;
                             }
@@ -5422,6 +5423,7 @@ impl OldSplitRules {
         let meta = self.meta_context.clone();
         move |egraph, subst| {
             if let Some(column_var) = column_var {
+                // [DataOS fork] Renamed __cubeJoinField → __joinField (see RENAME_JOIN_FIELD_GUIDE.md)
                 for alias_to_cube in var_iter!(
                     egraph[subst[alias_to_cube_var]],
                     GroupAggregateSplitReplacerAliasToCube
@@ -5433,7 +5435,7 @@ impl OldSplitRules {
                             if cube.lookup_dimension(&column.name).is_some()
                                 || cube.lookup_segment(&column.name).is_some()
                                 || column.name == "__user"
-                                || column.name == "__cubeJoinField"
+                                || column.name == "__joinField"
                             {
                                 return true;
                             }

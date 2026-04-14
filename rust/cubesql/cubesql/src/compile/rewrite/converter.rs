@@ -1394,8 +1394,9 @@ impl LanguageToLogicalPlanConverter {
                 if Self::have_ungrouped_cube_scan_inside(&left)
                     || Self::have_ungrouped_cube_scan_inside(&right)
                 {
-                    if left_on.iter().any(|c| c.name == "__cubeJoinField")
-                        || right_on.iter().any(|c| c.name == "__cubeJoinField")
+                    // [DataOS fork] Renamed __cubeJoinField → __joinField (see RENAME_JOIN_FIELD_GUIDE.md)
+                    if left_on.iter().any(|c| c.name == "__joinField")
+                        || right_on.iter().any(|c| c.name == "__joinField")
                     {
                         return Err(CubeError::internal(
                             "Can not join Cubes. This is most likely due to one of the following reasons:\n\
@@ -1405,7 +1406,7 @@ impl LanguageToLogicalPlanConverter {
                         ));
                     } else {
                         return Err(CubeError::internal(
-                            "Use __cubeJoinField to join Cubes".to_string(),
+                            "Use __joinField to join Cubes".to_string(),
                         ));
                     }
                 }

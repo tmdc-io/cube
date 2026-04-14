@@ -17,8 +17,9 @@ ENV RUSTUP_HOME=/usr/local/rustup
 ENV CARGO_HOME=/usr/local/cargo
 ENV PATH=/usr/local/cargo/bin:$PATH
 
+# [DataOS fork] Rust toolchain pinned to 1.90.0 (upstream uses nightly-2022-03-08) for native module compilation
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
-    sh -s -- --profile minimal --default-toolchain nightly-2022-03-08 -y
+    sh -s -- --profile minimal --default-toolchain 1.90.0 -y
 
 ENV CUBESTORE_SKIP_POST_INSTALL=true
 ENV NODE_ENV=development
@@ -75,6 +76,7 @@ COPY packages/cubejs-ksql-driver/package.json packages/cubejs-ksql-driver/packag
 COPY packages/cubejs-dbt-schema-extension/package.json packages/cubejs-dbt-schema-extension/package.json
 COPY packages/cubejs-jdbc-driver/package.json packages/cubejs-jdbc-driver/package.json
 COPY packages/cubejs-vertica-driver/package.json packages/cubejs-vertica-driver/package.json
+# [DataOS fork] Added Spark driver
 COPY packages/cubejs-spark-driver/package.json packages/cubejs-spark-driver/package.json
 # Skip
 # COPY packages/cubejs-testing/package.json packages/cubejs-testing/package.json
@@ -111,8 +113,13 @@ FROM base AS build
 RUN yarn install
 
 # Backend
+# [DataOS fork] Copy full Rust crate sources for native module compilation (upstream only copies cubestore + cubesql)
 COPY rust/cubestore/ rust/cubestore/
 COPY rust/cubesql/ rust/cubesql/
+COPY rust/cubenativeutils/ rust/cubenativeutils/
+COPY rust/cubeorchestrator/ rust/cubeorchestrator/
+COPY rust/cubesqlplanner/ rust/cubesqlplanner/
+COPY rust/cubeshared/ rust/cubeshared/
 COPY packages/cubejs-backend-shared/ packages/cubejs-backend-shared/
 COPY packages/cubejs-base-driver/ packages/cubejs-base-driver/
 COPY packages/cubejs-backend-native/ packages/cubejs-backend-native/
@@ -153,6 +160,7 @@ COPY packages/cubejs-dbt-schema-extension/ packages/cubejs-dbt-schema-extension/
 COPY packages/cubejs-jdbc-driver/ packages/cubejs-jdbc-driver/
 COPY packages/cubejs-databricks-jdbc-driver/ packages/cubejs-databricks-jdbc-driver/
 COPY packages/cubejs-vertica-driver/ packages/cubejs-vertica-driver/
+# [DataOS fork] Added Spark driver
 COPY packages/cubejs-spark-driver/ packages/cubejs-spark-driver/
 # Skip
 # COPY packages/cubejs-testing/ packages/cubejs-testing/
@@ -168,6 +176,9 @@ COPY packages/cubejs-playground/ packages/cubejs-playground/
 
 RUN yarn build
 RUN yarn lerna run build
+
+# [DataOS fork] Compile native module from source instead of using pre-built upstream binary
+RUN cd packages/cubejs-backend-native && npm run native:build-release-python
 
 RUN find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
 

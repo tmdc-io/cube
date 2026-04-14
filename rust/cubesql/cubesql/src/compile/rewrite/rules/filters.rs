@@ -4070,6 +4070,7 @@ impl FilterRules {
                 var_iter!(egraph[subst[filter_aliases_var]], FilterReplacerAliases)
                     .cloned()
                     .collect();
+            // [DataOS fork] Renamed __cubeJoinField → __joinField (see RENAME_JOIN_FIELD_GUIDE.md)
             for aliases in aliases_es {
                 if let Some((left_member_name, _)) = Self::filter_member_name(
                     egraph,
@@ -4080,7 +4081,7 @@ impl FilterRules {
                     members_var,
                     &aliases,
                 ) {
-                    if left_member_name.ends_with(".__cubeJoinField") {
+                    if left_member_name.ends_with(".__joinField") {
                         if let Some((right_member_name, _)) = Self::filter_member_name(
                             egraph,
                             subst,
@@ -4090,7 +4091,7 @@ impl FilterRules {
                             members_var,
                             &aliases,
                         ) {
-                            if right_member_name.ends_with("__cubeJoinField") {
+                            if right_member_name.ends_with("__joinField") {
                                 return true;
                             }
                         }
@@ -4119,6 +4120,7 @@ impl FilterRules {
                 var_iter!(egraph[subst[filter_aliases_var]], FilterReplacerAliases)
                     .cloned()
                     .collect();
+            // [DataOS fork] Renamed __cubeJoinField → __joinField (see RENAME_JOIN_FIELD_GUIDE.md)
             for aliases in aliases_es {
                 if let Some((left_member_name, _)) = Self::filter_member_name(
                     egraph,
@@ -4129,7 +4131,7 @@ impl FilterRules {
                     members_var,
                     &aliases,
                 ) {
-                    if left_member_name.ends_with(".__cubeJoinField") {
+                    if left_member_name.ends_with(".__joinField") {
                         return true;
                     }
                 }

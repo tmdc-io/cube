@@ -276,9 +276,10 @@ impl V1CubeMetaExt for CubeMeta {
             can_be_null: true,
         });
 
+        // [DataOS fork] Renamed __cubeJoinField → __joinField (see RENAME_JOIN_FIELD_GUIDE.md)
         columns.push(CubeColumn {
-            member_name: "__cubeJoinField".to_string(),
-            name: "__cubeJoinField".to_string(),
+            member_name: "__joinField".to_string(),
+            name: "__joinField".to_string(),
             description: Some("Virtual column for joining cubes".to_string()),
             column_type: ColumnType::String,
             can_be_null: true,

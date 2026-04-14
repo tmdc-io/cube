@@ -5,7 +5,7 @@ expression: "execute_query(\"SELECT\\n          n.nspname || '.' || c.relname AS
 +----------------------------------+--------------------+-----------------------------+
 | table_name                       | column_name        | data_type                   |
 +----------------------------------+--------------------+-----------------------------+
-| public.KibanaSampleDataEcommerce | __cubeJoinField    | text                        |
+| public.KibanaSampleDataEcommerce | __joinField        | text                        |
 | public.KibanaSampleDataEcommerce | __user             | text                        |
 | public.KibanaSampleDataEcommerce | avgPrice           | numeric                     |
 | public.KibanaSampleDataEcommerce | count              | bigint                      |
@@ -22,14 +22,14 @@ expression: "execute_query(\"SELECT\\n          n.nspname || '.' || c.relname AS
 | public.KibanaSampleDataEcommerce | order_date         | timestamp without time zone |
 | public.KibanaSampleDataEcommerce | sumPrice           | numeric                     |
 | public.KibanaSampleDataEcommerce | taxful_total_price | numeric                     |
-| public.Logs                      | __cubeJoinField    | text                        |
+| public.Logs                      | __joinField        | text                        |
 | public.Logs                      | __user             | text                        |
 | public.Logs                      | agentCount         | bigint                      |
 | public.Logs                      | agentCountApprox   | bigint                      |
 | public.Logs                      | content            | text                        |
 | public.Logs                      | id                 | numeric                     |
 | public.Logs                      | read               | boolean                     |
-| public.MultiTypeCube             | __cubeJoinField    | text                        |
+| public.MultiTypeCube             | __joinField        | text                        |
 | public.MultiTypeCube             | __user             | text                        |
 | public.MultiTypeCube             | avgPrice           | numeric                     |
 | public.MultiTypeCube             | count              | bigint                      |
@@ -96,10 +96,10 @@ expression: "execute_query(\"SELECT\\n          n.nspname || '.' || c.relname AS
 | public.MultiTypeCube             | measure_str8       | numeric                     |
 | public.MultiTypeCube             | measure_str9       | numeric                     |
 | public.MultiTypeCube             | minPrice           | numeric                     |
-| public.NumberCube                | __cubeJoinField    | text                        |
+| public.NumberCube                | __joinField        | text                        |
 | public.NumberCube                | __user             | text                        |
 | public.NumberCube                | someNumber         | numeric                     |
-| public.WideCube                  | __cubeJoinField    | text                        |
+| public.WideCube                  | __joinField        | text                        |
 | public.WideCube                  | __user             | text                        |
 | public.WideCube                  | avgPrice           | numeric                     |
 | public.WideCube                  | count              | bigint                      |

@@ -11,70 +11,70 @@ Array [
 exports[`Cube RBAC Engine [Python config] RBAC via SQL API [python config] SELECT * from users_view: users_view_python 1`] = `
 Array [
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 400,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 401,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 402,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 403,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 404,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 405,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 406,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 407,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 408,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
@@ -192,7 +192,7 @@ Array [
 exports[`Cube RBAC Engine RBAC via SQL API SELECT * from line_items: line_items 1`] = `
 Array [
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-10-23T07:54:39.000Z,
@@ -200,7 +200,7 @@ Array [
     "quantity": 2,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-01-01T13:50:20.000Z,
@@ -208,7 +208,7 @@ Array [
     "quantity": 7,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2017-05-13T21:23:08.000Z,
@@ -216,7 +216,7 @@ Array [
     "quantity": 8,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-04-10T22:51:15.000Z,
@@ -224,7 +224,7 @@ Array [
     "quantity": 6,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2017-07-16T15:00:34.000Z,
@@ -232,7 +232,7 @@ Array [
     "quantity": 1,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-05-23T04:25:27.000Z,
@@ -240,7 +240,7 @@ Array [
     "quantity": 5,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-09-29T20:29:30.000Z,
@@ -248,7 +248,7 @@ Array [
     "quantity": 4,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-04-17T03:32:54.000Z,
@@ -256,7 +256,7 @@ Array [
     "quantity": 8,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-11-15T18:22:17.000Z,
@@ -264,7 +264,7 @@ Array [
     "quantity": 8,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-12-16T08:09:36.000Z,
@@ -277,7 +277,7 @@ Array [
 exports[`Cube RBAC Engine RBAC via SQL API SELECT * from line_items_view_joined_orders: orders_view 1`] = `
 Array [
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-10-23T07:54:39.000Z,
@@ -290,7 +290,7 @@ Array [
     "quantity": 2,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-12-16T08:09:36.000Z,
@@ -303,7 +303,7 @@ Array [
     "quantity": 6,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-04-22T15:52:17.000Z,
@@ -321,7 +321,7 @@ Array [
 exports[`Cube RBAC Engine RBAC via SQL API SELECT * from line_items_view_no_policy: line_items_view_no_policy 1`] = `
 Array [
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-10-23T07:54:39.000Z,
@@ -331,7 +331,7 @@ Array [
     "quantity": 2,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-01-01T13:50:20.000Z,
@@ -341,7 +341,7 @@ Array [
     "quantity": 7,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2017-05-13T21:23:08.000Z,
@@ -351,7 +351,7 @@ Array [
     "quantity": 8,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-04-10T22:51:15.000Z,
@@ -361,7 +361,7 @@ Array [
     "quantity": 6,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2017-07-16T15:00:34.000Z,
@@ -371,7 +371,7 @@ Array [
     "quantity": 1,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-05-23T04:25:27.000Z,
@@ -381,7 +381,7 @@ Array [
     "quantity": 5,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-09-29T20:29:30.000Z,
@@ -391,7 +391,7 @@ Array [
     "quantity": 4,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-04-17T03:32:54.000Z,
@@ -401,7 +401,7 @@ Array [
     "quantity": 8,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-11-15T18:22:17.000Z,
@@ -411,7 +411,7 @@ Array [
     "quantity": 8,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-12-16T08:09:36.000Z,
@@ -426,7 +426,7 @@ Array [
 exports[`Cube RBAC Engine RBAC via SQL API SELECT * from line_items_view_price_gt_200: line_items_view_price_gt_200 1`] = `
 Array [
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-10-23T07:54:39.000Z,
@@ -436,7 +436,7 @@ Array [
     "quantity": 2,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-01-01T13:50:20.000Z,
@@ -446,7 +446,7 @@ Array [
     "quantity": 7,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-09-29T20:29:30.000Z,
@@ -456,7 +456,7 @@ Array [
     "quantity": 4,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-04-17T03:32:54.000Z,
@@ -466,7 +466,7 @@ Array [
     "quantity": 8,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2017-12-04T06:39:17.000Z,
@@ -476,7 +476,7 @@ Array [
     "quantity": 9,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-01-28T20:03:53.000Z,
@@ -486,7 +486,7 @@ Array [
     "quantity": 6,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2017-08-04T21:41:23.000Z,
@@ -496,7 +496,7 @@ Array [
     "quantity": 6,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-01-14T05:31:34.000Z,
@@ -506,7 +506,7 @@ Array [
     "quantity": 1,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2016-01-01T23:00:21.000Z,
@@ -516,7 +516,7 @@ Array [
     "quantity": 7,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2017-07-05T18:07:39.000Z,
@@ -531,61 +531,61 @@ Array [
 exports[`Cube RBAC Engine RBAC via SQL API SELECT * from orders: orders_open 1`] = `
 Array [
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-01-01T13:50:20.000Z,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2017-05-13T21:23:08.000Z,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-04-10T22:51:15.000Z,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2017-07-16T15:00:34.000Z,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-09-29T20:29:30.000Z,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-04-17T03:32:54.000Z,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-11-15T18:22:17.000Z,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-12-16T08:09:36.000Z,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-04-22T15:52:17.000Z,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2017-12-04T06:39:17.000Z,
@@ -596,21 +596,21 @@ Array [
 exports[`Cube RBAC Engine RBAC via SQL API SELECT * from orders_view: orders_view 1`] = `
 Array [
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-12-16T08:09:36.000Z,
     "id": 10,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-04-22T15:52:17.000Z,
     "id": 11,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-10-23T07:54:39.000Z,
@@ -622,61 +622,61 @@ Array [
 exports[`Cube RBAC Engine RBAC via SQL API SELECT * from users: users 1`] = `
 Array [
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
@@ -687,70 +687,70 @@ Array [
 exports[`Cube RBAC Engine RBAC via SQL API SELECT * from users_view: users_view_js 1`] = `
 Array [
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 400,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 401,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 402,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 403,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 404,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 405,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 406,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 407,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
     "id": 408,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "city": "Austin",
     "count": "1",
@@ -1587,7 +1587,7 @@ exports[`Cube RBAC Engine RBAC via SQL API manager SELECT * from line_items: lin
 exports[`Cube RBAC Engine RBAC via SQL changing users Switching user should allow more members to be visible: line_items 1`] = `
 Array [
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-10-23T07:54:39.000Z,
@@ -1595,7 +1595,7 @@ Array [
     "quantity": 2,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-01-01T13:50:20.000Z,
@@ -1603,7 +1603,7 @@ Array [
     "quantity": 7,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2017-05-13T21:23:08.000Z,
@@ -1611,7 +1611,7 @@ Array [
     "quantity": 8,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-04-10T22:51:15.000Z,
@@ -1619,7 +1619,7 @@ Array [
     "quantity": 6,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2017-07-16T15:00:34.000Z,
@@ -1627,7 +1627,7 @@ Array [
     "quantity": 1,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-05-23T04:25:27.000Z,
@@ -1635,7 +1635,7 @@ Array [
     "quantity": 5,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2018-09-29T20:29:30.000Z,
@@ -1643,7 +1643,7 @@ Array [
     "quantity": 4,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-04-17T03:32:54.000Z,
@@ -1651,7 +1651,7 @@ Array [
     "quantity": 8,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-11-15T18:22:17.000Z,
@@ -1659,7 +1659,7 @@ Array [
     "quantity": 8,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "count": "1",
     "created_at": 2019-12-16T08:09:36.000Z,
@@ -1672,61 +1672,61 @@ Array [
 exports[`Cube RBAC Engine RBAC via SQL changing users Switching user should allow more members to be visible: line_items_default 1`] = `
 Array [
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "created_at": 2018-10-23T07:54:39.000Z,
     "quantity": 2,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "created_at": 2018-01-01T13:50:20.000Z,
     "quantity": 7,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "created_at": 2017-05-13T21:23:08.000Z,
     "quantity": 8,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "created_at": 2018-04-10T22:51:15.000Z,
     "quantity": 6,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "created_at": 2017-07-16T15:00:34.000Z,
     "quantity": 1,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "created_at": 2019-05-23T04:25:27.000Z,
     "quantity": 5,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "created_at": 2018-09-29T20:29:30.000Z,
     "quantity": 4,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "created_at": 2019-04-17T03:32:54.000Z,
     "quantity": 8,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "created_at": 2019-11-15T18:22:17.000Z,
     "quantity": 8,
   },
   Object {
-    "__cubeJoinField": null,
+    "__joinField": null,
     "__user": null,
     "created_at": 2019-12-16T08:09:36.000Z,
     "quantity": 6,

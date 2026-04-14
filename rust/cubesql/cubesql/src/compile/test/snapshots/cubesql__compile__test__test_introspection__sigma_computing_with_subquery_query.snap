@@ -21,5 +21,5 @@ expression: "execute_query(\"\n                with\n                    nsp as 
 | is_male            | bool      | Male users segment                            |
 | is_female          | bool      | NULL                                          |
 | __user             | text      | Virtual column for security context switching |
-| __cubeJoinField    | text      | Virtual column for joining cubes              |
+| __joinField        | text      | Virtual column for joining cubes              |
 +--------------------+-----------+-----------------------------------------------+

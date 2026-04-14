@@ -161,4 +161,35 @@ export class SparkQuery extends BaseQuery {
       every: '2 minutes'
     };
   }
+
+  public sqlTemplates() {
+    const templates = super.sqlTemplates();
+    templates.functions.CURRENTDATE = 'CURRENT_DATE';
+    templates.functions.DATETRUNC = 'DATE_TRUNC({{ args_concat }})';
+    templates.functions.DATEPART = 'DATE_PART({{ args_concat }})';
+    templates.functions.BTRIM = 'TRIM({% if args[1] is defined %}{{ args[1] }} FROM {% endif %}{{ args[0] }})';
+    templates.functions.LTRIM = 'LTRIM({{ args|reverse|join(", ") }})';
+    templates.functions.RTRIM = 'RTRIM({{ args|reverse|join(", ") }})';
+    templates.functions.DATEDIFF = 'DATEDIFF({{ date_part }}, DATE_TRUNC(\'{{ date_part }}\', {{ args[1] }}), DATE_TRUNC(\'{{ date_part }}\', {{ args[2] }}))';
+    templates.functions.LEAST = 'LEAST({{ args_concat }})';
+    templates.functions.GREATEST = 'GREATEST({{ args_concat }})';
+    templates.functions.TRUNC = 'CASE WHEN ({{ args[0] }}) >= 0 THEN FLOOR({{ args_concat }}) ELSE CEIL({{ args_concat }}) END';
+    templates.expressions.timestamp_literal = 'from_utc_timestamp(\'{{ value }}\', \'UTC\')';
+    templates.expressions.extract = '{% if date_part|lower == "epoch" %}unix_timestamp({{ expr }}){% else %}EXTRACT({{ date_part }} FROM {{ expr }}){% endif %}';
+    templates.expressions.interval_single_date_part = 'INTERVAL \'{{ num }}\' {{ date_part }}';
+    templates.quotes.identifiers = '`';
+    templates.quotes.escape = '``';
+    templates.statements.time_series_select = 'SELECT date_from::timestamp AS `date_from`,\n' +
+      'date_to::timestamp AS `date_to` \n' +
+      'FROM(\n' +
+      '    VALUES ' +
+      '{% for time_item in seria  %}' +
+      '(\'{{ time_item | join(\'\\\', \\\'\') }}\')' +
+      '{% if not loop.last %}, {% endif %}' +
+      '{% endfor %}' +
+      ') AS dates (date_from, date_to)';
+    delete templates.types.time;
+    delete templates.types.interval;
+    return templates;
+  }
 }

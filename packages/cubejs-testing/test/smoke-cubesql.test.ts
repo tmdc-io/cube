@@ -651,6 +651,7 @@ describe('SQL API', () => {
       expect(res.rows).toEqual([{ max: null }]);
     });
 
+    // [DataOS fork] __cubeJoinField renamed to __joinField in SQL strings below (see RENAME_JOIN_FIELD_GUIDE.md)
     test('select __user and literal grouped', async () => {
       const query = `
         SELECT
@@ -661,7 +662,7 @@ describe('SQL API', () => {
           -- Columns without aliases should also work
           id,
           date_trunc('day', createdAt),
-          __cubeJoinField,
+          __joinField,
           2
         FROM
           Orders
@@ -686,7 +687,7 @@ cube_scan_subq AS (
     -- Columns without aliases should also work
     id,
     date_trunc('day', createdAt),
-    __cubeJoinField,
+    __joinField,
     2
   FROM Orders
   GROUP BY 1,2,3,4,5,6,7,8

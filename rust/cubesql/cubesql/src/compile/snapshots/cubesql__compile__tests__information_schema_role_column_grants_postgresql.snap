@@ -21,17 +21,17 @@ expression: "execute_query(\"SELECT * FROM information_schema.role_column_grants
 | ovr     | ovr     | cubedb        | public       | KibanaSampleDataEcommerce | is_male            | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | KibanaSampleDataEcommerce | is_female          | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | KibanaSampleDataEcommerce | __user             | SELECT         | YES          |
-| ovr     | ovr     | cubedb        | public       | KibanaSampleDataEcommerce | __cubeJoinField    | SELECT         | YES          |
+| ovr     | ovr     | cubedb        | public       | KibanaSampleDataEcommerce | __joinField        | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | Logs                      | agentCount         | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | Logs                      | agentCountApprox   | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | Logs                      | id                 | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | Logs                      | read               | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | Logs                      | content            | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | Logs                      | __user             | SELECT         | YES          |
-| ovr     | ovr     | cubedb        | public       | Logs                      | __cubeJoinField    | SELECT         | YES          |
+| ovr     | ovr     | cubedb        | public       | Logs                      | __joinField        | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | NumberCube                | someNumber         | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | NumberCube                | __user             | SELECT         | YES          |
-| ovr     | ovr     | cubedb        | public       | NumberCube                | __cubeJoinField    | SELECT         | YES          |
+| ovr     | ovr     | cubedb        | public       | NumberCube                | __joinField        | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | WideCube                  | measure0           | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | WideCube                  | measure1           | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | WideCube                  | measure2           | SELECT         | YES          |
@@ -238,7 +238,7 @@ expression: "execute_query(\"SELECT * FROM information_schema.role_column_grants
 | ovr     | ovr     | cubedb        | public       | WideCube                  | dim98              | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | WideCube                  | dim99              | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | WideCube                  | __user             | SELECT         | YES          |
-| ovr     | ovr     | cubedb        | public       | WideCube                  | __cubeJoinField    | SELECT         | YES          |
+| ovr     | ovr     | cubedb        | public       | WideCube                  | __joinField        | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | MultiTypeCube             | measure_num0       | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | MultiTypeCube             | measure_str0       | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | MultiTypeCube             | measure_date0      | SELECT         | YES          |
@@ -305,5 +305,5 @@ expression: "execute_query(\"SELECT * FROM information_schema.role_column_grants
 | ovr     | ovr     | cubedb        | public       | MultiTypeCube             | dim_str9           | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | MultiTypeCube             | dim_date9          | SELECT         | YES          |
 | ovr     | ovr     | cubedb        | public       | MultiTypeCube             | __user             | SELECT         | YES          |
-| ovr     | ovr     | cubedb        | public       | MultiTypeCube             | __cubeJoinField    | SELECT         | YES          |
+| ovr     | ovr     | cubedb        | public       | MultiTypeCube             | __joinField        | SELECT         | YES          |
 +---------+---------+---------------+--------------+---------------------------+--------------------+----------------+--------------+
