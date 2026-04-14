@@ -414,7 +414,7 @@ impl Remapper {
         static NON_ID_REGEX: LazyLock<Regex> =
             LazyLock::new(|| Regex::new(r"[^a-zA-Z0-9_]").unwrap());
 
-        // [DataOS fork] Renamed __cubejoinfield → __joinfield (see RENAME_JOIN_FIELD_GUIDE.md)
+        // [DataOS fork] Renamed __cubejoinfield → __joinfield (see Transpiler.md section 2.3)
         let alias_lower = start_from.clone().to_lowercase();
         let mut truncated_alias = if alias_lower != "__user" && alias_lower != "__joinfield" {
             NON_ID_REGEX

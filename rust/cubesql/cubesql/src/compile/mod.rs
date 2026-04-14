@@ -1908,7 +1908,7 @@ GROUP BY
     }
 
     // [DataOS fork] All __cubeJoinField references in test SQL strings below have been renamed
-    // to __joinField (see RENAME_JOIN_FIELD_GUIDE.md). Accept ours on merge conflicts.
+    // to __joinField (see Transpiler.md section 2.3). Accept ours on merge conflicts.
     #[tokio::test]
     async fn powerbi_sum_wrap() {
         init_testing_logger();

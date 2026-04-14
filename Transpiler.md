@@ -7,14 +7,23 @@ reference for anyone inheriting this project.
 
 ## 1. Overview
 
-This repository is a **fork of [cube-js/cube](https://github.com/cube-js/cube)**,
-maintained at `akshayjain3450/cube` on the **`feat/spark`** branch. It contains
-all of upstream Cube plus a set of targeted changes for the DataOS transpiler:
+This repository (`tmdc-io/cube`, **origin**) is a **fork of
+[cube-js/cube](https://github.com/cube-js/cube)** (**upstream**). Active
+development happens on the **`feat/spark`** branch.
+
+Upstream Cube does not natively support Apache Spark as a data source. This
+fork adds Spark (and related) support so that Cube can serve as a **SQL
+transpiler for DataOS Vulcan**. The changes here are not for running Cube
+as a standalone analytics platform — they exist to power Vulcan's transpiler
+layer.
+
+**What this fork adds on top of upstream Cube:**
 
 - A new **Apache Spark driver** package (with formal registration as a database type).
 - A **renamed SQL join field** (`__joinField` instead of `__cubeJoinField`).
 - A **compatibility guard** in the server-core CompilerApi.
-- Docker packaging under the image **`tmdcio/transpiler-base`**.
+- Docker packaging under the image **`tmdcio/transpiler-base`** (built with
+  `packages/cubejs-docker/dev.Dockerfile`).
 
 All modifications to upstream files are tagged with `[DataOS fork]` comments
 for easy identification during merge conflict resolution. Search with
@@ -22,13 +31,22 @@ for easy identification during merge conflict resolution. Search with
 
 The upstream Cube version at the branch point is **v1.5.10** (tag `31c86ae41`).
 
+### Git remotes
+
+| Remote | Repository | Purpose |
+|--------|-----------|---------|
+| `origin` | `git@github.com:tmdc-io/cube.git` | This fork (push/pull) |
+| `upstream` | `https://github.com/cube-js/cube.git` | Upstream Cube (pull only, for syncing) |
+
 ---
 
 ## 2. What changed vs upstream
 
 ### 2.1 Spark Driver (`packages/cubejs-spark-driver/`)
 
-A new Cube driver package for Apache Spark, structured like the existing Trino
+A new Cube driver package for Apache Spark, added because upstream Cube does
+not provide Spark support. This driver enables Vulcan to use Cube as a SQL
+transpiler against Spark data sources. It is structured like the existing Trino
 driver: it reuses the Presto client wire protocol but swaps in Spark-specific
 SQL dialect.
 
@@ -73,15 +91,21 @@ The virtual column used for cube-to-cube joins in SQL was renamed from
 existing SQL queries or BI tool configurations that reference the old name
 must be updated.
 
-**Scope of the rename:**
+**Scope of the rename** (all changes carry `[DataOS fork]` comments in code):
 
-- 9 Rust source files in `rust/cubesql/` (core logic: field registration,
-  validation, join detection, filters, error messages, alias handling).
-- 4 Rust test/benchmark files (~81 SQL string edits).
-- ~20 auto-generated Rust snapshot files (`.snap`).
-- `packages/cubejs-schema-compiler/src/adapter/BaseQuery.js` (JS-side
-  synthetic field allowlist).
-- `packages/cubejs-testing/test/smoke-cubesql.test.ts` (integration test SQL).
+- **9 Rust source files** in `rust/cubesql/` — field registration
+  (`analysis.rs`), synthetic-field check (`ctx.rs`), join validation and
+  error messages (`converter.rs`), join detection (`members.rs`), filter
+  matching (`filters.rs`), planner split rule (`old_split.rs`), column
+  metadata (`ext.rs`), alias truncation (`wrapper.rs`).
+- **4 Rust test/benchmark files** — `compile/mod.rs`,
+  `compile/test/test_cube_join.rs`, `compile/test/test_wrapper.rs`,
+  `benches/benchmarks.rs` (~81 SQL string edits).
+- **~20 auto-generated Rust snapshot files** (`.snap`) under
+  `rust/cubesql/cubesql/src/compile/`.
+- `packages/cubejs-schema-compiler/src/adapter/BaseQuery.js` — JS-side
+  synthetic field allowlist (~line 3947).
+- `packages/cubejs-testing/test/smoke-cubesql.test.ts` — integration test SQL.
 - 2 JS snapshot files in `packages/cubejs-testing/test/__snapshots__/`.
 - 2 documentation MDX files in `docs/`.
 
@@ -95,15 +119,17 @@ behavior were updated.
   `cubenativeutils`, `cubeorchestrator`, `cubesqlplanner`, `cubeshared`) so
   that `COPY` instructions in the Dockerfile can include them in the build
   context.
-- `packages/cubejs-docker/dev.Dockerfile`: added `COPY` lines for
-  `cubejs-spark-driver` and all Rust crate transitive dependencies; updated
-  the Rust toolchain from `nightly-2022-03-08` to `1.90.0` (matching the
-  repo's `rust-toolchain.toml`); added `npm run native:build-release-python`
-  which compiles the `cubejs-native` Rust crate from source **with the Python
+- `packages/cubejs-docker/dev.Dockerfile` **(the Dockerfile used for all
+  transpiler builds)**: added `COPY` lines for `cubejs-spark-driver` and all
+  Rust crate transitive dependencies; updated the Rust toolchain from
+  `nightly-2022-03-08` to `1.90.0` (matching the repo's
+  `rust-toolchain.toml`); added `npm run native:build-release-python` which
+  compiles the `cubejs-native` Rust crate from source **with the Python
   feature flag**, so that changes to CubeSQL (like the `__joinField` rename)
   are reflected in the binary instead of using the pre-built upstream artifact.
-- `packages/cubejs-docker/lite.Dockerfile`: added as an alternative lighter
-  build variant.
+- `packages/cubejs-docker/lite.Dockerfile`: an alternative lighter build
+  variant — does **not** include the Spark driver or the native Rust rebuild,
+  so it is not used for transpiler builds.
 - `packages/cubejs-docker/release.yaml`: tracks custom Docker image build
   metadata and history.
 
@@ -111,12 +137,20 @@ behavior were updated.
 
 ## 3. Building the Docker image
 
-The custom image is **`tmdcio/transpiler-base`**. All commands run from the
-`packages/cubejs-docker` directory with the build context set to the repo root.
+The custom image is **`tmdcio/transpiler-base`**. It is built using
+**`packages/cubejs-docker/dev.Dockerfile`** with the build context set to the
+**repo root** (not the `cubejs-docker` directory). All commands below run from
+`packages/cubejs-docker`.
+
+> **Which Dockerfile?** This fork uses **`dev.Dockerfile`** for all builds.
+> The repo also contains `latest.Dockerfile` (upstream's slim production
+> image) and `lite.Dockerfile` (an alternate variant) but **neither includes
+> the Spark driver or the native Rust rebuild** — they are not used for
+> transpiler builds.
 
 ### How it works
 
-The Dockerfile installs the Rust toolchain and copies the full Rust crate
+`dev.Dockerfile` installs the Rust toolchain and copies the full Rust crate
 source trees (`cubesql`, `cubenativeutils`, `cubeorchestrator`, `cubesqlplanner`,
 `cubeshared`). During `yarn install`, the `cubejs-backend-native` package's
 `postinstall` hook downloads a **pre-built** `index.node` from upstream GitHub
@@ -270,28 +304,30 @@ to all node-gyp invocations.
 | `docs/pages/product/data-modeling/concepts/working-with-joins.mdx` | Data model joins documentation |
 | **Docker and build (modified/new)** | |
 | `.dockerignore` | Whitelisted Rust crate directories |
-| `packages/cubejs-docker/dev.Dockerfile` | Docker image: Rust toolchain, Spark driver, native build |
-| `packages/cubejs-docker/lite.Dockerfile` | Alternative lighter build variant (new file) |
+| `packages/cubejs-docker/dev.Dockerfile` | **THE build Dockerfile**: Rust toolchain, Spark driver, native build |
+| `packages/cubejs-docker/lite.Dockerfile` | Alternative lighter variant; does not include Spark or native rebuild |
 | `packages/cubejs-docker/release.yaml` | Build metadata and history (new file) |
 | **Guides (new)** | |
 | `Transpiler.md` | This document |
-| `RENAME_JOIN_FIELD_GUIDE.md` | Step-by-step guide for the join field rename |
 
 ---
 
 ## 6. Syncing with upstream
 
-This branch is based on upstream `cube-js/cube` `master`. To pull in new
-upstream changes:
+This repo (`origin`) is the fork at `tmdc-io/cube`. The upstream Cube repo
+is `cube-js/cube`. To pull in new upstream changes:
 
 ```bash
-# Add upstream remote (one-time)
+# Add upstream remote (one-time, if not already configured)
 git remote add upstream https://github.com/cube-js/cube.git
 
 # Fetch and merge
 git fetch upstream
 git merge upstream/master
 ```
+
+You can verify remotes with `git remote -v` — you should see `origin` pointing
+to `tmdc-io/cube` and `upstream` pointing to `cube-js/cube`.
 
 ### Finding our changes
 
