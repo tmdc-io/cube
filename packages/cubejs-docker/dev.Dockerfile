@@ -116,10 +116,7 @@ RUN yarn install
 # [DataOS fork] Copy full Rust crate sources for native module compilation (upstream only copies cubestore + cubesql)
 COPY rust/cubestore/ rust/cubestore/
 COPY rust/cubesql/ rust/cubesql/
-COPY rust/cubenativeutils/ rust/cubenativeutils/
-COPY rust/cubeorchestrator/ rust/cubeorchestrator/
-COPY rust/cubesqlplanner/ rust/cubesqlplanner/
-COPY rust/cubeshared/ rust/cubeshared/
+COPY rust/cube/ rust/cube/
 COPY packages/cubejs-backend-shared/ packages/cubejs-backend-shared/
 COPY packages/cubejs-base-driver/ packages/cubejs-base-driver/
 COPY packages/cubejs-backend-native/ packages/cubejs-backend-native/
