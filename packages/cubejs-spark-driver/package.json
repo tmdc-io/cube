@@ -2,7 +2,7 @@
   "name": "@cubejs-backend/spark-driver",
   "description": "Apache Spark driver",
   "author": "Modern Inc.",
-  "version": "0.35.55",
+  "version": "1.6.50",
   "repository": {
     "type": "git",
     "url": "https://github.com/cube-js/cube.git",
@@ -25,11 +25,11 @@
     "lint:fix": "eslint --fix src/* --ext .ts"
   },
   "dependencies": {
-    "@cubejs-backend/base-driver": "^0.34.60",
-    "@cubejs-backend/prestodb-driver": "^0.34.60",
-    "@cubejs-backend/schema-compiler": "^0.34.60",
-    "@cubejs-backend/shared": "^0.34.60",
-    "presto-client": "^0.12.2",
+    "@cubejs-backend/base-driver": "1.6.50",
+    "@cubejs-backend/prestodb-driver": "1.6.50",
+    "@cubejs-backend/schema-compiler": "1.6.50",
+    "@cubejs-backend/shared": "1.6.50",
+    "presto-client": "^1.2.0",
     "ramda": "^0.27.0",
     "sqlstring": "^2.3.1"
   },
@@ -38,7 +38,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@cubejs-backend/linter": "^0.34.25"
+    "@cubejs-backend/linter": "1.6.50"
   },
   "eslintConfig": {
     "extends": "../cubejs-linter"

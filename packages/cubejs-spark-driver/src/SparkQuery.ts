@@ -188,8 +188,10 @@ export class SparkQuery extends BaseQuery {
       '{% if not loop.last %}, {% endif %}' +
       '{% endfor %}' +
       ') AS dates (date_from, date_to)';
-    delete templates.types.time;
-    delete templates.types.interval;
+    if (templates.types) {
+      delete templates.types.time;
+      delete templates.types.interval;
+    }
     return templates;
   }
 }
