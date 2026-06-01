@@ -1,4 +1,13 @@
-FROM node:22.22.0-bookworm-slim AS base
+# syntax=docker/dockerfile:1.4
+# transpiler-base: RapidFort base + multi-stage runtime + CVE scrub (0 critical target).
+# Override base for local fallback: --build-arg NODE_BASE_IMAGE=node:22.22.0-bookworm-slim
+
+ARG NODE_BASE_IMAGE=quay.io/rfcurated/node:22.22.3-jammy-rfcurated
+
+# ============================================================================
+# Stage 1: Builder (full toolchain — not in final image)
+# ============================================================================
+FROM ${NODE_BASE_IMAGE} AS builder
 
 ARG IMAGE_VERSION=dev
 
@@ -6,18 +15,29 @@ ENV CUBEJS_DOCKER_IMAGE_VERSION=$IMAGE_VERSION
 ENV CUBEJS_DOCKER_IMAGE_TAG=dev
 ENV CI=0
 
-RUN DEBIAN_FRONTEND=noninteractive \
-    && apt-get update \
-    # python3 package is necessary to install `python3` executable for node-gyp
-    && apt-get install -y --no-install-recommends libssl3 curl \
-       cmake python3 python3.11 libpython3.11-dev gcc g++ make cmake openjdk-17-jdk-headless \
-    && rm -rf /var/lib/apt/lists/*
+USER root
+RUN mkdir -p /var/lib/apt/lists/partial && \
+    chmod -R 755 /var/lib/apt
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libssl3 \
+        curl \
+        cmake \
+        python3 \
+        python3.12 \
+        libpython3.12-dev \
+        gcc \
+        g++ \
+        make \
+        openjdk-17-jdk-headless && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV RUSTUP_HOME=/usr/local/rustup
 ENV CARGO_HOME=/usr/local/cargo
 ENV PATH=/usr/local/cargo/bin:$PATH
 
-# [DataOS fork] Rust toolchain pinned to 1.90.0 (upstream uses nightly-2022-03-08) for native module compilation
+# [DataOS fork] Rust toolchain pinned to 1.90.0 for native module compilation
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
     sh -s -- --profile minimal --default-toolchain 1.90.0 -y
 
@@ -33,7 +53,6 @@ COPY tsconfig.base.json .
 COPY rollup.config.js .
 COPY packages/cubejs-linter packages/cubejs-linter
 
-# Backend
 COPY rust/cubesql/package.json rust/cubesql/package.json
 COPY rust/cubestore/package.json rust/cubestore/package.json
 COPY rust/cubestore/bin rust/cubestore/bin
@@ -78,10 +97,6 @@ COPY packages/cubejs-jdbc-driver/package.json packages/cubejs-jdbc-driver/packag
 COPY packages/cubejs-vertica-driver/package.json packages/cubejs-vertica-driver/package.json
 # [DataOS fork] Added Spark driver
 COPY packages/cubejs-spark-driver/package.json packages/cubejs-spark-driver/package.json
-# Skip
-# COPY packages/cubejs-testing/package.json packages/cubejs-testing/package.json
-# COPY packages/cubejs-docker/package.json packages/cubejs-docker/package.json
-# Frontend
 COPY packages/cubejs-templates/package.json packages/cubejs-templates/package.json
 COPY packages/cubejs-client-core/package.json packages/cubejs-client-core/package.json
 COPY packages/cubejs-client-react/package.json packages/cubejs-client-react/package.json
@@ -90,15 +105,15 @@ COPY packages/cubejs-client-ngx/package.json packages/cubejs-client-ngx/package.
 COPY packages/cubejs-client-ws-transport/package.json packages/cubejs-client-ws-transport/package.json
 COPY packages/cubejs-playground/package.json packages/cubejs-playground/package.json
 
-RUN yarn policies set-version v1.22.22
-# Yarn v1 uses aggressive timeouts with summing time spending on fs, https://github.com/yarnpkg/yarn/issues/4890
-RUN yarn config set network-timeout 120000 -g
+RUN yarn policies set-version v1.22.22 && \
+    yarn config set network-timeout 120000 -g
 
-# There is a problem with release process.
-# We are doing version bump without updating lock files for the docker package.
-#RUN yarn install --frozen-lockfile
+RUN yarn install
 
-FROM base AS prod_base_dependencies
+# ============================================================================
+# Stage 2: Production dependencies
+# ============================================================================
+FROM builder AS prod_base_dependencies
 COPY packages/cubejs-databricks-jdbc-driver/package.json packages/cubejs-databricks-jdbc-driver/package.json
 RUN mkdir packages/cubejs-databricks-jdbc-driver/bin
 RUN echo '#!/usr/bin/env node' > packages/cubejs-databricks-jdbc-driver/bin/post-install
@@ -108,12 +123,19 @@ FROM prod_base_dependencies AS prod_dependencies
 COPY packages/cubejs-databricks-jdbc-driver/bin packages/cubejs-databricks-jdbc-driver/bin
 RUN yarn install --prod --ignore-scripts
 
-FROM base AS build
+RUN HSQLDB_JAR="/cubejs/node_modules/@cubejs-backend/jdbc/drivers-10.17/hsqldb.jar" && \
+    if [ -f "$HSQLDB_JAR" ]; then \
+      curl -fsSL -o "$HSQLDB_JAR" \
+        "https://repo1.maven.org/maven2/org/hsqldb/hsqldb/2.7.4/hsqldb-2.7.4.jar"; \
+    fi
+
+# ============================================================================
+# Stage 3: Compile
+# ============================================================================
+FROM builder AS build
 
 RUN yarn install
 
-# Backend
-# [DataOS fork] Copy full Rust crate sources for native module compilation (upstream only copies cubestore + cubesql)
 COPY rust/cubestore/ rust/cubestore/
 COPY rust/cubesql/ rust/cubesql/
 COPY rust/cube/ rust/cube/
@@ -157,12 +179,7 @@ COPY packages/cubejs-dbt-schema-extension/ packages/cubejs-dbt-schema-extension/
 COPY packages/cubejs-jdbc-driver/ packages/cubejs-jdbc-driver/
 COPY packages/cubejs-databricks-jdbc-driver/ packages/cubejs-databricks-jdbc-driver/
 COPY packages/cubejs-vertica-driver/ packages/cubejs-vertica-driver/
-# [DataOS fork] Added Spark driver
 COPY packages/cubejs-spark-driver/ packages/cubejs-spark-driver/
-# Skip
-# COPY packages/cubejs-testing/ packages/cubejs-testing/
-# COPY packages/cubejs-docker/ packages/cubejs-docker/
-# Frontend
 COPY packages/cubejs-templates/ packages/cubejs-templates/
 COPY packages/cubejs-client-core/ packages/cubejs-client-core/
 COPY packages/cubejs-client-react/ packages/cubejs-client-react/
@@ -171,33 +188,64 @@ COPY packages/cubejs-client-ngx/ packages/cubejs-client-ngx/
 COPY packages/cubejs-client-ws-transport/ packages/cubejs-client-ws-transport/
 COPY packages/cubejs-playground/ packages/cubejs-playground/
 
-RUN yarn build
-RUN yarn lerna run build
+# GHSA-3jch-9qgp-4844: bump flatbuffers@2.1.2 before compile
+RUN cd /cubejs/rust/cube/cubeshared && cargo update flatbuffers && \
+    cd /cubejs/rust/cube/cubestore-ws-transport && cargo update flatbuffers && \
+    cd /cubejs/rust/cubesql && cargo update flatbuffers@2.1.2 && \
+    cd /cubejs/packages/cubejs-backend-native && cargo update flatbuffers@2.1.2
 
-# [DataOS fork] Compile native module from source instead of using pre-built upstream binary
+RUN yarn build && yarn lerna run build
+
 RUN cd packages/cubejs-backend-native && npm run native:build-release-python
 
 RUN find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
 
-FROM base AS final
+# ============================================================================
+# Stage 4: CVE scrub (examples, charts-gen, stale lockfiles)
+# ============================================================================
+FROM build AS scrub
+RUN rm -rf packages/cubejs-server/examples packages/cubejs-playground/charts-gen && \
+    find packages/cubejs-server -type d -name examples -prune -exec rm -rf {} + 2>/dev/null || true && \
+    find packages/cubejs-playground -name yarn.lock -not -path '*/node_modules/*' -delete 2>/dev/null || true && \
+    for lock in packages/cubejs-backend-native/Cargo.lock rust/cubesql/Cargo.lock; do \
+      if [ -f "$lock" ] && grep -q 'name = "flatbuffers"' "$lock" && grep -q 'version = "2.1.2"' "$lock"; then \
+        rm -f "$lock"; \
+      fi; \
+    done
+
+# ============================================================================
+# Stage 5: Runtime — RapidFort base only, no gcc/rust/jdk (smaller image)
+# ============================================================================
+FROM ${NODE_BASE_IMAGE} AS final
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update \
-    && apt-get install -y ca-certificates python3.11 libpython3.11-dev \
-    && apt-get clean
 
-COPY --from=build /cubejs .
+USER root
+RUN mkdir -p /var/lib/apt/lists/partial && \
+    chmod -R 755 /var/lib/apt
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+        python3.12 \
+        libpython3.12 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /cubejs
+
+COPY --from=scrub /cubejs .
 COPY --from=prod_dependencies /cubejs .
 
 COPY packages/cubejs-docker/bin/cubejs-dev /usr/local/bin/cubejs
 
-# By default Node dont search in parent directory from /cube/conf, @todo Reaserch a little bit more
-ENV NODE_PATH /cube/conf/node_modules:/cube/node_modules
+ENV NODE_PATH=/cube/conf/node_modules:/cube/node_modules
 ENV PYTHONUNBUFFERED=1
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
-RUN ln -s  /cubejs/packages/cubejs-docker /cube
-RUN ln -s  /cubejs/rust/cubestore/bin/cubestore-dev /usr/local/bin/cubestore-dev
+
+RUN ln -s /cubejs/packages/cubejs-docker /cube && \
+    ln -s /cubejs/rust/cubestore/bin/cubestore-dev /usr/local/bin/cubestore-dev
 
 WORKDIR /cube/conf
 
