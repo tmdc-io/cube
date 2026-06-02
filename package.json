@@ -70,7 +70,13 @@
     "lodash": "^4.17.0",
     "@types/node": "^20",
     "@types/ramda": "0.27.40",
-    "thrift": "0.20.0"
+    "thrift": "0.20.0",
+    "fast-xml-parser": "^5.7.4",
+    "form-data": "^4.0.2",
+    "basic-ftp": "^5.0.7",
+    "handlebars": "^4.7.9",
+    "protobufjs": "^7.5.6",
+    "@babel/traverse": "^7.28.5"
   },
   "license": "MIT",
   "packageManager": "yarn@1.22.19"
