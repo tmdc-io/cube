@@ -222,15 +222,15 @@ export class BaseMeasure {
     return this.measureDefinition();
   }
 
-  public aliasName(): string {
-    return this.query.escapeColumnName(this.unescapedAliasName());
+  public aliasName(ignoreMemberToAlias = false): string {
+    return this.query.escapeColumnName(this.unescapedAliasName(ignoreMemberToAlias));
   }
 
-  public unescapedAliasName(): string {
+  public unescapedAliasName(ignoreMemberToAlias = false): string {
     if (this.expression) {
-      return this.query.aliasName(this.expressionName);
+      return this.query.aliasName(this.expressionName, false, ignoreMemberToAlias);
     }
-    return this.query.aliasName(this.measure);
+    return this.query.aliasName(this.measure, false, ignoreMemberToAlias);
   }
 
   public isCumulative(): boolean {

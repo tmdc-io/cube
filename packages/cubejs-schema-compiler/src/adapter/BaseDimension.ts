@@ -122,6 +122,18 @@ export class BaseDimension {
     return this.query.aliasName(this.dimension);
   }
 
+  // Like unescapedAliasName but ignores any per-query memberToAlias override, yielding the
+  // intrinsic physical pre-aggregation column name (`<cube>__<member>`). Kept as a separate
+  // method (rather than a param on unescapedAliasName) so the signature stays compatible with
+  // BaseTimeDimension's override.
+  public unescapedAliasNamePhysical(): string {
+    if (this.expression && this.expressionName) {
+      return this.query.aliasName(this.expressionName, false, true);
+    }
+
+    return this.query.aliasName(this.dimension, false, true);
+  }
+
   public dateFieldType() {
     return this.dimensionDefinition().fieldType;
   }

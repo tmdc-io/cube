@@ -4070,8 +4070,13 @@ export class BaseQuery {
    * @param {boolean?} isPreAggregationName Pre-agg flag.
    * @returns {string}
    */
-  aliasName(name, isPreAggregationName = false) {
-    if (this.options.memberToAlias && this.options.memberToAlias[name]) {
+  aliasName(name, isPreAggregationName = false, ignoreMemberToAlias = false) {
+    // `memberToAlias` is a per-query OUTPUT alias override (used by the sql4sql path to
+    // project columns under the consuming query's identifiers). It must NOT influence the
+    // physical pre-aggregation column name (`<cube>__<member>`), which is intrinsic to the
+    // rollup table. Callers building the pre-agg source-column reference pass
+    // `ignoreMemberToAlias = true` so the override only affects the final output alias.
+    if (!ignoreMemberToAlias && this.options.memberToAlias && this.options.memberToAlias[name]) {
       return this.options.memberToAlias[name];
     }
     const path = name.split('.');

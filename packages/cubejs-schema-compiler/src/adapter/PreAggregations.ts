@@ -1654,12 +1654,14 @@ export class PreAggregations {
         }
 
         const measurePath = measure.path();
-        const column = this.query.ungrouped ? measure.aliasName() : (this.query.aggregateOnGroupedColumn(
+        // ignoreMemberToAlias: this is the physical pre-agg source column (`<cube>__<member>`),
+        // not the query's output alias.
+        const column = this.query.ungrouped ? measure.aliasName(true) : (this.query.aggregateOnGroupedColumn(
           measure.measureDefinition(),
-          measure.aliasName(),
+          measure.aliasName(true),
           !this.query.safeEvaluateSymbolContext().overTimeSeriesAggregate,
           path,
-        ) || `sum(${measure.aliasName()})`);
+        ) || `sum(${measure.aliasName(true)})`);
         if (measurePath === null) {
           return [[path, column]];
         }
@@ -1699,7 +1701,7 @@ export class PreAggregations {
       .flatMap(path => {
         const dimension = this.query.newDimension(path);
         const dimensionPath = dimension.path();
-        const column = this.query.escapeColumnName(dimension.unescapedAliasName());
+        const column = this.query.escapeColumnName(dimension.unescapedAliasNamePhysical());
         if (dimensionPath === null) {
           return [[path, column]];
         }
@@ -1718,7 +1720,7 @@ export class PreAggregations {
     return Object.fromEntries(timeDimensions
       .flatMap(td => {
         const timeDimension = this.query.newTimeDimension(td);
-        const column = this.query.escapeColumnName(timeDimension.unescapedAliasName(rollupGranularity));
+        const column = this.query.escapeColumnName(timeDimension.unescapedAliasNamePhysical(rollupGranularity));
         const memberPath = this.query.cubeEvaluator.pathFromArray(timeDimension.path());
         // Return both full join path and dimension path
         return [

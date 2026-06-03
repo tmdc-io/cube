@@ -78,6 +78,13 @@ export class BaseTimeDimension extends BaseFilter {
     return `${this.query.aliasName(this.dimension)}_${actualGranularity}`; // TODO date here for rollups
   }
 
+  // Physical pre-aggregation column name (`<cube>__<member>_<granularity>`), ignoring any
+  // per-query memberToAlias override (both the fullName override and the inner dimension one).
+  public unescapedAliasNamePhysical(granularity?: string) {
+    const actualGranularity = granularity || this.granularityObj?.granularity || 'day';
+    return `${this.query.aliasName(this.dimension, false, true)}_${actualGranularity}`;
+  }
+
   public dateSeriesAliasName() {
     return this.query.escapeColumnName(`${this.dimension}_series`);
   }
