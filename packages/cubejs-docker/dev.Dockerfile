@@ -2,7 +2,7 @@
 # transpiler-base: RapidFort base + multi-stage runtime + CVE scrub (0 critical target).
 # Override base for local fallback: --build-arg NODE_BASE_IMAGE=node:22.22.0-bookworm-slim
 
-ARG NODE_BASE_IMAGE=quay.io/rfcurated/node:22.22.3-jammy-rfcurated
+ARG NODE_BASE_IMAGE=tmdcio/node:22.22.3-jammy-rfcurated
 
 # ============================================================================
 # Stage 1: Builder (full toolchain — not in final image)
