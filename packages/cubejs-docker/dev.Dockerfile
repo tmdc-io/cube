@@ -209,7 +209,11 @@ RUN rm -rf packages/cubejs-server/examples packages/cubejs-playground/charts-gen
 
 FROM tmdcio/node:22.22.3-jammy-rfcurated AS final
 
+ARG IMAGE_VERSION=dev
+
 ENV DEBIAN_FRONTEND=noninteractive
+ENV CUBEJS_DOCKER_IMAGE_VERSION=$IMAGE_VERSION
+ENV CUBEJS_DOCKER_IMAGE_TAG=dev
 
 USER root
 RUN mkdir -p /var/lib/apt/lists/partial && \
@@ -228,12 +232,12 @@ COPY --from=prod_dependencies /cubejs .
 COPY packages/cubejs-docker/bin/cubejs-dev /usr/local/bin/cubejs
 
 # By default Node dont search in parent directory from /cube/conf, @todo Reaserch a little bit more
-ENV NODE_PATH /cube/conf/node_modules:/cube/node_modules
+ENV NODE_PATH=/cube/conf/node_modules:/cubejs/node_modules
 ENV PYTHONUNBUFFERED=1
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
-RUN ln -s  /cubejs/packages/cubejs-docker /cube
-RUN ln -s  /cubejs/rust/cubestore/bin/cubestore-dev /usr/local/bin/cubestore-dev
+RUN ln -s /cubejs/packages/cubejs-docker /cube && \
+    ln -s /cubejs/rust/cubestore/bin/cubestore-dev /usr/local/bin/cubestore-dev
 
 WORKDIR /cube/conf
 
