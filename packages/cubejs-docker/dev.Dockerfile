@@ -220,7 +220,7 @@ RUN mkdir -p /var/lib/apt/lists/partial && \
     chmod -R 755 /var/lib/apt
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates python3.12 libpython3.12 \
+    && apt-get install -y --no-install-recommends ca-certificates python3.12 libpython3.12 openjdk-17-jre-headless \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
