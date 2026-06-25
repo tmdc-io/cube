@@ -100,4 +100,47 @@ export class SparkQuery extends PrestodbQuery {
   public countDistinctApprox(sql: string): string {
     return `approx_count_distinct(${sql})`;
   }
+
+  public sqlTemplates() {
+    const templates = super.sqlTemplates();
+
+    templates.quotes.identifiers = '`';
+    templates.quotes.escape = '\\`';
+    templates.types.string = 'STRING';
+    templates.types.float = 'FLOAT';
+    templates.types.binary = 'BINARY';
+
+    templates.expressions.timestamp_literal = 'to_timestamp(\'{{ value }}\')';
+
+    templates.functions.DATEDIFF = 'DATEDIFF({{ args[2] }}, {{ args[1] }})';
+    templates.functions.DATEPART = 'EXTRACT({{ args_concat }})';
+
+    templates.expressions.binary = '{% if op == \'||\' %}' +
+      'CONCAT(CAST({{ left }} AS STRING), CAST({{ right }} AS STRING))' +
+      '{% else %}({{ left }} {{ op }} {{ right }}){% endif %}';
+
+    templates.functions.STRING_AGG = 'CONCAT_WS(COALESCE({{ args[1] }}, \'\'), COLLECT_LIST({% if distinct %}DISTINCT {% endif %}{{ args[0] }}))';
+
+    templates.statements.time_series_select = 'SELECT to_timestamp(dates.f) date_from, to_timestamp(dates.t) date_to \n' +
+      'FROM (\n' +
+      '{% for time_item in seria  %}' +
+      '    select \'{{ time_item[0] }}\' f, \'{{ time_item[1] }}\' t \n' +
+      '{% if not loop.last %} UNION ALL\n{% endif %}' +
+      '{% endfor %}' +
+      ') AS dates';
+
+    templates.statements.generated_time_series_select = 'SELECT d AS date_from,\n' +
+      'd + interval {{ granularity }} - interval 1 millisecond AS date_to\n' +
+      'FROM (\n' +
+      'SELECT EXPLODE(SEQUENCE(to_timestamp({{ start }}), to_timestamp({{ end }}), INTERVAL {{ granularity }})) AS d\n' +
+      ')';
+
+    templates.statements.generated_time_series_with_cte_range_source = 'SELECT d AS date_from,\n' +
+      'd + interval {{ granularity }} - interval 1 millisecond AS date_to\n' +
+      'FROM {{ range_source }} LATERAL VIEW EXPLODE(\n' +
+      'SEQUENCE(CAST({{ range_source }}.{{ min_name }} AS TIMESTAMP), CAST({{ range_source }}.{{ max_name }} AS TIMESTAMP), INTERVAL {{ granularity }})\n' +
+      ') dates AS d';
+
+    return templates;
+  }
 }
