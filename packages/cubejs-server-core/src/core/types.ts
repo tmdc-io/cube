@@ -112,6 +112,7 @@ export type DatabaseType =
   | 'hive'
   | 'mongobi'
   | 'mssql'
+  | 'fabric'
   | 'mysql'
   | 'mysqlauroraserverless'
   | 'elasticsearch'

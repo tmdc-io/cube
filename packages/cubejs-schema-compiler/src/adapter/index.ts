@@ -16,6 +16,7 @@ export * from './CubeStoreQuery';
 export * from './MysqlQuery';
 export * from './PostgresQuery';
 export * from './MssqlQuery';
+export * from './FabricQuery';
 export * from './PrestodbQuery';
 
 export { PreAggregationReferences } from '../compiler/CubeEvaluator';

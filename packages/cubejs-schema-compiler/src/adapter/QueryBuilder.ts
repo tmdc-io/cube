@@ -2,6 +2,7 @@ import { PostgresQuery } from './PostgresQuery';
 import { MysqlQuery } from './MysqlQuery';
 import { MongoBiQuery } from './MongoBiQuery';
 import { MssqlQuery } from './MssqlQuery';
+import { FabricQuery } from './FabricQuery';
 import { BigqueryQuery } from './BigqueryQuery';
 import { RedshiftQuery } from './RedshiftQuery';
 import { PrestodbQuery } from './PrestodbQuery';
@@ -25,6 +26,7 @@ const ADAPTERS = {
   mysqlauroraserverless: MysqlQuery,
   mongobi: MongoBiQuery,
   mssql: MssqlQuery,
+  fabric: FabricQuery,
   bigquery: BigqueryQuery,
   prestodb: PrestodbQuery,
   qubole_prestodb: PrestodbQuery,
