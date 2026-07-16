@@ -32,6 +32,8 @@ const DriverDependencies: Record<DatabaseType, string> = {
   pinot: '@cubejs-backend/pinot-driver',
   // [DataOS fork] Added Spark driver
   spark: '@cubejs-backend/spark-driver',
+  // [DataOS fork] Added Microsoft Fabric driver
+  fabric: '@cubejs-backend/fabric-driver',
   // List for JDBC drivers
   'databricks-jdbc': '@cubejs-backend/databricks-jdbc-driver',
 };

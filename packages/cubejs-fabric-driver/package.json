@@ -1,0 +1,51 @@
+{
+  "name": "@cubejs-backend/fabric-driver",
+  "description": "Cube.js Microsoft Fabric Data Warehouse driver",
+  "author": "Cube Dev, Inc.",
+  "version": "1.6.50",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cube-js/cube.git",
+    "directory": "packages/cubejs-fabric-driver"
+  },
+  "engines": {
+    "node": "^14.0.0 || ^16.0.0 || >=17.0.0"
+  },
+  "files": [
+    "dist/src",
+    "index.js"
+  ],
+  "main": "index.js",
+  "typings": "dist/src/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && npm run tsc",
+    "tsc": "tsc",
+    "unit": "jest --runInBand dist/test",
+    "watch": "tsc -w",
+    "lint": "eslint src/* --ext .ts",
+    "lint:fix": "eslint --fix src/* --ext .ts"
+  },
+  "dependencies": {
+    "@cubejs-backend/base-driver": "1.6.50",
+    "@cubejs-backend/mssql-driver": "1.6.50",
+    "@cubejs-backend/schema-compiler": "1.6.50",
+    "@cubejs-backend/shared": "1.6.50",
+    "mssql": "^11.0.1"
+  },
+  "devDependencies": {
+    "@cubejs-backend/linter": "1.6.50",
+    "@types/mssql": "^9.1.7",
+    "@types/node": "^20",
+    "typescript": "~5.2.2"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "eslintConfig": {
+    "extends": "../cubejs-linter"
+  },
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  }
+}

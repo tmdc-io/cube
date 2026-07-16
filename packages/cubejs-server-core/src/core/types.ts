@@ -131,6 +131,7 @@ export type DatabaseType =
   | 'ksql'
   | 'vertica'
   | 'spark' // [DataOS fork] Added Spark database type
+  | 'fabric' // [DataOS fork] Added Microsoft Fabric database type
   | 'databricks-jdbc';
 
 export type ContextToAppIdFn = (context: RequestContext) => string | Promise<string>;
