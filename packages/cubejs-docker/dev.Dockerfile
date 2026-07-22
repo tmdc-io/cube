@@ -82,6 +82,8 @@ COPY packages/cubejs-jdbc-driver/package.json packages/cubejs-jdbc-driver/packag
 COPY packages/cubejs-vertica-driver/package.json packages/cubejs-vertica-driver/package.json
 # [DataOS fork] Added Spark driver
 COPY packages/cubejs-spark-driver/package.json packages/cubejs-spark-driver/package.json
+# [DataOS fork] Added Fabric driver
+COPY packages/cubejs-fabric-driver/package.json packages/cubejs-fabric-driver/package.json
 # Skip
 # COPY packages/cubejs-testing/package.json packages/cubejs-testing/package.json
 # COPY packages/cubejs-docker/package.json packages/cubejs-docker/package.json
@@ -171,6 +173,8 @@ COPY packages/cubejs-databricks-jdbc-driver/ packages/cubejs-databricks-jdbc-dri
 COPY packages/cubejs-vertica-driver/ packages/cubejs-vertica-driver/
 # [DataOS fork] Added Spark driver
 COPY packages/cubejs-spark-driver/ packages/cubejs-spark-driver/
+# [DataOS fork] Added Fabric driver
+COPY packages/cubejs-fabric-driver/ packages/cubejs-fabric-driver/
 # Skip
 # COPY packages/cubejs-testing/ packages/cubejs-testing/
 # COPY packages/cubejs-docker/ packages/cubejs-docker/
