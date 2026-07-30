@@ -3521,6 +3521,23 @@
     usehooks-ts "^3.1.0"
     valid-url "^1.0.9"
 
+"@cubejs-backend/base-driver@1.6.50":
+  version "1.6.50"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/base-driver/-/base-driver-1.6.50.tgz#78241145281cfb7c39d2c7c2cf27042ab473368d"
+  integrity sha512-RVVbL61hQlZd3oIht4hhsgZboTtM4Etn0SiEOlp6vyJRPmmZusi9WDfeuQBwGp0F70rda5w5Wbth9kuBU9cbow==
+  dependencies:
+    "@aws-sdk/client-s3" "^3.49.0"
+    "@aws-sdk/s3-request-presigner" "^3.49.0"
+    "@azure/identity" "^4.4.1"
+    "@azure/storage-blob" "^12.9.0"
+    "@cubejs-backend/shared" "1.6.50"
+    "@google-cloud/storage" "^7.13.0"
+
+"@cubejs-backend/cubesql@1.6.50":
+  version "1.6.50"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/cubesql/-/cubesql-1.6.50.tgz#bb85d769ce2171a1a41838e0d9d2ad364574a00f"
+  integrity sha512-VUmiFsQbMvFx7JrFE21UyFsc5FNIXfP+u+ZzMXvcfk8IJaSkwLJOVBA00Wi9vqCjStRwvUGkojfwh7bs53V7bA==
+
 "@cubejs-backend/dotenv@^9.0.2":
   version "9.0.2"
   resolved "https://registry.yarnpkg.com/@cubejs-backend/dotenv/-/dotenv-9.0.2.tgz#c3679091b702f0fd38de120c5a63943fcdc0dcbf"
@@ -3537,6 +3554,36 @@
     uuid "^11.1.0"
     winston "^3.17.0"
 
+"@cubejs-backend/linter@1.6.50":
+  version "1.6.50"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/linter/-/linter-1.6.50.tgz#c2961797f22fc39fd4117b80364a6185043b69cc"
+  integrity sha512-dj8CYYVClfiH5l2xUS2qpsHONIMsji2wdAHslWm3zQRbQ4OmMJWf5fm6oCbS8ceQQQdrnsfYKUzOMR+wzyPwJQ==
+  dependencies:
+    "@typescript-eslint/eslint-plugin" "^6.12.0"
+    "@typescript-eslint/parser" "^6.12.0"
+    eslint "^8.54.0"
+    eslint-config-airbnb-base "^14.2.1"
+    eslint-plugin-import "^2.22.1"
+    eslint-plugin-node "^10.0.0"
+
+"@cubejs-backend/mssql-driver@1.6.50":
+  version "1.6.50"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/mssql-driver/-/mssql-driver-1.6.50.tgz#e49a3f00cce8a961bdee8080ef5f958d2a7918eb"
+  integrity sha512-I3F/A+cOgz68j743K8r2a85UZeEAIbCdXsbCuXxJbDZ7NHhOGMyJF+KJPjhPxyg9LI9Pb9C8QTFagOhC+AQz4Q==
+  dependencies:
+    "@cubejs-backend/base-driver" "1.6.50"
+    "@cubejs-backend/shared" "1.6.50"
+    mssql "^11.0.1"
+
+"@cubejs-backend/native@1.6.50":
+  version "1.6.50"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/native/-/native-1.6.50.tgz#dadff53689a604fc53dfe5fbeb07d561c88808c7"
+  integrity sha512-GavSRFc3eNpqzuFNpA4wpBIlihPBrQ5RUiK0HYU581P6OHXxo6Hv7KscZm+B8u0VsytrIyueTJ95T6k8ifjRng==
+  dependencies:
+    "@cubejs-backend/cubesql" "1.6.50"
+    "@cubejs-backend/shared" "1.6.50"
+    "@cubejs-infra/post-installer" "^0.0.7"
+
 "@cubejs-backend/node-java-maven@^0.1.3":
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@cubejs-backend/node-java-maven/-/node-java-maven-0.1.3.tgz#d7d85204804ccce4e988019472867d1b6da3a8ae"
@@ -3546,6 +3593,48 @@
     axios "^1.8.1"
     mkdirp "^3.0.1"
     xml2js "^0.6.2"
+
+"@cubejs-backend/prestodb-driver@1.6.50":
+  version "1.6.50"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/prestodb-driver/-/prestodb-driver-1.6.50.tgz#873ffe0041ca437383d9ca5fc3865df138948032"
+  integrity sha512-i3yCzTlH3ft1NZtQD1NpHDu516DAMMjiUl0BbaMmVKM4AFmr0pSUZV1r1nj3KJ5jLhDdXMPjGWwp79VcdsxqIw==
+  dependencies:
+    "@cubejs-backend/base-driver" "1.6.50"
+    "@cubejs-backend/shared" "1.6.50"
+    presto-client "^1.2.0"
+    ramda "^0.27.0"
+    sqlstring "^2.3.1"
+
+"@cubejs-backend/schema-compiler@1.6.50":
+  version "1.6.50"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/schema-compiler/-/schema-compiler-1.6.50.tgz#525cafc90de01084b59ddfc24c74bb9e2cda7d76"
+  integrity sha512-6927a429G1gi/K4vzcZWBNU622UZBnO1ouZVahkhckNS1yFTX5vLTpWyAcSA30yJwFyN/YdGsV3VWuWbJHgE0w==
+  dependencies:
+    "@babel/code-frame" "^7.24"
+    "@babel/core" "^7.24"
+    "@babel/generator" "^7.24"
+    "@babel/parser" "^7.24"
+    "@babel/preset-env" "^7.24"
+    "@babel/standalone" "^7.24"
+    "@babel/traverse" "^7.24"
+    "@babel/types" "^7.24"
+    "@cubejs-backend/native" "1.6.50"
+    "@cubejs-backend/shared" "1.6.50"
+    antlr4 "^4.13.2"
+    camelcase "^6.2.0"
+    cron-parser "^4.9.0"
+    humps "^2.0.1"
+    inflection "^1.12.0"
+    joi "^17.13.3"
+    js-yaml "^4.1.0"
+    lru-cache "^11.1.0"
+    moment-timezone "^0.5.48"
+    node-dijkstra "^2.5.0"
+    ramda "^0.27.2"
+    syntax-error "^1.3.0"
+    uuid "^8.3.2"
+    workerpool "^9.2.0"
+    yaml "^2.7.1"
 
 "@cubejs-backend/shared@0.33.20":
   version "0.33.20"
@@ -3563,6 +3652,28 @@
     moment-range "^4.0.1"
     moment-timezone "^0.5.33"
     node-fetch "^2.6.1"
+    shelljs "^0.8.5"
+    throttle-debounce "^3.0.1"
+    uuid "^8.3.2"
+
+"@cubejs-backend/shared@1.6.50":
+  version "1.6.50"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/shared/-/shared-1.6.50.tgz#31329e8c0a90e3e2491f6a3bce666302aaac8eec"
+  integrity sha512-3GBh+z9MAQQJsQV6GbNuk5fUSzgbXEzpuEx27kgpmdtQFSR2/8T5VqBdLoB9ONnr8nA080UkxxsewCiAJOn6jQ==
+  dependencies:
+    "@oclif/color" "^0.1.2"
+    bytes "^3.1.2"
+    cli-progress "^3.9.0"
+    cross-spawn "^7.0.3"
+    decompress "^4.2.1"
+    env-var "^6.3.0"
+    fs-extra "^9.1.0"
+    generic-pool "^3.9.0"
+    lru-cache "^11.1.0"
+    moment-range "^4.0.2"
+    moment-timezone "^0.5.47"
+    node-fetch "^2.6.1"
+    proxy-agent "^6.5.0"
     shelljs "^0.8.5"
     throttle-debounce "^3.0.1"
     uuid "^8.3.2"
@@ -11710,6 +11821,11 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
+balanced-match@^4.0.2:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-4.0.4.tgz#bfb10662feed8196a2c62e7c68e17720c274179a"
+  integrity sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==
+
 bare-events@^2.2.0, bare-events@^2.5.4:
   version "2.5.4"
   resolved "https://registry.yarnpkg.com/bare-events/-/bare-events-2.5.4.tgz#16143d435e1ed9eafd1ab85f12b89b3357a41745"
@@ -11944,12 +12060,34 @@ bowser@^2.11.0:
   resolved "https://registry.yarnpkg.com/bowser/-/bowser-2.11.0.tgz#5ca3c35757a7aa5771500c70a73a9f91ef420a8f"
   integrity sha512-AlcaJBi/pqqJBIQ8U9Mcpc9i8Aqxn88Skv5d+xBX006BY5u8N3mGLHa5Lgppa7L/HfwgwLgZ6NYs+Ag6uUmJRA==
 
-brace-expansion@2.1.2, brace-expansion@5.0.5, brace-expansion@^5.0.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-2.1.2.tgz#0bba2271feb7d458b0d31ad13625aaa4754431e2"
-  integrity sha512-w5JZcKgdhDOgOwm8H+KgbosopHMuGcl6qbulwjtz3SM7I7P3yW1eAjzMPLrIE+NQ9vjgANKHWeMHnrT0OXW1oA==
+brace-expansion@5.0.5:
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-5.0.5.tgz#dcc3a37116b79f3e1b46db994ced5d570e930fdb"
+  integrity sha512-VZznLgtwhn+Mact9tfiwx64fA9erHH/MCXEUfB/0bX/6Fz6ny5EGTXYltMocqg4xFAQZtnO3DHWWXi8RiuN7cQ==
+  dependencies:
+    balanced-match "^4.0.2"
+
+brace-expansion@^1.1.7:
+  version "1.1.18"
+  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.18.tgz#3ce74d89885136be1535341f8c3d4425c29a5cab"
+  integrity sha512-Edep/X9fGqVNmzKBVsDYIOtD+z1tuezV70LBjdCst9Tqu76lsnvRiZ6oTic1n+/BIwX6QDGAO94PN4N2SADvtw==
   dependencies:
     balanced-match "^1.0.0"
+    concat-map "0.0.1"
+
+brace-expansion@^2.0.1:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-2.1.4.tgz#589dab11c0018d0366be64cd8bf12c8dbecc8326"
+  integrity sha512-hGfVzPxthbf3+2yjg/RBs60cB0FhqBS/zvdV/4wn4/BmN0bNMMHPc4V/BbFieqf1TKAGGAHnY4eSjajCl0f2Xg==
+  dependencies:
+    balanced-match "^1.0.0"
+
+brace-expansion@^5.0.2, brace-expansion@^5.0.5, brace-expansion@^5.0.8:
+  version "5.0.9"
+  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-5.0.9.tgz#7c72438809b5fa5babf54199a1f1c281a6984fcf"
+  integrity sha512-ScQ4IuvIEF1TMlP7Zt+vjJ//9zlPb2SDcxWxM3bk8s6t6GGdJ7KO1dCcTidOPJKePW30LE/2cT7wCyPho9/Wxg==
+  dependencies:
+    balanced-match "^4.0.2"
 
 braces@^3.0.3, braces@~3.0.2:
   version "3.0.3"
@@ -12909,6 +13047,11 @@ compute-scroll-into-view@^1.0.17:
   version "1.0.17"
   resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-1.0.17.tgz#6a88f18acd9d42e9cf4baa6bec7e0522607ab7ab"
   integrity sha512-j4dx+Fb0URmzbwwMUrhqWM2BEWHdFGx+qZ9qqASHRPqvTYdqvWnHg0H1hIbcyLnvgnoNAVMlwkepyqM3DaIFUg==
+
+concat-map@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
+  integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
 concat-stream@^2.0.0:
   version "2.0.0"
@@ -19892,7 +20035,49 @@ minimalistic-crypto-utils@^1.0.1:
   resolved "https://registry.yarnpkg.com/minimalistic-crypto-utils/-/minimalistic-crypto-utils-1.0.1.tgz#f6c00c1c0b082246e5c4d99dfb8c7c083b2b582a"
   integrity sha1-9sAMHAsIIkblxNmd+4x8CDsrWCo=
 
-minimatch@10.2.5, minimatch@3.1.4, minimatch@9.0.1, minimatch@9.0.7, minimatch@^10.0.3, minimatch@^10.1.1, minimatch@^3.0.4, minimatch@^3.0.5, minimatch@^3.1.2, minimatch@^5.0.1, minimatch@^5.1.0, minimatch@^9.0.0, minimatch@^9.0.4:
+minimatch@10.2.5:
+  version "10.2.5"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-10.2.5.tgz#bd48687a0be38ed2961399105600f832095861d1"
+  integrity sha512-MULkVLfKGYDFYejP07QOurDLLQpcjk7Fw+7jXS2R2czRQzR56yHRveU5NDJEOviH+hETZKSkIk5c+T23GjFUMg==
+  dependencies:
+    brace-expansion "^5.0.5"
+
+minimatch@3.1.4:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.4.tgz#89d910ea3970a77ac8edfd30340ccd038b758079"
+  integrity sha512-twmL+S8+7yIsE9wsqgzU3E8/LumN3M3QELrBZ20OdmQ9jB2JvW5oZtBEmft84k/Gs5CG9mqtWc6Y9vW+JEzGxw==
+  dependencies:
+    brace-expansion "^1.1.7"
+
+minimatch@9.0.1:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-9.0.1.tgz#8a555f541cf976c622daf078bb28f29fb927c253"
+  integrity sha512-0jWhJpD/MdhPXwPuiRkCbfYfSKp2qnn2eOc279qI7f+osl/l+prKSrvhg157zSYvx/1nmgn2NqdT6k2Z7zSH9w==
+  dependencies:
+    brace-expansion "^2.0.1"
+
+minimatch@^10.0.3, minimatch@^10.1.1:
+  version "10.2.6"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-10.2.6.tgz#fd956bbe0b77241e9f15ac5dccb1c638060968ef"
+  integrity sha512-vpLQEs+VLCr1nU0BXS07maYoFwlDAH0gngQuuttxIwutDFEMHq2blX+8vpgxDdK3J1PwjCJiep77OitTZ4Ll1A==
+  dependencies:
+    brace-expansion "^5.0.8"
+
+minimatch@^3.0.4, minimatch@^3.0.5, minimatch@^3.1.2:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.5.tgz#580c88f8d5445f2bd6aa8f3cadefa0de79fbd69e"
+  integrity sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==
+  dependencies:
+    brace-expansion "^1.1.7"
+
+minimatch@^5.0.1, minimatch@^5.1.0:
+  version "5.1.9"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-5.1.9.tgz#1293ef15db0098b394540e8f9f744f9fda8dee4b"
+  integrity sha512-7o1wEA2RyMP7Iu7GNba9vc0RWWGACJOCZBJX2GJWip0ikV+wcOsgVuY9uE8CPiyQhkGFSlhuSkZPavN7u1c2Fw==
+  dependencies:
+    brace-expansion "^2.0.1"
+
+minimatch@^9.0.0, minimatch@^9.0.4:
   version "9.0.7"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-9.0.7.tgz#d76c4d0b3b527877016d6cc1b9922fc8e0ffe7b0"
   integrity sha512-MOwgjc8tfrpn5QQEvjijjmDVtMw2oL88ugTevzxQnzRLm6l3fVEF2gzU0kYeYYKD8C66+IdGX6peJ4MyUlUnPg==
@@ -25158,7 +25343,7 @@ string_decoder@~1.1.1:
   dependencies:
     safe-buffer "~5.1.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -27167,7 +27352,7 @@ workerpool@^9.2.0:
   resolved "https://registry.yarnpkg.com/workerpool/-/workerpool-9.2.0.tgz#f74427cbb61234708332ed8ab9cbf56dcb1c4371"
   integrity sha512-PKZqBOCo6CYkVOwAxWxQaSF2Fvb5Iv2fCeTP7buyWI2GiynWr46NcXSgK/idoV6e60dgCBfgYc+Un3HMvmqP8w==
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
