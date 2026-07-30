@@ -66,6 +66,7 @@
     "url": "https://github.com/cube-js/cube.git"
   },
   "resolutions": {
+    "@achrinza/node-ipc": "9.2.10",
     "@types/node": "^20",
     "@types/ramda": "0.27.40",
     "fast-xml-parser": "^5.7.4",
