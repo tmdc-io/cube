@@ -1,4 +1,4 @@
-FROM tmdcio/node:22.22.3-jammy-rfcurated AS builder
+FROM tmdcio/node:24.18.0-noble-fips-rfcurated AS builder
 
 ARG IMAGE_VERSION=dev
 
@@ -211,7 +211,7 @@ RUN rm -rf packages/cubejs-server/examples packages/cubejs-playground/charts-gen
       fi; \
     done
 
-FROM tmdcio/node:22.22.3-jammy-rfcurated AS final
+FROM tmdcio/node:24.18.0-noble-fips-rfcurated AS final
 
 ARG IMAGE_VERSION=dev
 
