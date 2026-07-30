@@ -348,6 +348,14 @@ impl MockSqlTemplatesRender {
             "{{ strings | join(' || ' ) }}".to_string(),
         );
         templates.insert(
+            "expressions/wrap_segment_select".to_string(),
+            "{{ expr }}".to_string(),
+        );
+        templates.insert(
+            "expressions/wrap_segment_filter".to_string(),
+            "{{ expr }}".to_string(),
+        );
+        templates.insert(
             "expressions/rolling_window_expr_timestamp_cast".to_string(),
             "{{ value }}".to_string(),
         );
@@ -438,6 +446,7 @@ impl MockSqlTemplatesRender {
             "{% if start_wild %}'%' || {% endif %}{{ value }}{% if end_wild %}|| '%'{% endif %}"
                 .to_string(),
         );
+        templates.insert("filters/like_escape_char".to_string(), "\\".to_string());
         templates.insert("filters/always_true".to_string(), "1 = 1".to_string());
 
         // Quotes - based on BaseQuery.js:4417-4420
@@ -453,6 +462,12 @@ impl MockSqlTemplatesRender {
         // Join types - based on BaseQuery.js:4424-4427
         templates.insert("join_types/inner".to_string(), "INNER".to_string());
         templates.insert("join_types/left".to_string(), "LEFT".to_string());
+        // Tesseract join types (decoupled from SQL API push down join_types)
+        templates.insert(
+            "tesseract/join_types_inner".to_string(),
+            "INNER".to_string(),
+        );
+        templates.insert("tesseract/join_types_left".to_string(), "LEFT".to_string());
 
         // Window frame types - based on BaseQuery.js:4428-4431
         templates.insert("window_frame_types/rows".to_string(), "ROWS".to_string());
@@ -525,18 +540,25 @@ impl MockSqlTemplatesRender {
     }
 
     pub fn default_templates_with_generated_time_series() -> Self {
+        // `granularity`, `start`, and `end` arrive pre-quoted (via
+        // `interval_string()` / `quote_string()`), so the templates
+        // embed them verbatim. Wrapping them in extra single quotes
+        // would produce e.g. `''1 day''` / `''2024-01-10''`, which
+        // Postgres rejects. `minimal_time_unit` and
+        // `granularity_offset` are bare (e.g. `day`) and keep their
+        // quotes.
         let mut render = Self::default_templates();
         render.templates.insert(
             "statements/generated_time_series_select".to_string(),
             concat!(
                 "SELECT gs::timestamp AS \"date_from\",\n",
-                "(gs + interval '{{ granularity }}'",
+                "(gs + interval {{ granularity }}",
                 "{% if granularity_offset %} - interval '{{ granularity_offset }}'{% endif %}",
-                " - interval '{{ minimal_time_unit }}')::timestamp AS \"date_to\"\n",
+                " - interval '1 {{ minimal_time_unit }}')::timestamp AS \"date_to\"\n",
                 "FROM generate_series(\n",
-                "  '{{ start }}'::timestamp,\n",
-                "  '{{ end }}'::timestamp,\n",
-                "  interval '{{ granularity }}'\n",
+                "  {{ start }}::timestamp,\n",
+                "  {{ end }}::timestamp,\n",
+                "  interval {{ granularity }}\n",
                 ") AS gs"
             )
             .to_string(),
@@ -545,11 +567,11 @@ impl MockSqlTemplatesRender {
             "statements/generated_time_series_with_cte_range_source".to_string(),
             concat!(
                 "SELECT gs::timestamp AS \"date_from\",\n",
-                "(gs + interval '{{ granularity }}' - interval '{{ minimal_time_unit }}')::timestamp AS \"date_to\"\n",
+                "(gs + interval {{ granularity }} - interval '1 {{ minimal_time_unit }}')::timestamp AS \"date_to\"\n",
                 "FROM generate_series(\n",
                 "  (SELECT {{ min_name }} FROM {{ range_source }}),\n",
                 "  (SELECT {{ max_name }} FROM {{ range_source }}),\n",
-                "  interval '{{ granularity }}'\n",
+                "  interval {{ granularity }}\n",
                 ") AS gs"
             ).to_string(),
         );
@@ -561,6 +583,28 @@ impl MockSqlTemplatesRender {
         }
         render.jinja = jinja;
         render
+    }
+
+    /// Templates matching `CubeStoreQuery.sqlTemplates()` from the JS
+    /// schema-compiler: BaseQuery defaults plus CubeStore-specific overrides.
+    pub fn cubestore_templates() -> Self {
+        let render = Self::default_templates();
+        let mut templates = render.templates;
+        templates.insert(
+            "statements/time_series_select".to_string(),
+            concat!(
+                "{% for time_item in seria  %}",
+                "select to_timestamp('{{ time_item[0] }}') date_from, to_timestamp('{{ time_item[1] }}') date_to \n",
+                "{% if not loop.last %} UNION ALL\n{% endif %}",
+                "{% endfor %}"
+            )
+            .to_string(),
+        );
+        templates.insert(
+            "operators/is_not_distinct_from".to_string(),
+            "IS NOT DISTINCT FROM".to_string(),
+        );
+        Self::try_new(templates).expect("CubeStore templates should always parse successfully")
     }
 }
 

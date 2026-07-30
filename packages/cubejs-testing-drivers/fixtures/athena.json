@@ -6,7 +6,7 @@
       "CUBEJS_CUBESTORE_HOST": "store",
       "CUBEJS_DB_TYPE": "athena",
       "CUBEJS_DB_EXPORT_BUCKET": "s3://athena-drivers-tests-preaggs/bucket",
-      "CUBEJS_PRE_AGGREGATIONS_SCHEMA": "drivers_tests_preaggs",
+      "CUBEJS_PRE_AGGREGATIONS_SCHEMA": "${DRIVERS_TESTS_CUBEJS_PRE_AGGREGATIONS_SCHEMA:-drivers_tests_preaggs}",
       "CUBEJS_AWS_KEY": "${DRIVERS_TESTS_ATHENA_CUBEJS_AWS_KEY}",
       "CUBEJS_AWS_SECRET": "${DRIVERS_TESTS_ATHENA_CUBEJS_AWS_SECRET}",
       "CUBEJS_AWS_REGION": "us-east-1",
@@ -17,6 +17,7 @@
       "CUBEJS_SQL_PASSWORD": "admin_password",
       "CUBESQL_SQL_PUSH_DOWN": "true",
       "CUBEJS_TESSERACT_SQL_PLANNER": "${DRIVERS_TESTS_CUBEJS_TESSERACT_SQL_PLANNER}",
+      "CUBEJS_TESSERACT_PRE_AGGREGATIONS": "${DRIVERS_TESTS_CUBEJS_TESSERACT_SQL_PLANNER}",
       "CUBEJS_TRANSPILATION_NATIVE": "${DRIVERS_TESTS_CUBEJS_TRANSPILATION_NATIVE}"
     },
     "ports" : ["4000", "5656"]
@@ -78,6 +79,16 @@
         "dimensions": ["CUBE.productName"],
         "measures": [
           "CUBE.countApproxByCustomer"
+        ]
+      },
+      {
+        "name": "TBuildOnlyHalfYear",
+        "time_dimension": "CUBE.orderDate",
+        "granularity": "build_only_half_year",
+        "partition_granularity": "year",
+        "dimensions": ["CUBE.productName"],
+        "measures": [
+          "CUBE.totalQuantity"
         ]
       }
     ],

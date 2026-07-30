@@ -1,7 +1,7 @@
 use super::super::{LogicalNodeProcessor, ProcessableNode, PushDownBuilderContext};
-use crate::logical_plan::{all_symbols, MultiStageMemberLogicalType, Query, QuerySource};
+use crate::logical_plan::{all_symbols, Query, QuerySource};
 use crate::physical_plan::{
-    CalcGroupItem, CalcGroupsJoin, Cte, Expr, From, MemberExpression, ReferencesBuilder, Select,
+    CalcGroupItem, CalcGroupsJoin, Expr, From, MemberExpression, ReferencesBuilder, Select,
     SelectBuilder,
 };
 use crate::physical_plan_builder::PhysicalPlanBuilder;
@@ -39,26 +39,6 @@ impl<'a> LogicalNodeProcessor<'a, Query> for QueryProcessor<'a> {
         let query_tools = self.builder.query_tools();
         let mut context_factory = context.make_sql_nodes_factory()?;
         let mut context = context.clone();
-        let mut ctes = vec![];
-
-        for multi_stage_member in logical_plan.multistage_members().iter() {
-            let query = self
-                .builder
-                .process_node(&multi_stage_member.member_type, &context)?;
-            let alias = multi_stage_member.name.clone();
-            context.add_multi_stage_schema(alias.clone(), query.schema());
-            if let MultiStageMemberLogicalType::DimensionCalculation(dimension_calculation) =
-                &multi_stage_member.member_type
-            {
-                context.add_multi_stage_dimension_schema(
-                    dimension_calculation.resolved_dimensions()?,
-                    alias.clone(),
-                    dimension_calculation.join_dimensions()?,
-                    query.schema(),
-                );
-            }
-            ctes.push(Rc::new(Cte::new(Rc::new(query), alias)));
-        }
 
         context.remove_multi_stage_dimensions();
 
@@ -148,8 +128,17 @@ impl<'a> LogicalNodeProcessor<'a, Query> for QueryProcessor<'a> {
         let references_builder = ReferencesBuilder::new(from.clone());
 
         let mut select_builder = SelectBuilder::new(from);
-        select_builder.set_ctes(ctes);
         context_factory.set_ungrouped(logical_plan.modifers().ungrouped);
+
+        if !logical_plan.modifers().ungrouped {
+            context_factory.set_group_by_members(
+                logical_plan
+                    .schema()
+                    .all_dimensions()
+                    .map(|symbol| symbol.full_name())
+                    .collect(),
+            );
+        }
 
         for dimension in logical_plan.schema().all_dimensions() {
             self.builder.process_query_dimension(
@@ -199,9 +188,6 @@ impl<'a> LogicalNodeProcessor<'a, Query> for QueryProcessor<'a> {
         select_builder.set_limit(logical_plan.modifers().limit);
         select_builder.set_offset(logical_plan.modifers().offset);
 
-        context_factory
-            .set_rendered_as_multiplied_measures(logical_plan.schema().multiplied_measures.clone());
-
         if is_pre_aggregation {
             context_factory.clear_render_references();
         }
@@ -209,9 +195,29 @@ impl<'a> LogicalNodeProcessor<'a, Query> for QueryProcessor<'a> {
             context_factory.set_ungrouped(true);
         }
 
+        // When reading from a pre-aggregation, drop ORDER BY keys on measures that
+        // are not part of the selection. CubeStore cannot ORDER BY an aggregate of a
+        // rollup column that isn't projected.
+        let order_by = if is_pre_aggregation {
+            logical_plan
+                .modifers()
+                .order_by
+                .iter()
+                .filter(|o| {
+                    !(o.member_symbol().is_measure()
+                        && logical_plan
+                            .schema()
+                            .find_member_positions(&o.name())
+                            .is_empty())
+                })
+                .cloned()
+                .collect()
+        } else {
+            logical_plan.modifers().order_by.clone()
+        };
         select_builder.set_order_by(
             self.builder
-                .make_order_by(logical_plan.schema(), &logical_plan.modifers().order_by)?,
+                .make_order_by(logical_plan.schema(), &order_by)?,
         );
 
         let res = Rc::new(select_builder.build(query_tools.clone(), context_factory));

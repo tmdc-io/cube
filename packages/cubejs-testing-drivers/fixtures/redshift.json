@@ -22,6 +22,7 @@
       "CUBEJS_DB_HOST": "${DRIVERS_TESTS_CUBEJS_DB_REDSHIFT_HOST}",
       "CUBEJS_DB_PORT": "5439",
       "CUBEJS_DB_NAME": "dev",
+      "CUBEJS_PRE_AGGREGATIONS_SCHEMA": "${DRIVERS_TESTS_CUBEJS_PRE_AGGREGATIONS_SCHEMA:-dev_pre_aggregations}",
       "CUBEJS_DB_USER": "${DRIVERS_TESTS_CUBEJS_DB_REDSHIFT_USER}",
       "CUBEJS_DB_PASS": "${DRIVERS_TESTS_CUBEJS_DB_REDSHIFT_PASS}",
       "CUBEJS_DB_MAX_POOL": "2",
@@ -32,6 +33,7 @@
       "CUBEJS_SQL_PASSWORD": "admin_password",
       "CUBESQL_SQL_PUSH_DOWN": "true",
       "CUBEJS_TESSERACT_SQL_PLANNER": "${DRIVERS_TESTS_CUBEJS_TESSERACT_SQL_PLANNER}",
+      "CUBEJS_TESSERACT_PRE_AGGREGATIONS": "${DRIVERS_TESTS_CUBEJS_TESSERACT_SQL_PLANNER}",
       "CUBEJS_TRANSPILATION_NATIVE": "${DRIVERS_TESTS_CUBEJS_TRANSPILATION_NATIVE}"
     },
     "ports" : ["4000", "5656"]
@@ -111,6 +113,16 @@
         "dimensions": ["CUBE.productName"],
         "measures": [
           "CUBE.countApproxByCustomer"
+        ]
+      },
+      {
+        "name": "TBuildOnlyHalfYear",
+        "time_dimension": "CUBE.orderDate",
+        "granularity": "build_only_half_year",
+        "partition_granularity": "year",
+        "dimensions": ["CUBE.productName"],
+        "measures": [
+          "CUBE.totalQuantity"
         ]
       }
     ],

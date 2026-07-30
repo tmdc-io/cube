@@ -72,6 +72,28 @@ export const memberOrderByFixture = (): unknown => ({
   dir: 'asc',
 });
 
+// MultiStageFilterReferences has no trait methods — every field is a
+// serde-static on `MultiStageFilterReferencesStatic`. `exclude` and
+// `keep_only` are mutually exclusive at planner level, so the fixture only
+// populates one of them. All fields are optional, so a `{}` literal would
+// also parse — populating real values exercises serde more usefully.
+export const multiStageFilterFixture = (): unknown => ({
+  mode: 'relative',
+  excludeReferences: ['orders.status'],
+  include: [{ member: 'orders.amount', operator: 'gt', values: ['0'] }],
+});
+
+// MultiStageGrainReferences mirrors the filter bridge — static-only. The
+// bridge is structurally permissive (both `excludeReferences` and
+// `keepOnlyReferences` could deserialize at once); the `.nand` lives on the
+// JS Joi validator. The fixture populates only one of them to match the
+// schema contract. `include` is a plain reference list, not the structured
+// filter items the filter bridge uses.
+export const multiStageGrainFixture = (): unknown => ({
+  excludeReferences: ['orders.region'],
+  includeReferences: ['orders.category'],
+});
+
 export const memberDefinitionFixture = (): unknown => ({
   type: 'dimension',
   // sql is optional
@@ -220,14 +242,19 @@ export const baseToolsFixture = (): unknown => ({
   driverTools: () => driverToolsFixture(),
   sqlTemplates: () => ({}),
   sqlUtilsForRust: () => sqlUtilsFixture(),
-  generateTimeSeries: () => [],
-  generateCustomTimeSeries: () => [],
   getAllocatedParams: () => [],
   allCubeMembers: () => [],
   intervalAndMinimalTimeUnit: () => ['1', 'day'],
   getPreAggregationByName: () => preAggregationObjFixture(),
   preAggregationTableName: () => 'pre_aggr_table',
   joinTreeForHints: () => joinDefinitionFixture(),
+  compileMemberSql: () => ({
+    template: '',
+    symbolPaths: [],
+    filterParams: [],
+    filterGroups: [],
+    securityContextValues: [],
+  }),
 });
 
 export const baseQueryOptionsFixture = (): unknown => ({
@@ -272,6 +299,8 @@ export const FIXTURES: Record<string, BridgeFixtureFactory> = {
   memberDefinition: memberDefinitionFixture,
   memberExpressionDefinition: memberExpressionDefinitionFixture,
   memberOrderBy: memberOrderByFixture,
+  multiStageFilter: multiStageFilterFixture,
+  multiStageGrain: multiStageGrainFixture,
   preAggregationDescription: preAggregationDescriptionFixture,
   preAggregationObj: preAggregationObjFixture,
   preAggregationTimeDimension: preAggregationTimeDimensionFixture,

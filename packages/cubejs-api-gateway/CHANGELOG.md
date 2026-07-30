@@ -3,6 +3,98 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.70](https://github.com/cube-js/cube/compare/v1.6.69...v1.6.70) (2026-07-28)
+
+**Note:** Version bump only for package @cubejs-backend/api-gateway
+
+## [1.6.69](https://github.com/cube-js/cube/compare/v1.6.68...v1.6.69) (2026-07-10)
+
+**Note:** Version bump only for package @cubejs-backend/api-gateway
+
+## [1.6.68](https://github.com/cube-js/cube/compare/v1.6.67...v1.6.68) (2026-07-07)
+
+### Bug Fixes
+
+- **api-gateway:** Accept timezone-suffixed timestamps in date filters, fix [#11213](https://github.com/cube-js/cube/issues/11213) ([#11208](https://github.com/cube-js/cube/issues/11208)) ([35459bf](https://github.com/cube-js/cube/commit/35459bf88fd487428a0df7c7995afbf2d9ce7058))
+
+## [1.6.67](https://github.com/cube-js/cube/compare/v1.6.66...v1.6.67) (2026-07-06)
+
+### Features
+
+- **api-gateway:** Support relative date ranges in OR/AND filters, thanks [@elijah-evans-deel](https://github.com/elijah-evans-deel) ([#11167](https://github.com/cube-js/cube/issues/11167)) ([a869654](https://github.com/cube-js/cube/commit/a869654e3eae264a0a67dce2e05101d49570fca4))
+
+## [1.6.66](https://github.com/cube-js/cube/compare/v1.6.65...v1.6.66) (2026-07-03)
+
+**Note:** Version bump only for package @cubejs-backend/api-gateway
+
+## [1.6.65](https://github.com/cube-js/cube/compare/v1.6.64...v1.6.65) (2026-07-01)
+
+**Note:** Version bump only for package @cubejs-backend/api-gateway
+
+## [1.6.64](https://github.com/cube-js/cube/compare/v1.6.63...v1.6.64) (2026-06-25)
+
+**Note:** Version bump only for package @cubejs-backend/api-gateway
+
+## [1.6.63](https://github.com/cube-js/cube/compare/v1.6.62...v1.6.63) (2026-06-25)
+
+**Note:** Version bump only for package @cubejs-backend/api-gateway
+
+## [1.6.62](https://github.com/cube-js/cube/compare/v1.6.61...v1.6.62) (2026-06-23)
+
+**Note:** Version bump only for package @cubejs-backend/api-gateway
+
+## [1.6.61](https://github.com/cube-js/cube/compare/v1.6.60...v1.6.61) (2026-06-22)
+
+### Features
+
+- support nested view groups via includes ([#10999](https://github.com/cube-js/cube/issues/10999)) ([155987f](https://github.com/cube-js/cube/commit/155987faab5ae9e33a5571e725f7f6f6b239cb94))
+
+## [1.6.60](https://github.com/cube-js/cube/compare/v1.6.59...v1.6.60) (2026-06-18)
+
+**Note:** Version bump only for package @cubejs-backend/api-gateway
+
+## [1.6.59](https://github.com/cube-js/cube/compare/v1.6.58...v1.6.59) (2026-06-17)
+
+**Note:** Version bump only for package @cubejs-backend/api-gateway
+
+## [1.6.58](https://github.com/cube-js/cube/compare/v1.6.57...v1.6.58) (2026-06-17)
+
+**Note:** Version bump only for package @cubejs-backend/api-gateway
+
+## [1.6.57](https://github.com/cube-js/cube/compare/v1.6.56...v1.6.57) (2026-06-09)
+
+**Note:** Version bump only for package @cubejs-backend/api-gateway
+
+## [1.6.56](https://github.com/cube-js/cube/compare/v1.6.55...v1.6.56) (2026-06-08)
+
+**Note:** Version bump only for package @cubejs-backend/api-gateway
+
+## [1.6.55](https://github.com/cube-js/cube/compare/v1.6.54...v1.6.55) (2026-06-05)
+
+**Note:** Version bump only for package @cubejs-backend/api-gateway
+
+## [1.6.54](https://github.com/cube-js/cube/compare/v1.6.53...v1.6.54) (2026-06-04)
+
+### Features
+
+- **api-gateway:** accept a list of API secrets for verification ([#10985](https://github.com/cube-js/cube/issues/10985)) ([d9a308f](https://github.com/cube-js/cube/commit/d9a308f0ef7d6cf11213bbc05858cb0cc1a55c36))
+
+## [1.6.53](https://github.com/cube-js/cube/compare/v1.6.52...v1.6.53) (2026-06-02)
+
+**Note:** Version bump only for package @cubejs-backend/api-gateway
+
+## [1.6.52](https://github.com/cube-js/cube/compare/v1.6.51...v1.6.52) (2026-05-29)
+
+### Features
+
+- support distributed query cancellation in query queue and cancellation promise for Athena ([#10953](https://github.com/cube-js/cube/issues/10953)) ([0c08a78](https://github.com/cube-js/cube/commit/0c08a78edc01e5979d5e6e483854f6b971e84ebb))
+
+## [1.6.51](https://github.com/cube-js/cube/compare/v1.6.50...v1.6.51) (2026-05-27)
+
+### Features
+
+- **cubesql:** expose pre-aggregation indicator ([#10944](https://github.com/cube-js/cube/issues/10944)) ([552a93e](https://github.com/cube-js/cube/commit/552a93ec9fd7a2fce7a93ef01769f1ca8b8d84f2))
+
 ## [1.6.50](https://github.com/cube-js/cube/compare/v1.6.49...v1.6.50) (2026-05-22)
 
 **Note:** Version bump only for package @cubejs-backend/api-gateway

@@ -3,6 +3,122 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.70](https://github.com/cube-js/cube/compare/v1.6.69...v1.6.70) (2026-07-28)
+
+### Bug Fixes
+
+- **cubesql:** Bound Bind/Parse parameter allocations in PG wire protocol ([#11341](https://github.com/cube-js/cube/issues/11341)) ([6b94612](https://github.com/cube-js/cube/commit/6b94612f1918c83d83faca721f7e268740accbac))
+- **cubesql:** Bound PostgreSQL packet sizes ([#11339](https://github.com/cube-js/cube/issues/11339)) ([2d20dda](https://github.com/cube-js/cube/commit/2d20ddad6cbec4d7b3b9b771b73fda9b920f7860))
+
+## [1.6.69](https://github.com/cube-js/cube/compare/v1.6.68...v1.6.69) (2026-07-10)
+
+**Note:** Version bump only for package @cubejs-backend/cubesql
+
+## [1.6.68](https://github.com/cube-js/cube/compare/v1.6.67...v1.6.68) (2026-07-07)
+
+**Note:** Version bump only for package @cubejs-backend/cubesql
+
+## [1.6.67](https://github.com/cube-js/cube/compare/v1.6.66...v1.6.67) (2026-07-06)
+
+**Note:** Version bump only for package @cubejs-backend/cubesql
+
+## [1.6.66](https://github.com/cube-js/cube/compare/v1.6.65...v1.6.66) (2026-07-03)
+
+**Note:** Version bump only for package @cubejs-backend/cubesql
+
+## [1.6.65](https://github.com/cube-js/cube/compare/v1.6.64...v1.6.65) (2026-07-01)
+
+**Note:** Version bump only for package @cubejs-backend/cubesql
+
+## [1.6.64](https://github.com/cube-js/cube/compare/v1.6.63...v1.6.64) (2026-06-25)
+
+**Note:** Version bump only for package @cubejs-backend/cubesql
+
+## [1.6.63](https://github.com/cube-js/cube/compare/v1.6.62...v1.6.63) (2026-06-25)
+
+### Bug Fixes
+
+- **cubesql:** Handle array-typed columns in streaming SQL mode ([#11149](https://github.com/cube-js/cube/issues/11149)) ([56ba7c6](https://github.com/cube-js/cube/commit/56ba7c65fa1133a7d4b55b39e3f16bdca743ad46))
+- **schema-compiler:** Thread memberToAlias through multi-stage CTEs ([#11150](https://github.com/cube-js/cube/issues/11150)) ([9a24249](https://github.com/cube-js/cube/commit/9a2424909b2a4d0bfe1610d42efeb4ce12538f88))
+
+## [1.6.62](https://github.com/cube-js/cube/compare/v1.6.61...v1.6.62) (2026-06-23)
+
+### Bug Fixes
+
+- **cubesql:** Support EXTRACT(EPOCH) over timestamp diff on Snowflake ([#11105](https://github.com/cube-js/cube/issues/11105)) ([8e9d38c](https://github.com/cube-js/cube/commit/8e9d38cdaffb8b7f9f22377eeb3a35a338cacbab))
+
+### Features
+
+- **cubesql:** Push `Limit`-`Sort` down `Union` inputs ([#11125](https://github.com/cube-js/cube/issues/11125)) ([932e253](https://github.com/cube-js/cube/commit/932e2538b165ffbb168d8ee7de1e4f2c93684717))
+- **cubesql:** Support parsing IANA timezones ([#11140](https://github.com/cube-js/cube/issues/11140)) ([c79eb98](https://github.com/cube-js/cube/commit/c79eb986fb696398b3c3e959b836c02d3af0c211))
+
+## [1.6.61](https://github.com/cube-js/cube/compare/v1.6.60...v1.6.61) (2026-06-22)
+
+**Note:** Version bump only for package @cubejs-backend/cubesql
+
+## [1.6.60](https://github.com/cube-js/cube/compare/v1.6.59...v1.6.60) (2026-06-18)
+
+### Bug Fixes
+
+- **cubesql:** Normalize BETWEEN timestamp/date bounds ([#11104](https://github.com/cube-js/cube/issues/11104)) ([455de8f](https://github.com/cube-js/cube/commit/455de8fe3656b42c3080cf5452b4d33c4c7c9eeb))
+
+### Features
+
+- **cubesql:** Support `ILIKE` SQL push down for BigQuery ([#11112](https://github.com/cube-js/cube/issues/11112)) ([73b7805](https://github.com/cube-js/cube/commit/73b78050395b58e706e344974671f3622b35ad0c))
+
+## [1.6.59](https://github.com/cube-js/cube/compare/v1.6.58...v1.6.59) (2026-06-17)
+
+**Note:** Version bump only for package @cubejs-backend/cubesql
+
+## [1.6.58](https://github.com/cube-js/cube/compare/v1.6.57...v1.6.58) (2026-06-17)
+
+### Bug Fixes
+
+- **cubesql:** Fix grouped join SQL push down regressions ([#11049](https://github.com/cube-js/cube/issues/11049)) ([c70e7ec](https://github.com/cube-js/cube/commit/c70e7ec1deffecbc58670e18905d3e81b1f8c9e5))
+
+### Features
+
+- **cubesql:** Support FULL and RIGHT joins with non-push-to-Cube SQL push down ([#11008](https://github.com/cube-js/cube/issues/11008)) ([8ef4b54](https://github.com/cube-js/cube/commit/8ef4b54e825b2bb83743e10375694aa92f119ab9))
+
+## [1.6.57](https://github.com/cube-js/cube/compare/v1.6.56...v1.6.57) (2026-06-09)
+
+### Features
+
+- **cubesql:** merge view joins on a shared cube member into a single CubeScan ([#10977](https://github.com/cube-js/cube/issues/10977)) ([281e920](https://github.com/cube-js/cube/commit/281e920948552524313a67697989caa1d746e1e1))
+
+## [1.6.56](https://github.com/cube-js/cube/compare/v1.6.55...v1.6.56) (2026-06-08)
+
+**Note:** Version bump only for package @cubejs-backend/cubesql
+
+## [1.6.55](https://github.com/cube-js/cube/compare/v1.6.54...v1.6.55) (2026-06-05)
+
+**Note:** Version bump only for package @cubejs-backend/cubesql
+
+## [1.6.54](https://github.com/cube-js/cube/compare/v1.6.53...v1.6.54) (2026-06-04)
+
+### Bug Fixes
+
+- **cubesql:** Don't mix filter params between subqueries in SQL push down ([#10996](https://github.com/cube-js/cube/issues/10996)) ([38b7d8c](https://github.com/cube-js/cube/commit/38b7d8c7f87e274816ce125bfcb8f94f05ebf8ea))
+
+## [1.6.53](https://github.com/cube-js/cube/compare/v1.6.52...v1.6.53) (2026-06-02)
+
+### Features
+
+- **cubesql:** Improve UX for parsing errors ([#10984](https://github.com/cube-js/cube/issues/10984)) ([b18fd3d](https://github.com/cube-js/cube/commit/b18fd3d05b44625ff675a8539c9ec5e2d93a068d))
+
+## [1.6.52](https://github.com/cube-js/cube/compare/v1.6.51...v1.6.52) (2026-05-29)
+
+### Features
+
+- **cubesql:** Universally prefix all errors ([#10758](https://github.com/cube-js/cube/issues/10758)) ([6c13990](https://github.com/cube-js/cube/commit/6c139904509892ec5da464b1e753de14c37b0497))
+
+## [1.6.51](https://github.com/cube-js/cube/compare/v1.6.50...v1.6.51) (2026-05-27)
+
+### Features
+
+- **cubesql:** expose pre-aggregation indicator ([#10944](https://github.com/cube-js/cube/issues/10944)) ([552a93e](https://github.com/cube-js/cube/commit/552a93ec9fd7a2fce7a93ef01769f1ca8b8d84f2))
+- **cubesql:** Flatten filter rules ([#10940](https://github.com/cube-js/cube/issues/10940)) ([6aa2699](https://github.com/cube-js/cube/commit/6aa2699ffe2edc96b72946078532cb366e1a0f78))
+
 ## [1.6.50](https://github.com/cube-js/cube/compare/v1.6.49...v1.6.50) (2026-05-22)
 
 **Note:** Version bump only for package @cubejs-backend/cubesql

@@ -3,6 +3,115 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.70](https://github.com/cube-js/cube/compare/v1.6.69...v1.6.70) (2026-07-28)
+
+**Note:** Version bump only for package @cubejs-backend/native
+
+## [1.6.69](https://github.com/cube-js/cube/compare/v1.6.68...v1.6.69) (2026-07-10)
+
+**Note:** Version bump only for package @cubejs-backend/native
+
+## [1.6.68](https://github.com/cube-js/cube/compare/v1.6.67...v1.6.68) (2026-07-07)
+
+**Note:** Version bump only for package @cubejs-backend/native
+
+## [1.6.67](https://github.com/cube-js/cube/compare/v1.6.66...v1.6.67) (2026-07-06)
+
+**Note:** Version bump only for package @cubejs-backend/native
+
+## [1.6.66](https://github.com/cube-js/cube/compare/v1.6.65...v1.6.66) (2026-07-03)
+
+**Note:** Version bump only for package @cubejs-backend/native
+
+## [1.6.65](https://github.com/cube-js/cube/compare/v1.6.64...v1.6.65) (2026-07-01)
+
+### Bug Fixes
+
+- **tesseract:** match rolling pre-aggregations without a date range via match-only mode ([#11178](https://github.com/cube-js/cube/issues/11178)) ([b3448e9](https://github.com/cube-js/cube/commit/b3448e9fa1e70c6ce53b63a96cada4c8d9c333a6))
+
+## [1.6.64](https://github.com/cube-js/cube/compare/v1.6.63...v1.6.64) (2026-06-25)
+
+**Note:** Version bump only for package @cubejs-backend/native
+
+## [1.6.63](https://github.com/cube-js/cube/compare/v1.6.62...v1.6.63) (2026-06-25)
+
+### Bug Fixes
+
+- **cubesql:** Handle array-typed columns in streaming SQL mode ([#11149](https://github.com/cube-js/cube/issues/11149)) ([56ba7c6](https://github.com/cube-js/cube/commit/56ba7c65fa1133a7d4b55b39e3f16bdca743ad46))
+
+### Features
+
+- **tesseract:** Support use_original_sql_pre_aggregations in rollup ([#11146](https://github.com/cube-js/cube/issues/11146)) ([6a640a6](https://github.com/cube-js/cube/commit/6a640a63d79ea844ae31269efed84a246f82f162))
+
+## [1.6.62](https://github.com/cube-js/cube/compare/v1.6.61...v1.6.62) (2026-06-23)
+
+### Features
+
+- **cubesql:** Support parsing IANA timezones ([#11140](https://github.com/cube-js/cube/issues/11140)) ([c79eb98](https://github.com/cube-js/cube/commit/c79eb986fb696398b3c3e959b836c02d3af0c211))
+- **tesseract:** Support SQL API grouped sub-query joins ([#11138](https://github.com/cube-js/cube/issues/11138)) ([4d4b8cd](https://github.com/cube-js/cube/commit/4d4b8cde62fdf3c676467b712b9759b601c574e8))
+
+## [1.6.61](https://github.com/cube-js/cube/compare/v1.6.60...v1.6.61) (2026-06-22)
+
+**Note:** Version bump only for package @cubejs-backend/native
+
+## [1.6.60](https://github.com/cube-js/cube/compare/v1.6.59...v1.6.60) (2026-06-18)
+
+### Bug Fixes
+
+- **tesseract:** memory leaks in the native planner ([#11120](https://github.com/cube-js/cube/issues/11120)) ([6eb7afa](https://github.com/cube-js/cube/commit/6eb7afab5ad8f5e62a22a78b7097e23a8531c7d5))
+
+## [1.6.59](https://github.com/cube-js/cube/compare/v1.6.58...v1.6.59) (2026-06-17)
+
+**Note:** Version bump only for package @cubejs-backend/native
+
+## [1.6.58](https://github.com/cube-js/cube/compare/v1.6.57...v1.6.58) (2026-06-17)
+
+**Note:** Version bump only for package @cubejs-backend/native
+
+## [1.6.57](https://github.com/cube-js/cube/compare/v1.6.56...v1.6.57) (2026-06-09)
+
+**Note:** Version bump only for package @cubejs-backend/native
+
+## [1.6.56](https://github.com/cube-js/cube/compare/v1.6.55...v1.6.56) (2026-06-08)
+
+### Bug Fixes
+
+- **native:** Don't fail deserializing JS numbers above u64/i64 range ([#11034](https://github.com/cube-js/cube/issues/11034)) ([44bd455](https://github.com/cube-js/cube/commit/44bd455bbaa4446088e9f20c2014d06c8da24031))
+
+## [1.6.55](https://github.com/cube-js/cube/compare/v1.6.54...v1.6.55) (2026-06-05)
+
+**Note:** Version bump only for package @cubejs-backend/native
+
+## [1.6.54](https://github.com/cube-js/cube/compare/v1.6.53...v1.6.54) (2026-06-04)
+
+**Note:** Version bump only for package @cubejs-backend/native
+
+## [1.6.53](https://github.com/cube-js/cube/compare/v1.6.52...v1.6.53) (2026-06-02)
+
+### Features
+
+- **tesseract:** native Rust time-series generation ([#10980](https://github.com/cube-js/cube/issues/10980)) ([48a3e41](https://github.com/cube-js/cube/commit/48a3e419b31b294b9980a35c229d54383c45726a))
+- **tesseract:** NativeRustHandle/NativeRustBox in cubenativeutils ([#10979](https://github.com/cube-js/cube/issues/10979)) ([852790f](https://github.com/cube-js/cube/commit/852790fcbdbfe4b23088861b5729b1ce6769a5a5))
+
+## [1.6.52](https://github.com/cube-js/cube/compare/v1.6.51...v1.6.52) (2026-05-29)
+
+### Features
+
+- **cubesql:** Universally prefix all errors ([#10758](https://github.com/cube-js/cube/issues/10758)) ([6c13990](https://github.com/cube-js/cube/commit/6c139904509892ec5da464b1e753de14c37b0497))
+- support distributed query cancellation in query queue and cancellation promise for Athena ([#10953](https://github.com/cube-js/cube/issues/10953)) ([0c08a78](https://github.com/cube-js/cube/commit/0c08a78edc01e5979d5e6e483854f6b971e84ebb))
+- **tesseract:** Multi-stage filter directives ([#10827](https://github.com/cube-js/cube/issues/10827)) ([2c7a614](https://github.com/cube-js/cube/commit/2c7a61422454a8d7dc30076292f341a59084a483))
+- **tesseract:** multi-stage grain directive ([#10957](https://github.com/cube-js/cube/issues/10957)) ([76eb75b](https://github.com/cube-js/cube/commit/76eb75b5a99ab863a661bc5d93ea61c05ee58ae9))
+
+## [1.6.51](https://github.com/cube-js/cube/compare/v1.6.50...v1.6.51) (2026-05-27)
+
+### Features
+
+- **cubesql:** expose pre-aggregation indicator ([#10944](https://github.com/cube-js/cube/issues/10944)) ([552a93e](https://github.com/cube-js/cube/commit/552a93ec9fd7a2fce7a93ef01769f1ca8b8d84f2))
+
+### Performance Improvements
+
+- **cubeorchestrator:** QueryResult - migrate to columnar storage ([#10829](https://github.com/cube-js/cube/issues/10829)) ([cfe7f38](https://github.com/cube-js/cube/commit/cfe7f38bbbc660ba6a8a6ff410e675031cdcd528))
+
 ## [1.6.50](https://github.com/cube-js/cube/compare/v1.6.49...v1.6.50) (2026-05-22)
 
 ### Features

@@ -35,7 +35,7 @@ use pg_srv::{
     },
     PgType, PgTypeId, ProtocolError,
 };
-use sqlparser::ast::{self, CloseCursor, FetchDirection, Query, SetExpr, Statement};
+use sqlparser::ast::{self, CloseCursor, FetchDirection, SetExpr, Statement};
 use tokio::{io::AsyncWriteExt, net::TcpStream};
 use tokio_util::sync::CancellationToken;
 use uuid::Uuid;
@@ -215,8 +215,12 @@ impl AsyncPostgresShim {
         };
 
         let message_tag_parser = self.session.server.pg_auth.get_pg_message_tag_parser();
-        let auth_secret =
-            buffer::read_message(&mut self.socket, Arc::clone(&message_tag_parser)).await?;
+        let auth_secret = buffer::read_message(
+            &mut self.socket,
+            Arc::clone(&message_tag_parser),
+            buffer::MAX_AUTH_MESSAGE_LENGTH,
+        )
+        .await?;
         if !self
             .authenticate(auth_method, auth_secret, initial_parameters)
             .await?
@@ -241,7 +245,7 @@ impl AsyncPostgresShim {
                 true = async { semifast_shutdownable && { semifast_shutdown_interruptor.cancelled().await; true } } => {
                     return Self::flush_and_write_admin_shutdown_fatal_message(self).await;
                 }
-                message_result = buffer::read_message(&mut self.socket, Arc::clone(&message_tag_parser)) => message_result?
+                message_result = buffer::read_message(&mut self.socket, Arc::clone(&message_tag_parser), buffer::MAX_FRONTEND_MESSAGE_LENGTH) => message_result?
             };
 
             let result = match message {
@@ -448,21 +452,35 @@ impl AsyncPostgresShim {
     ) -> Result<(), ConnectionError> {
         let (message, props) = match &err {
             ConnectionError::CompilationError(e, _) => match e {
-                CompilationError::Unsupported(msg, meta)
-                | CompilationError::User(msg, meta)
-                | CompilationError::Internal(msg, _, meta) => (msg.clone(), meta.clone()),
+                CompilationError::Unsupported(_, meta)
+                | CompilationError::User(_, meta)
+                | CompilationError::Internal(_, _, meta)
+                | CompilationError::RestApi(_, meta)
+                | CompilationError::SqlParser(_, meta)
+                | CompilationError::Planning(_, meta)
+                | CompilationError::PostProcessing(_, meta)
+                | CompilationError::Rewrite(_, meta)
+                | CompilationError::DatabaseExecution(_, meta) => (e.to_string(), meta.clone()),
                 CompilationError::Fatal(_, _) => return Err(err),
+                // Should never execute
+                CompilationError::ContinueWait => ("Continue wait".to_string(), None),
             },
             ConnectionError::Protocol(ProtocolError::IO { source, .. }, _) => match source.kind() {
                 // Propagate unrecoverable errors to top level - run_on
                 ErrorKind::UnexpectedEof | ErrorKind::BrokenPipe => return Err(err),
                 _ => (
-                    format!("Error during processing PostgreSQL message: {}", err),
+                    format!(
+                        "Internal Error: Error during processing PostgreSQL message: {}",
+                        err
+                    ),
                     None,
                 ),
             },
             _ => (
-                format!("Error during processing PostgreSQL message: {}", err),
+                format!(
+                    "Internal Error: Error during processing PostgreSQL message: {}",
+                    err
+                ),
                 None,
             ),
         };
@@ -560,7 +578,8 @@ impl AsyncPostgresShim {
     }
 
     pub async fn process_initial_message(&mut self) -> Result<StartupState, ConnectionError> {
-        let mut buffer = buffer::read_contents(&mut self.socket, 0).await?;
+        let mut buffer =
+            buffer::read_contents(&mut self.socket, 0, buffer::MAX_STARTUP_PACKET_LENGTH).await?;
 
         let initial_message = protocol::InitialMessage::from(&mut buffer).await?;
         match initial_message {
@@ -1282,6 +1301,7 @@ impl AsyncPostgresShim {
                 name,
                 direction,
                 into,
+                ..
             } => {
                 if into.is_some() {
                     return Err(ConnectionError::Protocol(
@@ -1379,14 +1399,54 @@ impl AsyncPostgresShim {
                 self.write_portal(&mut portal, limit, cancel).await?;
                 self.portals.insert(name.value, portal);
             }
-            Statement::Declare {
-                name,
-                binary,
-                query,
-                scroll,
-                sensitive,
-                hold,
-            } => {
+            Statement::Declare { mut stmts } => {
+                if stmts.len() != 1 {
+                    return Err(ConnectionError::Protocol(
+                        protocol::ErrorResponse::error(
+                            protocol::ErrorCode::FeatureNotSupported,
+                            "Only a single cursor per DECLARE statement is supported".to_string(),
+                        )
+                        .into(),
+                        span_id.clone(),
+                    ));
+                }
+                let ast::Declare {
+                    names,
+                    binary,
+                    for_query: query,
+                    scroll,
+                    sensitive,
+                    hold,
+                    ..
+                } = stmts
+                    .pop()
+                    .expect("DECLARE must contain a single statement");
+
+                if names.len() > 1 {
+                    return Err(ConnectionError::Protocol(
+                        protocol::ErrorResponse::error(
+                            protocol::ErrorCode::FeatureNotSupported,
+                            "Only a single cursor name per DECLARE statement is supported"
+                                .to_string(),
+                        )
+                        .into(),
+                        span_id.clone(),
+                    ));
+                }
+
+                let Some(name) = names.into_iter().next() else {
+                    return Err(ConnectionError::Protocol(
+                        protocol::ErrorResponse::error(
+                            protocol::ErrorCode::FeatureNotSupported,
+                            "DECLARE statement must specify a cursor name".to_string(),
+                        )
+                        .into(),
+                        span_id.clone(),
+                    ));
+                };
+
+                let binary = binary.unwrap_or(false);
+
                 // The default is to allow scrolling in some cases; this is not the same as specifying SCROLL.
                 if scroll.is_some() {
                     return Err(ConnectionError::Protocol(
@@ -1430,6 +1490,16 @@ impl AsyncPostgresShim {
                     ));
                 }
 
+                let Some(query) = query else {
+                    return Err(ConnectionError::Protocol(
+                        protocol::ErrorResponse::error(
+                            protocol::ErrorCode::FeatureNotSupported,
+                            "DECLARE statement must specify a query".to_string(),
+                        )
+                        .into(),
+                        span_id.clone(),
+                    ));
+                };
                 let select_stmt = Statement::Query(query);
                 // It's just a verification that we can compile that query.
                 let _ = convert_statement_to_cube_query(
@@ -1590,18 +1660,19 @@ impl AsyncPostgresShim {
             } => {
                 // Ensure the statement isn't wrapped in extra parens
                 let statement = match *statement.clone() {
-                    Statement::Query(outer_query) => match *outer_query {
-                        Query {
-                            with: None,
-                            body: SetExpr::Query(inner_query),
-                            order_by,
-                            limit: None,
-                            offset: None,
-                            fetch: None,
-                            lock: None,
-                        } if order_by.is_empty() => Statement::Query(inner_query),
-                        _ => *statement,
-                    },
+                    Statement::Query(outer_query)
+                        if outer_query.with.is_none()
+                            && outer_query.order_by.is_none()
+                            && outer_query.limit_clause.is_none()
+                            && outer_query.fetch.is_none()
+                            && outer_query.locks.is_empty()
+                            && matches!(*outer_query.body, SetExpr::Query(_)) =>
+                    {
+                        match *outer_query.body {
+                            SetExpr::Query(inner_query) => Statement::Query(inner_query),
+                            _ => unreachable!(),
+                        }
+                    }
                     _ => *statement,
                 };
 

@@ -3,6 +3,95 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.70](https://github.com/cube-js/cube/compare/v1.6.69...v1.6.70) (2026-07-28)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.69](https://github.com/cube-js/cube/compare/v1.6.68...v1.6.69) (2026-07-10)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.68](https://github.com/cube-js/cube/compare/v1.6.67...v1.6.68) (2026-07-07)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.67](https://github.com/cube-js/cube/compare/v1.6.66...v1.6.67) (2026-07-06)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.66](https://github.com/cube-js/cube/compare/v1.6.65...v1.6.66) (2026-07-03)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.65](https://github.com/cube-js/cube/compare/v1.6.64...v1.6.65) (2026-07-01)
+
+### Bug Fixes
+
+- **tesseract:** Render dimension mask filters on grouped masked measures ([#11177](https://github.com/cube-js/cube/issues/11177)) ([f0569ad](https://github.com/cube-js/cube/commit/f0569adc67080a409f605cf0cd42f58ee5375ce2))
+
+### Features
+
+- **oracle-driver:** Improvements & fixes, fix [#10834](https://github.com/cube-js/cube/issues/10834) ([#11174](https://github.com/cube-js/cube/issues/11174)) ([9da8e07](https://github.com/cube-js/cube/commit/9da8e076897071f204711456b92ff69150547d9c))
+- **tesseract:** Support Funnels extension ([#11187](https://github.com/cube-js/cube/issues/11187)) ([183cd6e](https://github.com/cube-js/cube/commit/183cd6e4e34db8b15011a86c5b73358c0ae0cb4d))
+
+## [1.6.64](https://github.com/cube-js/cube/compare/v1.6.63...v1.6.64) (2026-06-25)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.63](https://github.com/cube-js/cube/compare/v1.6.62...v1.6.63) (2026-06-25)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.62](https://github.com/cube-js/cube/compare/v1.6.61...v1.6.62) (2026-06-23)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.61](https://github.com/cube-js/cube/compare/v1.6.60...v1.6.61) (2026-06-22)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.60](https://github.com/cube-js/cube/compare/v1.6.59...v1.6.60) (2026-06-18)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.59](https://github.com/cube-js/cube/compare/v1.6.58...v1.6.59) (2026-06-17)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.58](https://github.com/cube-js/cube/compare/v1.6.57...v1.6.58) (2026-06-17)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.57](https://github.com/cube-js/cube/compare/v1.6.56...v1.6.57) (2026-06-09)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.56](https://github.com/cube-js/cube/compare/v1.6.55...v1.6.56) (2026-06-08)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.55](https://github.com/cube-js/cube/compare/v1.6.54...v1.6.55) (2026-06-05)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.54](https://github.com/cube-js/cube/compare/v1.6.53...v1.6.54) (2026-06-04)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.53](https://github.com/cube-js/cube/compare/v1.6.52...v1.6.53) (2026-06-02)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
+## [1.6.52](https://github.com/cube-js/cube/compare/v1.6.51...v1.6.52) (2026-05-29)
+
+### Bug Fixes
+
+- **drivers:** athena custom-granularity pre-aggregation build ([#10950](https://github.com/cube-js/cube/issues/10950)) ([f39bcf0](https://github.com/cube-js/cube/commit/f39bcf07fa09ee3b8d07da7206b7d259b431987c))
+
+## [1.6.51](https://github.com/cube-js/cube/compare/v1.6.50...v1.6.51) (2026-05-27)
+
+**Note:** Version bump only for package @cubejs-backend/testing-drivers
+
 ## [1.6.50](https://github.com/cube-js/cube/compare/v1.6.49...v1.6.50) (2026-05-22)
 
 **Note:** Version bump only for package @cubejs-backend/testing-drivers

@@ -1,6 +1,6 @@
 use super::base_filter::{BaseFilter, FilterType};
 use super::FilterOperator;
-use crate::cube_bridge::base_query_options::FilterItem as NativeFilterItem;
+use crate::cube_bridge::base_query_options::{FilterItem as NativeFilterItem, FilterValue};
 use crate::planner::filter::{FilterGroup, FilterGroupOperator, FilterItem};
 use crate::planner::query_tools::QueryTools;
 use crate::planner::{Compiler, MemberSymbol};
@@ -32,6 +32,10 @@ impl<'a> FilterCompiler<'a> {
         }
     }
 
+    // TODO classify time-dimension filters into `time_dimension_filters` so
+    // callers like the multi-stage `filter:` directive can route them to
+    // `QueryProperties::time_dimensions_filters` instead of treating every
+    // include as a plain dimension filter.
     pub fn add_item(&mut self, item: &NativeFilterItem) -> Result<(), CubeError> {
         if let Some(item_type) = self.get_item_type(item, &None)? {
             let compiled_item = self.compile_item(item, &item_type)?;
@@ -54,7 +58,8 @@ impl<'a> FilterCompiler<'a> {
                     item.clone(),
                     FilterType::Dimension,
                     FilterOperator::InDateRange,
-                    Some(date_range.into_iter().map(|v| Some(v)).collect()),
+                    Some(date_range.into_iter().map(FilterValue::Str).collect()),
+                    None,
                 )?;
                 self.time_dimension_filters.push(FilterItem::Item(filter));
             }
@@ -116,6 +121,7 @@ impl<'a> FilterCompiler<'a> {
                     item_type.clone(),
                     FilterOperator::from_str(&operator)?,
                     item.values.clone(),
+                    Some(&mut *self.evaluator_compiler),
                 )?))
             } else {
                 Err(CubeError::user(format!(

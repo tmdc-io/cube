@@ -42,9 +42,9 @@ Object {
     "sql": Object {
       "query_type": "pushdown",
       "sql": Array [
-        "SELECT \\"t\\".\\"avg_t_total_\\" \\"avg_t_total_\\" 
+        "SELECT \\"t\\".\\"avg_t_total_\\" \\"avg_t_total_\\"
 FROM (
-  SELECT AVG(\\"t\\".\\"total\\") \\"avg_t_total_\\" 
+  SELECT AVG(\\"t\\".\\"total\\") \\"avg_t_total_\\"
   FROM (
     SELECT
           \\"orders\\".status \\"status\\", sum(\\"orders\\".amount) \\"total\\"
@@ -149,8 +149,8 @@ Object {
 exports[`SQL API Cube SQL over HTTP sql4sql regular query with missing column 1`] = `
 Object {
   "body": Object {
-    "error": "Error: SQLCompilationError: Internal: Initial planning error: Error during planning: Invalid identifier '#foobar' for schema fields:[Orders.count, Orders.orderCount, Orders.netCollectionCompleted, Orders.arpu, Orders.refundRate, Orders.refundOrdersCount, Orders.overallOrders, Orders.totalAmount, Orders.toRemove, Orders.numberTotal, Orders.amountRank, Orders.amountReducedByStatus, Orders.statusPercentageOfTotal, Orders.amountRankView, Orders.amountRankDateMax, Orders.amountRankDate, Orders.countAndTotalAmount, Orders.createdAtMax, Orders.createdAtMaxProxy, Orders.id, Orders.status, Orders.createdAt, Orders.updatedAt, Orders.__user, Orders.__joinField], metadata:{}",
-    "stack": "Error: SQLCompilationError: Internal: Initial planning error: Error during planning: Invalid identifier '#foobar' for schema fields:[Orders.count, Orders.orderCount, Orders.netCollectionCompleted, Orders.arpu, Orders.refundRate, Orders.refundOrdersCount, Orders.overallOrders, Orders.totalAmount, Orders.toRemove, Orders.numberTotal, Orders.amountRank, Orders.amountReducedByStatus, Orders.statusPercentageOfTotal, Orders.amountRankView, Orders.amountRankDateMax, Orders.amountRankDate, Orders.countAndTotalAmount, Orders.createdAtMax, Orders.createdAtMaxProxy, Orders.id, Orders.status, Orders.createdAt, Orders.updatedAt, Orders.__user, Orders.__joinField], metadata:{}",
+    "error": "Error: Planning Error: Initial planning error: Error during planning: Invalid identifier '#foobar' for schema fields:[Orders.count, Orders.orderCount, Orders.netCollectionCompleted, Orders.arpu, Orders.refundRate, Orders.refundOrdersCount, Orders.overallOrders, Orders.totalAmount, Orders.toRemove, Orders.numberTotal, Orders.amountRank, Orders.amountReducedByStatus, Orders.statusPercentageOfTotal, Orders.amountRankView, Orders.amountRankDateMax, Orders.amountRankDate, Orders.countAndTotalAmount, Orders.createdAtMax, Orders.createdAtMaxProxy, Orders.id, Orders.status, Orders.createdAt, Orders.updatedAt, Orders.__user, Orders.__joinField], metadata:{}",
+    "stack": "Error: Planning Error: Initial planning error: Error during planning: Invalid identifier '#foobar' for schema fields:[Orders.count, Orders.orderCount, Orders.netCollectionCompleted, Orders.arpu, Orders.refundRate, Orders.refundOrdersCount, Orders.overallOrders, Orders.totalAmount, Orders.toRemove, Orders.numberTotal, Orders.amountRank, Orders.amountReducedByStatus, Orders.statusPercentageOfTotal, Orders.amountRankView, Orders.amountRankDateMax, Orders.amountRankDate, Orders.countAndTotalAmount, Orders.createdAtMax, Orders.createdAtMaxProxy, Orders.id, Orders.status, Orders.createdAt, Orders.updatedAt, Orders.__user, Orders.__joinField], metadata:{}",
   },
   "headers": Headers {
     Symbol(map): Object {
@@ -161,7 +161,7 @@ Object {
         "keep-alive",
       ],
       "content-length": Array [
-        "1431",
+        "1559",
       ],
       "content-type": Array [
         "application/json; charset=utf-8",
@@ -236,8 +236,8 @@ Object {
 exports[`SQL API Cube SQL over HTTP sql4sql set variable 1`] = `
 Object {
   "body": Object {
-    "error": "Error: This query doesnt have a plan, because it already has values for response",
-    "stack": "Error: This query doesnt have a plan, because it already has values for response",
+    "error": "Error: Internal Error: This query doesnt have a plan, because it already has values for response",
+    "stack": "Error: Internal Error: This query doesnt have a plan, because it already has values for response",
   },
   "headers": Headers {
     Symbol(map): Object {
@@ -248,7 +248,7 @@ Object {
         "keep-alive",
       ],
       "content-length": Array [
-        "241",
+        "273",
       ],
       "content-type": Array [
         "application/json; charset=utf-8",
@@ -344,7 +344,7 @@ Object {
     "sql": Object {
       "query_type": "pushdown",
       "sql": Array [
-        "SELECT \\"Orders\\".\\"sum_orders_total\\" \\"total\\" 
+        "SELECT \\"Orders\\".\\"sum_orders_total\\" \\"total\\"
 FROM (
   SELECT
         sum(\\"orders\\".amount) \\"sum_orders_total\\"
@@ -399,7 +399,7 @@ Object {
     "sql": Object {
       "query_type": "pushdown",
       "sql": Array [
-        "SELECT \\"Orders\\".\\"sum_orders_total\\" \\"total\\" 
+        "SELECT \\"Orders\\".\\"sum_orders_total\\" \\"total\\"
 FROM (
   SELECT
         sum(\\"orders\\".amount) \\"sum_orders_total\\"

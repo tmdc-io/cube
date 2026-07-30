@@ -208,7 +208,7 @@ jobs:
   unit-core:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
-    needs: latest-tag-sha
+    needs: [latest-tag-sha, build-cubestore]
     if: (needs['latest-tag-sha'].outputs.sha != github.sha)
 
     steps:
@@ -219,8 +219,17 @@ jobs:
         with:
           toolchain: 1.90.0
           components: rustfmt
+      # cubesqlplanner pre-aggregation tests run against this binary; the
+      # resolver picks up target/release first (see cubestore_service.rs).
+      - name: Download cubestored artifact
+        uses: actions/download-artifact@v4
+        with:
+          path: ./rust/cubestore/target/release/
+          name: cubestored-x86_64-unknown-linux-gnu-release
+      - name: Chmod +x for cubestored
+        run: chmod +x ./rust/cubestore/target/release/cubestored
       - name: Cargo test cube workspace
-        run: cargo test --manifest-path rust/cube/Cargo.toml --workspace --features cubesqlplanner/integration-postgres -j 4
+        run: cargo test --manifest-path rust/cube/Cargo.toml --workspace --features cubesqlplanner/integration-cubestore -j 4
 
   build-cubestore:
     needs: [latest-tag-sha]
@@ -413,6 +422,15 @@ jobs:
           - db: mssql
             node-version: 22.x
             use_tesseract_sql_planner: true
+          - db: firebolt
+            node-version: 22.x
+            use_tesseract_sql_planner: true
+          - db: mysql
+            node-version: 22.x
+            use_tesseract_sql_planner: true
+          - db: clickhouse
+            node-version: 22.x
+            use_tesseract_sql_planner: true
       fail-fast: false
 
     steps:
@@ -479,6 +497,7 @@ jobs:
           (!contains(env.CLOUD_DATABASES, matrix.db))
         env:
           CUBEJS_TESSERACT_SQL_PLANNER: ${{ matrix.use_tesseract_sql_planner }}
+          CUBEJS_TESSERACT_PRE_AGGREGATIONS: ${{ matrix.use_tesseract_sql_planner }}
 
           # Firebolt Integration
           DRIVERS_TESTS_FIREBOLT_CUBEJS_FIREBOLT_ENGINE_NAME: ${{ secrets.DRIVERS_TESTS_FIREBOLT_CUBEJS_FIREBOLT_ENGINE_NAME }}
@@ -586,6 +605,7 @@ jobs:
         timeout-minutes: 30
         env:
           CUBEJS_TESSERACT_SQL_PLANNER: ${{ matrix.use_tesseract_sql_planner }}
+          CUBEJS_TESSERACT_PRE_AGGREGATIONS: ${{ matrix.use_tesseract_sql_planner }}
         run: ./.github/actions/smoke.sh
 
   docker-image-latest-set-tag:
