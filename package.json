@@ -27,8 +27,7 @@
   },
   "author": "Cube Dev, Inc.",
   "dependencies": {
-    "core-js": "^3.34.0",
-    "lerna": "^9.0.0"
+    "core-js": "^3.34.0"
   },
   "files": [
     "src",
@@ -51,6 +50,7 @@
     "@types/jest": "^29",
     "husky": "^5.0.4",
     "is-ci": "^2.0.0",
+    "lerna": "^9.0.0",
     "less": "^3.13.1",
     "npm-package-json-lint": "^5.1.0",
     "postcss": "^8.2.8",
@@ -95,6 +95,7 @@
     "@babel/plugin-transform-modules-systemjs": "7.29.4",
     "picomatch": "4.0.4",
     "jws": "4.0.1",
+    "lerna/nx/brace-expansion": "5.0.9",
     "ws": "7.5.11",
     "undici": "6.27.0",
     "uuid": "11.1.1",

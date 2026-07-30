@@ -117,7 +117,10 @@ FROM builder AS prod_base_dependencies
 COPY packages/cubejs-databricks-jdbc-driver/package.json packages/cubejs-databricks-jdbc-driver/package.json
 RUN mkdir packages/cubejs-databricks-jdbc-driver/bin
 RUN echo '#!/usr/bin/env node' > packages/cubejs-databricks-jdbc-driver/bin/post-install
-RUN yarn install --prod
+# This stage inherits the builder filesystem. Start with a clean dependency tree so
+# development tooling (Lerna, Nx, and their transitive dependencies) cannot be
+# copied into the final transpiler image.
+RUN rm -rf node_modules && yarn install --production
 
 FROM prod_base_dependencies AS prod_dependencies
 COPY packages/cubejs-databricks-jdbc-driver/bin packages/cubejs-databricks-jdbc-driver/bin
