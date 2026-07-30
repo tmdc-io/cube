@@ -194,7 +194,8 @@ RUN cd /cubejs/rust/cube/cubeshared && cargo update flatbuffers && \
     cd /cubejs/packages/cubejs-backend-native && cargo update flatbuffers@2.1.2
 
 RUN yarn build
-RUN yarn lerna run build
+# ngx Angular build OOMs in CI (exit 130); not needed for transpiler-base runtime
+RUN yarn lerna run build --ignore @cubejs-client/ngx
 
 # [DataOS fork] Compile native module from source instead of using pre-built upstream binary
 RUN cd packages/cubejs-backend-native && npm run native:build-release-python
