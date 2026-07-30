@@ -44,7 +44,8 @@ COPY rust/cubestore/bin rust/cubestore/bin
 COPY packages/cubejs-backend-shared/package.json packages/cubejs-backend-shared/package.json
 COPY packages/cubejs-base-driver/package.json packages/cubejs-base-driver/package.json
 COPY packages/cubejs-backend-native/package.json packages/cubejs-backend-native/package.json
-COPY packages/cubejs-testing-shared/package.json packages/cubejs-testing-shared/package.json
+# Removed: testing-shared — shared test helpers (testcontainers etc.); not used in production transpile runtime; pulls undici/testcontainers CVEs
+# COPY packages/cubejs-testing-shared/package.json packages/cubejs-testing-shared/package.json
 COPY packages/cubejs-backend-cloud/package.json packages/cubejs-backend-cloud/package.json
 COPY packages/cubejs-api-gateway/package.json packages/cubejs-api-gateway/package.json
 COPY packages/cubejs-athena-driver/package.json packages/cubejs-athena-driver/package.json
@@ -87,14 +88,21 @@ COPY packages/cubejs-fabric-driver/package.json packages/cubejs-fabric-driver/pa
 # Skip
 # COPY packages/cubejs-testing/package.json packages/cubejs-testing/package.json
 # COPY packages/cubejs-docker/package.json packages/cubejs-docker/package.json
-# Frontend
+# Frontend / non-runtime packages omitted for DataOS transpiler-base (CVE surface + image size).
+# Keep client-core: other packages may reference @cubejs-client/core.
+# Keep templates: @cubejs-backend/server-core lists it as a runtime dependency (cannot drop without code change).
 COPY packages/cubejs-templates/package.json packages/cubejs-templates/package.json
 COPY packages/cubejs-client-core/package.json packages/cubejs-client-core/package.json
-COPY packages/cubejs-client-react/package.json packages/cubejs-client-react/package.json
-COPY packages/cubejs-client-vue3/package.json packages/cubejs-client-vue3/package.json
-COPY packages/cubejs-client-ngx/package.json packages/cubejs-client-ngx/package.json
-COPY packages/cubejs-client-ws-transport/package.json packages/cubejs-client-ws-transport/package.json
-COPY packages/cubejs-playground/package.json packages/cubejs-playground/package.json
+# Removed: client-react — browser React SDK; no frontend UI in this image
+# COPY packages/cubejs-client-react/package.json packages/cubejs-client-react/package.json
+# Removed: client-vue3 — browser Vue SDK; no frontend UI in this image
+# COPY packages/cubejs-client-vue3/package.json packages/cubejs-client-vue3/package.json
+# Removed: client-ngx — browser Angular SDK; no frontend; ng build also OOMs in CI (exit 130)
+# COPY packages/cubejs-client-ngx/package.json packages/cubejs-client-ngx/package.json
+# Removed: client-ws-transport — browser WebSocket client for live UI queries; server/transpiler does not use it
+# COPY packages/cubejs-client-ws-transport/package.json packages/cubejs-client-ws-transport/package.json
+# Removed: playground — Cube web UI (query explorer/charts); transpiler never serves it; pulls js-cookie@2.x CVEs
+# COPY packages/cubejs-playground/package.json packages/cubejs-playground/package.json
 
 RUN yarn policies set-version v1.22.22
 # Yarn v1 uses aggressive timeouts with summing time spending on fs, https://github.com/yarnpkg/yarn/issues/4890
@@ -134,7 +142,8 @@ COPY rust/cube/ rust/cube/
 COPY packages/cubejs-backend-shared/ packages/cubejs-backend-shared/
 COPY packages/cubejs-base-driver/ packages/cubejs-base-driver/
 COPY packages/cubejs-backend-native/ packages/cubejs-backend-native/
-COPY packages/cubejs-testing-shared/ packages/cubejs-testing-shared/
+# Removed: testing-shared — shared test helpers (testcontainers etc.); not used in production transpile runtime; pulls undici/testcontainers CVEs
+# COPY packages/cubejs-testing-shared/ packages/cubejs-testing-shared/
 COPY packages/cubejs-backend-cloud/ packages/cubejs-backend-cloud/
 COPY packages/cubejs-api-gateway/ packages/cubejs-api-gateway/
 COPY packages/cubejs-athena-driver/ packages/cubejs-athena-driver/
@@ -178,24 +187,38 @@ COPY packages/cubejs-fabric-driver/ packages/cubejs-fabric-driver/
 # Skip
 # COPY packages/cubejs-testing/ packages/cubejs-testing/
 # COPY packages/cubejs-docker/ packages/cubejs-docker/
-# Frontend
+# Frontend / non-runtime packages omitted for DataOS transpiler-base (CVE surface + image size).
+# Keep client-core: other packages may reference @cubejs-client/core.
+# Keep templates: @cubejs-backend/server-core runtime dependency (cannot drop without code change).
 COPY packages/cubejs-templates/ packages/cubejs-templates/
 COPY packages/cubejs-client-core/ packages/cubejs-client-core/
-COPY packages/cubejs-client-react/ packages/cubejs-client-react/
-COPY packages/cubejs-client-vue3/ packages/cubejs-client-vue3/
-COPY packages/cubejs-client-ngx/ packages/cubejs-client-ngx/
-COPY packages/cubejs-client-ws-transport/ packages/cubejs-client-ws-transport/
-COPY packages/cubejs-playground/ packages/cubejs-playground/
+# Removed: client-react — browser React SDK; no frontend UI in this image
+# COPY packages/cubejs-client-react/ packages/cubejs-client-react/
+# Removed: client-vue3 — browser Vue SDK; no frontend UI in this image
+# COPY packages/cubejs-client-vue3/ packages/cubejs-client-vue3/
+# Removed: client-ngx — browser Angular SDK; no frontend; ng build also OOMs in CI (exit 130)
+# COPY packages/cubejs-client-ngx/ packages/cubejs-client-ngx/
+# Removed: client-ws-transport — browser WebSocket client for live UI queries; server/transpile does not use it
+# COPY packages/cubejs-client-ws-transport/ packages/cubejs-client-ws-transport/
+# Removed: playground — Cube web UI (query explorer/charts); transpiler never serves it; pulls js-cookie@2.x CVEs
+# COPY packages/cubejs-playground/ packages/cubejs-playground/
 
 # GHSA-3jch-9qgp-4844: bump flatbuffers@2.1.2 before compile
 RUN cd /cubejs/rust/cube/cubeshared && cargo update flatbuffers && \
     cd /cubejs/rust/cube/cubestore-ws-transport && cargo update flatbuffers && \
     cd /cubejs/rust/cubesql && cargo update flatbuffers@2.1.2 && \
-    cd /cubejs/packages/cubejs-backend-native && cargo update flatbuffers@2.1.2
+    cd /cubejs/packages/cubejs-backend-native && cargo update flatbuffers@2.1.2 && \
+    cd /cubejs/rust/cube && cargo update -p quinn-proto
 
 RUN yarn build
-# ngx Angular build OOMs in CI (exit 130); not needed for transpiler-base runtime
-RUN yarn lerna run build --ignore @cubejs-client/ngx
+# Packages not copied above — ignore so lerna/nx does not fail looking for them
+RUN yarn lerna run build \
+    --ignore @cubejs-client/ngx \
+    --ignore @cubejs-client/playground \
+    --ignore @cubejs-client/react \
+    --ignore @cubejs-client/vue3 \
+    --ignore @cubejs-client/ws-transport \
+    --ignore @cubejs-backend/testing-shared
 
 # [DataOS fork] Compile native module from source instead of using pre-built upstream binary
 RUN cd packages/cubejs-backend-native && npm run native:build-release-python
@@ -203,9 +226,8 @@ RUN cd packages/cubejs-backend-native && npm run native:build-release-python
 RUN find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
 
 FROM build AS scrub
-RUN rm -rf packages/cubejs-server/examples packages/cubejs-playground/charts-gen && \
+RUN rm -rf packages/cubejs-server/examples && \
     find packages/cubejs-server -type d -name examples -prune -exec rm -rf {} + 2>/dev/null || true && \
-    find packages/cubejs-playground -name yarn.lock -not -path '*/node_modules/*' -delete 2>/dev/null || true && \
     for lock in packages/cubejs-backend-native/Cargo.lock rust/cubesql/Cargo.lock; do \
       if [ -f "$lock" ] && grep -q 'name = "flatbuffers"' "$lock" && grep -q 'version = "2.1.2"' "$lock"; then \
         rm -f "$lock"; \
