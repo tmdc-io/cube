@@ -2,31 +2,32 @@ FROM tmdcio/node:24.18.0-noble-fips-rfcurated AS builder
 
 ARG IMAGE_VERSION=dev
 
-ENV CUBEJS_DOCKER_IMAGE_VERSION=$IMAGE_VERSION
-ENV CUBEJS_DOCKER_IMAGE_TAG=dev
-ENV CI=0
+ENV CUBEJS_DOCKER_IMAGE_VERSION=$IMAGE_VERSION \
+    CUBEJS_DOCKER_IMAGE_TAG=dev \
+    CI=0
 
 USER root
+
 RUN mkdir -p /var/lib/apt/lists/partial && \
     chmod -R 755 /var/lib/apt
 
+# JDK here for node-java compile (Databricks JDBC); final stage uses JRE only
 RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
-    # python3 package is necessary to install `python3` executable for node-gyp
     && apt-get install -y --no-install-recommends libssl3 curl \
        cmake python3 python3.12 libpython3.12-dev gcc g++ make openjdk-17-jdk-headless \
     && rm -rf /var/lib/apt/lists/*
 
-ENV RUSTUP_HOME=/usr/local/rustup
-ENV CARGO_HOME=/usr/local/cargo
-ENV PATH=/usr/local/cargo/bin:$PATH
+ENV RUSTUP_HOME=/usr/local/rustup \
+    CARGO_HOME=/usr/local/cargo \
+    PATH=/usr/local/cargo/bin:$PATH
 
-# [DataOS fork] Rust toolchain pinned to 1.90.0 (upstream uses nightly-2022-03-08) for native module compilation
+# [DataOS] Pin 1.90.0 — upstream uses an older nightly
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
     sh -s -- --profile minimal --default-toolchain 1.90.0 -y
 
-ENV CUBESTORE_SKIP_POST_INSTALL=true
-ENV NODE_ENV=development
+ENV CUBESTORE_SKIP_POST_INSTALL=true \
+    NODE_ENV=development
 
 WORKDIR /cubejs
 
@@ -37,20 +38,25 @@ COPY tsconfig.base.json .
 COPY rollup.config.js .
 COPY packages/cubejs-linter packages/cubejs-linter
 
-# Backend
 COPY rust/cubesql/package.json rust/cubesql/package.json
 COPY rust/cubestore/package.json rust/cubestore/package.json
 COPY rust/cubestore/bin rust/cubestore/bin
+
 COPY packages/cubejs-backend-shared/package.json packages/cubejs-backend-shared/package.json
 COPY packages/cubejs-base-driver/package.json packages/cubejs-base-driver/package.json
 COPY packages/cubejs-backend-native/package.json packages/cubejs-backend-native/package.json
-# Removed: testing-shared — shared test helpers (testcontainers etc.); not used in production transpile runtime; pulls undici/testcontainers CVEs
-# COPY packages/cubejs-testing-shared/package.json packages/cubejs-testing-shared/package.json
 COPY packages/cubejs-backend-cloud/package.json packages/cubejs-backend-cloud/package.json
 COPY packages/cubejs-api-gateway/package.json packages/cubejs-api-gateway/package.json
+COPY packages/cubejs-cli/package.json packages/cubejs-cli/package.json
+COPY packages/cubejs-query-orchestrator/package.json packages/cubejs-query-orchestrator/package.json
+COPY packages/cubejs-schema-compiler/package.json packages/cubejs-schema-compiler/package.json
+COPY packages/cubejs-server/package.json packages/cubejs-server/package.json
+COPY packages/cubejs-server-core/package.json packages/cubejs-server-core/package.json
+COPY packages/cubejs-dbt-schema-extension/package.json packages/cubejs-dbt-schema-extension/package.json
+COPY packages/cubejs-jdbc-driver/package.json packages/cubejs-jdbc-driver/package.json
+
 COPY packages/cubejs-athena-driver/package.json packages/cubejs-athena-driver/package.json
 COPY packages/cubejs-bigquery-driver/package.json packages/cubejs-bigquery-driver/package.json
-COPY packages/cubejs-cli/package.json packages/cubejs-cli/package.json
 COPY packages/cubejs-clickhouse-driver/package.json packages/cubejs-clickhouse-driver/package.json
 COPY packages/cubejs-crate-driver/package.json packages/cubejs-crate-driver/package.json
 COPY packages/cubejs-dremio-driver/package.json packages/cubejs-dremio-driver/package.json
@@ -71,68 +77,48 @@ COPY packages/cubejs-materialize-driver/package.json packages/cubejs-materialize
 COPY packages/cubejs-prestodb-driver/package.json packages/cubejs-prestodb-driver/package.json
 COPY packages/cubejs-trino-driver/package.json packages/cubejs-trino-driver/package.json
 COPY packages/cubejs-pinot-driver/package.json packages/cubejs-pinot-driver/package.json
-COPY packages/cubejs-query-orchestrator/package.json packages/cubejs-query-orchestrator/package.json
-COPY packages/cubejs-schema-compiler/package.json packages/cubejs-schema-compiler/package.json
-COPY packages/cubejs-server/package.json packages/cubejs-server/package.json
-COPY packages/cubejs-server-core/package.json packages/cubejs-server-core/package.json
 COPY packages/cubejs-snowflake-driver/package.json packages/cubejs-snowflake-driver/package.json
 COPY packages/cubejs-sqlite-driver/package.json packages/cubejs-sqlite-driver/package.json
 COPY packages/cubejs-ksql-driver/package.json packages/cubejs-ksql-driver/package.json
-COPY packages/cubejs-dbt-schema-extension/package.json packages/cubejs-dbt-schema-extension/package.json
-COPY packages/cubejs-jdbc-driver/package.json packages/cubejs-jdbc-driver/package.json
 COPY packages/cubejs-vertica-driver/package.json packages/cubejs-vertica-driver/package.json
-# [DataOS fork] Added Spark driver
 COPY packages/cubejs-spark-driver/package.json packages/cubejs-spark-driver/package.json
-# [DataOS fork] Added Fabric driver
 COPY packages/cubejs-fabric-driver/package.json packages/cubejs-fabric-driver/package.json
-# Skip
-# COPY packages/cubejs-testing/package.json packages/cubejs-testing/package.json
-# COPY packages/cubejs-docker/package.json packages/cubejs-docker/package.json
-# Frontend / non-runtime packages omitted for DataOS transpiler-base (CVE surface + image size).
-# Keep client-core: other packages may reference @cubejs-client/core.
-# Keep client-react / vue3 / ws-transport: required by root rollup.config.js (`yarn build`).
-# Keep templates: @cubejs-backend/server-core lists it as a runtime dependency (cannot drop without code change).
+
+# templates: server-core runtime dep; clients: required by root rollup.config.js
 COPY packages/cubejs-templates/package.json packages/cubejs-templates/package.json
 COPY packages/cubejs-client-core/package.json packages/cubejs-client-core/package.json
-# Required by root rollup.config.js (`yarn build`); not used at transpiler runtime
 COPY packages/cubejs-client-react/package.json packages/cubejs-client-react/package.json
 COPY packages/cubejs-client-vue3/package.json packages/cubejs-client-vue3/package.json
 COPY packages/cubejs-client-ws-transport/package.json packages/cubejs-client-ws-transport/package.json
-# Removed: client-ngx — browser Angular SDK; no frontend; ng build also OOMs in CI (exit 130)
-# COPY packages/cubejs-client-ngx/package.json packages/cubejs-client-ngx/package.json
-# Removed: playground — Cube web UI (query explorer/charts); transpiler never serves it; pulls js-cookie@2.x CVEs
-# COPY packages/cubejs-playground/package.json packages/cubejs-playground/package.json
+# Omitted: testing-shared, testing, playground, client-ngx (ng OOM in CI)
 
 RUN yarn policies set-version v1.22.22
-# Yarn v1 uses aggressive timeouts with summing time spending on fs, https://github.com/yarnpkg/yarn/issues/4890
+# https://github.com/yarnpkg/yarn/issues/4890
 RUN yarn config set network-timeout 120000 -g
 
-# There is a problem with release process.
-# We are doing version bump without updating lock files for the docker package.
-#RUN yarn install --frozen-lockfile
-
+# Not --frozen-lockfile: image COPYs a subset of workspaces vs full monorepo yarn.lock
 RUN yarn install
 
 FROM builder AS prod_base_dependencies
+
 COPY packages/cubejs-databricks-jdbc-driver/package.json packages/cubejs-databricks-jdbc-driver/package.json
 RUN mkdir packages/cubejs-databricks-jdbc-driver/bin
+# Skip Databricks JAR download during yarn install
 RUN echo '#!/usr/bin/env node' > packages/cubejs-databricks-jdbc-driver/bin/post-install
-# This stage inherits the builder filesystem. Start with a clean dependency tree so
-# development tooling (Lerna, Nx, and their transitive dependencies) cannot be
-# copied into the final transpiler image.
+
+# Fresh prod tree so Lerna/Nx (dev tooling) do not ship in the final image
 RUN rm -rf node_modules && yarn install --production
 
 FROM prod_base_dependencies AS prod_dependencies
+
 COPY packages/cubejs-databricks-jdbc-driver/bin packages/cubejs-databricks-jdbc-driver/bin
 RUN yarn install --prod --ignore-scripts
-# node-java native addon: clean `yarn install --production` often leaves package
-# without `build/` (jvm_dll_path.json). Databricks JDBC needs it; rebuild while
-# builder JDK/g++ are still available (final stage only has JRE).
+
+# Clean prod install often omits java/build; Databricks JDBC needs jvm_dll_path.json (needs JDK)
 RUN cd node_modules/java && npm run install && \
     test -f build/jvm_dll_path.json
-# CVE-2026-14257: brace-expansion@1.1.18 via lerna/minimatch@3 — not used at SQL-compile
-# runtime. Drop build tooling leftovers that yarn --production may still hoist.
-# Also drop java test jars (commons-lang3 CVE in node_modules/java/test).
+
+# CVE-2026-14257 (brace-expansion@1.x via minimatch) + java test jars
 RUN rm -rf node_modules/lerna node_modules/nx \
     node_modules/minimatch/node_modules/brace-expansion \
     node_modules/minimatch \
@@ -148,21 +134,27 @@ FROM builder AS build
 
 RUN yarn install
 
-# Backend
-# [DataOS fork] Copy full Rust crate sources for native module compilation (upstream only copies cubestore + cubesql)
+# [DataOS] Full rust/cube tree (upstream often copies only cubestore + cubesql)
 COPY rust/cubestore/ rust/cubestore/
 COPY rust/cubesql/ rust/cubesql/
 COPY rust/cube/ rust/cube/
+
 COPY packages/cubejs-backend-shared/ packages/cubejs-backend-shared/
 COPY packages/cubejs-base-driver/ packages/cubejs-base-driver/
 COPY packages/cubejs-backend-native/ packages/cubejs-backend-native/
-# Removed: testing-shared — shared test helpers (testcontainers etc.); not used in production transpile runtime; pulls undici/testcontainers CVEs
-# COPY packages/cubejs-testing-shared/ packages/cubejs-testing-shared/
 COPY packages/cubejs-backend-cloud/ packages/cubejs-backend-cloud/
 COPY packages/cubejs-api-gateway/ packages/cubejs-api-gateway/
+COPY packages/cubejs-cli/ packages/cubejs-cli/
+COPY packages/cubejs-query-orchestrator/ packages/cubejs-query-orchestrator/
+COPY packages/cubejs-schema-compiler/ packages/cubejs-schema-compiler/
+COPY packages/cubejs-server/ packages/cubejs-server/
+COPY packages/cubejs-server-core/ packages/cubejs-server-core/
+COPY packages/cubejs-dbt-schema-extension/ packages/cubejs-dbt-schema-extension/
+COPY packages/cubejs-jdbc-driver/ packages/cubejs-jdbc-driver/
+COPY packages/cubejs-databricks-jdbc-driver/ packages/cubejs-databricks-jdbc-driver/
+
 COPY packages/cubejs-athena-driver/ packages/cubejs-athena-driver/
 COPY packages/cubejs-bigquery-driver/ packages/cubejs-bigquery-driver/
-COPY packages/cubejs-cli/ packages/cubejs-cli/
 COPY packages/cubejs-clickhouse-driver/ packages/cubejs-clickhouse-driver/
 COPY packages/cubejs-crate-driver/ packages/cubejs-crate-driver/
 COPY packages/cubejs-dremio-driver/ packages/cubejs-dremio-driver/
@@ -183,40 +175,20 @@ COPY packages/cubejs-materialize-driver/ packages/cubejs-materialize-driver/
 COPY packages/cubejs-prestodb-driver/ packages/cubejs-prestodb-driver/
 COPY packages/cubejs-trino-driver/ packages/cubejs-trino-driver/
 COPY packages/cubejs-pinot-driver/ packages/cubejs-pinot-driver/
-COPY packages/cubejs-query-orchestrator/ packages/cubejs-query-orchestrator/
-COPY packages/cubejs-schema-compiler/ packages/cubejs-schema-compiler/
-COPY packages/cubejs-server/ packages/cubejs-server/
-COPY packages/cubejs-server-core/ packages/cubejs-server-core/
 COPY packages/cubejs-snowflake-driver/ packages/cubejs-snowflake-driver/
 COPY packages/cubejs-sqlite-driver/ packages/cubejs-sqlite-driver/
 COPY packages/cubejs-ksql-driver/ packages/cubejs-ksql-driver/
-COPY packages/cubejs-dbt-schema-extension/ packages/cubejs-dbt-schema-extension/
-COPY packages/cubejs-jdbc-driver/ packages/cubejs-jdbc-driver/
-COPY packages/cubejs-databricks-jdbc-driver/ packages/cubejs-databricks-jdbc-driver/
 COPY packages/cubejs-vertica-driver/ packages/cubejs-vertica-driver/
-# [DataOS fork] Added Spark driver
 COPY packages/cubejs-spark-driver/ packages/cubejs-spark-driver/
-# [DataOS fork] Added Fabric driver
 COPY packages/cubejs-fabric-driver/ packages/cubejs-fabric-driver/
-# Skip
-# COPY packages/cubejs-testing/ packages/cubejs-testing/
-# COPY packages/cubejs-docker/ packages/cubejs-docker/
-# Frontend / non-runtime packages omitted for DataOS transpiler-base (CVE surface + image size).
-# Keep client-core: other packages may reference @cubejs-client/core.
-# Keep client-react / vue3 / ws-transport: required by root rollup.config.js (`yarn build`).
-# Keep templates: @cubejs-backend/server-core runtime dependency (cannot drop without code change).
+
 COPY packages/cubejs-templates/ packages/cubejs-templates/
 COPY packages/cubejs-client-core/ packages/cubejs-client-core/
-# Required by root rollup.config.js (`yarn build`); not used at transpiler runtime
 COPY packages/cubejs-client-react/ packages/cubejs-client-react/
 COPY packages/cubejs-client-vue3/ packages/cubejs-client-vue3/
 COPY packages/cubejs-client-ws-transport/ packages/cubejs-client-ws-transport/
-# Removed: client-ngx — browser Angular SDK; no frontend; ng build also OOMs in CI (exit 130)
-# COPY packages/cubejs-client-ngx/ packages/cubejs-client-ngx/
-# Removed: playground — Cube web UI (query explorer/charts); transpiler never serves it; pulls js-cookie@2.x CVEs
-# COPY packages/cubejs-playground/ packages/cubejs-playground/
 
-# GHSA-3jch-9qgp-4844: bump flatbuffers@2.1.2 before compile
+# GHSA-3jch-9qgp-4844
 RUN cd /cubejs/rust/cube/cubeshared && cargo update flatbuffers && \
     cd /cubejs/rust/cube/cubestore-ws-transport && cargo update flatbuffers && \
     cd /cubejs/rust/cubesql && cargo update flatbuffers@2.1.2 && \
@@ -224,19 +196,21 @@ RUN cd /cubejs/rust/cube/cubeshared && cargo update flatbuffers && \
     cd /cubejs/rust/cube && cargo update -p quinn-proto
 
 RUN yarn build
-# Packages not copied above — ignore so lerna/nx does not fail looking for them
-# react/vue3/ws-transport are built by rollup (`yarn build`); still ignore ngx/playground/testing-shared
+
+# Packages not copied into this image
 RUN yarn lerna run build \
     --ignore @cubejs-client/ngx \
     --ignore @cubejs-client/playground \
     --ignore @cubejs-backend/testing-shared
 
-# [DataOS fork] Compile native module from source instead of using pre-built upstream binary
+# [DataOS] Compile native module from source (no upstream prebuilt binary)
 RUN cd packages/cubejs-backend-native && npm run native:build-release-python
 
+# Final image takes node_modules from prod_dependencies
 RUN find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
 
 FROM build AS scrub
+
 RUN rm -rf packages/cubejs-server/examples && \
     find packages/cubejs-server -type d -name examples -prune -exec rm -rf {} + 2>/dev/null || true && \
     for lock in packages/cubejs-backend-native/Cargo.lock rust/cubesql/Cargo.lock; do \
@@ -249,14 +223,16 @@ FROM tmdcio/node:24.18.0-noble-fips-rfcurated AS final
 
 ARG IMAGE_VERSION=dev
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV CUBEJS_DOCKER_IMAGE_VERSION=$IMAGE_VERSION
-ENV CUBEJS_DOCKER_IMAGE_TAG=dev
+ENV DEBIAN_FRONTEND=noninteractive \
+    CUBEJS_DOCKER_IMAGE_VERSION=$IMAGE_VERSION \
+    CUBEJS_DOCKER_IMAGE_TAG=dev
 
 USER root
+
 RUN mkdir -p /var/lib/apt/lists/partial && \
     chmod -R 755 /var/lib/apt
 
+# JRE for Databricks JDBC at runtime
 RUN apt-get update \
     && apt-get install -y --no-install-recommends ca-certificates python3.12 libpython3.12 openjdk-17-jre-headless \
     && apt-get clean \
@@ -269,11 +245,12 @@ COPY --from=prod_dependencies /cubejs .
 
 COPY packages/cubejs-docker/bin/cubejs-dev /usr/local/bin/cubejs
 
-# By default Node dont search in parent directory from /cube/conf, @todo Reaserch a little bit more
-ENV NODE_PATH=/cube/conf/node_modules:/cubejs/node_modules
-ENV PYTHONUNBUFFERED=1
-ENV LANG=C.UTF-8
-ENV LC_ALL=C.UTF-8
+# Required so require() resolves from /cube/conf
+ENV NODE_PATH=/cube/conf/node_modules:/cubejs/node_modules \
+    PYTHONUNBUFFERED=1 \
+    LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8
+
 RUN ln -s /cubejs/packages/cubejs-docker /cube && \
     ln -s /cubejs/rust/cubestore/bin/cubestore-dev /usr/local/bin/cubestore-dev
 
