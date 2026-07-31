@@ -32,7 +32,7 @@
   },
   "optionalDependencies": {
     "@cubejs-backend/jdbc": "^0.8.1",
-    "java": "^0.14.0"
+    "java": "^0.18.0"
   },
   "license": "Apache-2.0",
   "eslintConfig": {
