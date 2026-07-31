@@ -125,6 +125,18 @@ RUN rm -rf node_modules && yarn install --production
 FROM prod_base_dependencies AS prod_dependencies
 COPY packages/cubejs-databricks-jdbc-driver/bin packages/cubejs-databricks-jdbc-driver/bin
 RUN yarn install --prod --ignore-scripts
+# node-java native addon: clean `yarn install --production` often leaves package
+# without `build/` (jvm_dll_path.json). Databricks JDBC needs it; rebuild while
+# builder JDK/g++ are still available (final stage only has JRE).
+RUN cd node_modules/java && npm run install && \
+    test -f build/jvm_dll_path.json
+# CVE-2026-14257: brace-expansion@1.1.18 via lerna/minimatch@3 — not used at SQL-compile
+# runtime. Drop build tooling leftovers that yarn --production may still hoist.
+# Also drop java test jars (commons-lang3 CVE in node_modules/java/test).
+RUN rm -rf node_modules/lerna node_modules/nx \
+    node_modules/minimatch/node_modules/brace-expansion \
+    node_modules/minimatch \
+    node_modules/java/test
 
 RUN HSQLDB_JAR="/cubejs/node_modules/@cubejs-backend/jdbc/drivers-10.17/hsqldb.jar" && \
     if [ -f "$HSQLDB_JAR" ]; then \
