@@ -364,7 +364,7 @@ describe('QueryOrchestrator', () => {
     console.log(await queryOrchestrator.queryStage(query));
     const result = await promise;
     console.log(result.data[0]);
-    expect(result.data[0]).toMatch(/orders_number_and_count20191101_kjypcoio_5yftl5il/);
+    expect(result.data[0]).toMatch(/orders_number_and_count20191101_sk2dz2lz_rscmxq14/);
     expect(result.lastRefreshTime.getTime()).toEqual(12345000);
   });
 
@@ -682,8 +682,8 @@ describe('QueryOrchestrator', () => {
         requestId: 'save structure versions'
       });
     }
-    expect(mockDriver.tables).toContainEqual(expect.stringMatching(/orders_f5v4jw3p_4eysppzt/));
-    expect(mockDriver.tables).toContainEqual(expect.stringMatching(/orders_mjooke4_ezlvkhjl/));
+    expect(mockDriver.tables).toContainEqual(expect.stringMatching(/orders_1wpugwjf_ocrszzad/));
+    expect(mockDriver.tables).toContainEqual(expect.stringMatching(/orders_1gry3kri_bs4m10l2/));
   });
 
   test('intermittent empty rollup', async () => {
@@ -997,15 +997,15 @@ describe('QueryOrchestrator', () => {
     expect(versionEntriesByTableName).toMatchObject({
       'stb_pre_aggregations.orders': [{
         table_name: 'stb_pre_aggregations.orders',
-        content_version: 'mjooke4',
-        structure_version: 'ezlvkhjl',
+        content_version: '1gry3kri',
+        structure_version: 'bs4m10l2',
         naming_version: 2
       }]
     });
 
     expect(Object.keys(structureVersionsByTableName).length).toBe(1);
     expect(structureVersionsByTableName).toMatchObject({
-      'stb_pre_aggregations.orders': 'ezlvkhjl'
+      'stb_pre_aggregations.orders': 'bs4m10l2'
     });
   });
 
@@ -1568,7 +1568,7 @@ describe('QueryOrchestrator', () => {
     };
     const promise = queryOrchestrator.fetchQuery(query);
     const result = await promise;
-    expect(result.data[0]).toMatch(/orders_number_and_count20191101_kjypcoio_5yftl5il/);
+    expect(result.data[0]).toMatch(/orders_number_and_count20191101_sk2dz2lz_rscmxq14/);
   });
 
   test('streaming source tables are not dropped', async () => {
@@ -1594,7 +1594,7 @@ describe('QueryOrchestrator', () => {
       requestId: 'basic'
     };
     await queryOrchestrator.fetchQuery(query);
-    expect(streamingSourceMockDriver.tables[0]).toMatch(/orders_number_and_count20191101_kjypcoio_5yftl5il/);
+    expect(streamingSourceMockDriver.tables[0]).toMatch(/orders_number_and_count20191101_sk2dz2lz_rscmxq14/);
   });
 
   test('streaming receives stream offset', async () => {

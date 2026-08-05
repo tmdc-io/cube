@@ -597,7 +597,7 @@ export class DataSchemaCompiler {
       return '';
     }
 
-    const hash = crypto.createHash('md5');
+    const hash = crypto.createHash('sha256');
     for (const f of macroFiles) {
       hash.update(f.fileName);
       hash.update('\0');
@@ -782,7 +782,7 @@ export class DataSchemaCompiler {
     errorsReport: ErrorReporter,
     { cubeNames, cubeSymbols, compilerId, jinjaUsed }: TranspileOptions
   ): Promise<(FileContent | undefined)> {
-    const cacheKey = crypto.createHash('md5').update(file.content).digest('hex');
+    const cacheKey = crypto.createHash('sha256').update(file.content).digest('hex');
 
     if (this.compiledYamlCache.has(cacheKey)) {
       const content = this.compiledYamlCache.get(cacheKey)!;
@@ -833,7 +833,7 @@ export class DataSchemaCompiler {
     errorsReport: ErrorReporter,
     options: TranspileOptions
   ): Promise<(FileContent | undefined)> {
-    const cacheKey = crypto.createHash('md5')
+    const cacheKey = crypto.createHash('sha256')
       .update(file.content)
       .update('\0')
       .update(options.jinjaMacrosFingerprint || '')
@@ -922,7 +922,7 @@ export class DataSchemaCompiler {
   }
 
   private getJsScript(file: FileContent): vm.Script {
-    const cacheKey = crypto.createHash('md5').update(file.content).digest('hex');
+    const cacheKey = crypto.createHash('sha256').update(file.content).digest('hex');
 
     if (this.compiledScriptCache.has(cacheKey)) {
       return this.compiledScriptCache.get(cacheKey)!;
