@@ -254,6 +254,16 @@ ENV NODE_PATH=/cube/conf/node_modules:/cubejs/node_modules \
 RUN ln -s /cubejs/packages/cubejs-docker /cube && \
     ln -s /cubejs/rust/cubestore/bin/cubestore-dev /usr/local/bin/cubestore-dev
 
+# CVE-2026-69192 (ip-address) + CVE-2026-69152 (brace-expansion) in npm's bundled tree
+RUN NPM_NM=/usr/local/lib/node_modules/npm/node_modules && \
+    if [ -d "$NPM_NM" ]; then \
+      npm install --prefix /tmp/cve-npm-patch --no-save --no-package-lock \
+        ip-address@10.3.1 brace-expansion@5.0.9 && \
+      cp -a /tmp/cve-npm-patch/node_modules/ip-address "$NPM_NM/" && \
+      cp -a /tmp/cve-npm-patch/node_modules/brace-expansion "$NPM_NM/" && \
+      rm -rf /tmp/cve-npm-patch; \
+    fi
+
 WORKDIR /cube/conf
 
 EXPOSE 4000
