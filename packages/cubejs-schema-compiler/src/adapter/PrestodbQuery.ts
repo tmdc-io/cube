@@ -33,6 +33,11 @@ class PrestodbFilter extends BaseFilter {
 }
 
 export class PrestodbQuery extends BaseQuery {
+  public override preAggregationSchema(): string {
+    const schema = super.preAggregationSchema();
+    return schema?.toLowerCase() === 'rollup' ? this.escapeColumnName(schema) : schema;
+  }
+
   public newFilter(filter) {
     return new PrestodbFilter(this, filter);
   }

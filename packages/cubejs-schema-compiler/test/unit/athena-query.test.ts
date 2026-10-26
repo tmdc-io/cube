@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import { AthenaQuery } from '../../src/adapter/AthenaQuery';
+import { TrinoQuery } from '../../src/adapter/TrinoQuery';
 import { prepareJsCompiler } from './PrepareCompiler';
 
 describe('AthenaQuery', () => {
@@ -62,6 +63,20 @@ describe('AthenaQuery', () => {
     expect(sql).not.toMatch(
       /CAST\(\(.*AT TIME ZONE.*\) AS TIMESTAMP\)/
     );
+  });
+
+  it('quotes the rollup schema for Athena and Trino', async () => {
+    await compiler.compile();
+
+    for (const Query of [AthenaQuery, TrinoQuery]) {
+      const query = new Query({ joinGraph, cubeEvaluator, compiler }, {
+        measures: ['orders.count'],
+        preAggregationsSchema: 'rollup',
+      });
+
+      expect(query.preAggregationTableName('orders', 'by_ten_seconds', false))
+        .toBe('"rollup".orders_by_ten_seconds');
+    }
   });
 
   // Pre-aggregation load SQL for a custom granularity must not expose
